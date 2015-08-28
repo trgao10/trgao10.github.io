@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Math 212: Multivariable Calculus - Lecture Notes</title>
+    <title>In principio erat Verbum - Lecture Notes</title>
     <link rel="stylesheet" href="/theme/css/main.css" />
 
     <!--[if IE]>
@@ -12,9 +12,8 @@
 
   <body id="index" class="home">
     <header id="banner" class="body">
-      <h1><a href="/">Math 212: Multivariable Calculus </a></h1>
+      <h1><a href="/">In principio erat Verbum </a></h1>
       <nav><ul>
-        <li><a href="/category/course-info.html">Course Info</a></li>
         <li class="active"><a href="/category/lecture-notes.html">Lecture Notes</a></li>
       </ul></nav>
     </header><!-- /#banner -->
@@ -36,12 +35,30 @@
         </address>
 <p>In <a href="/category/lecture-notes.html">Lecture Notes</a>.</p>
 <p>tags: <a href="/tag/vectors.html">Vectors</a> </p>
-</footer><!-- /.post-info --><p>According to <a href="http://www.merriam-webster.com/dictionary/vector">Merriam-Webster</a>, the term <em>vector</em> stems from the past participle of Latin <em>vehere</em> "carry, convey". Mathematically, it denotes a tuple of numbers, e.g.</p>
+</footer><!-- /.post-info --><h3>Introducing <em>Vector</em></h3>
+<p>According to <a href="http://www.merriam-webster.com/dictionary/vector">Merriam-Webster</a>, the term <em>vector</em> stems from the past participle of Latin <em>vehere</em> "carry, convey". Mathematically, it denotes a tuple of numbers, e.g.</p>
 <div class="math">$$\left(1,2,3\right),\quad \left(-100.5,202\right),\quad \left(38,16,9,74,880\right).$$</div>
 <p>The set of all vectors of length <span class="math">\(n\)</span>, where <span class="math">\(n\)</span> is a positive integer, is called the <span class="math">\(n\)</span>-dimensional <strong>Euclidean Space</strong>
 </p>
 <div class="math">$$\mathbb{R}^n:=\left\{\left(x_1, \cdots, x_n\right)\mid x_1\in\mathbb{R},\cdots,x_n\in\mathbb{R}\right\}.$$</div>
 <p>In this course, we focus on <span class="math">\(\mathbb{R}^2\)</span> (<span class="math">\(2\)</span>-vectors) and <span class="math">\(\mathbb{R}^3\)</span> (<span class="math">\(3\)</span>-vectors). Each <span class="math">\(2\)</span>-vector uniquely corresponds to a point on the plane; similarly, each <span class="math">\(3\)</span>-vector uniquely corresponds to a point in the space.</p>
+<div style="text-align:center">
+<p><img alt="Vectors" src="/images/vector.png" style="width: 390px; height: auto;"/></p>
+<p><em>Figure 1. a vector is determined only by its direction and magnitude, not its starting point</em></p>
+</div>
+<p>We consider a vector as <em>a direction plus a magnitude</em>, often represented as an arrow. We do not care where the arrow starts. If two arrows with equal length are parallel to each other, they are considered as the same vector even if their starting points are different. Equivalenty speaking, we allow vectors to "freely parallel-translate".</p>
+<h3>Vector Operations</h3>
+<p>Given vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span>, we define their <strong>sum</strong> as
+</p>
+<div class="math">\begin{equation}
+\vec{v} + \vec{w} := \left(v_1+w_1, v_2+w_2, v_3+w_3\right).
+\end{equation}</div>
+<p>
+For any real number <span class="math">\(c\in \mathbb{R}\)</span>, define the <strong>scalar multiplication</strong> of <span class="math">\(c\)</span> and <span class="math">\(v\)</span> as
+</p>
+<div class="math">\begin{equation}
+c \vec{v} = \left(cv_1, cv_2, cv_3\right).
+\end{equation}</div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
