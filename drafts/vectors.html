@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Vectors: Definition, Operation, Examples</title>
+    <title>Week 1 Highlights: Vectors</title>
     <link rel="stylesheet" href="/theme/css/main.css" />
 
     <link rel="stylesheet" href="/css/" type="text/css" />
@@ -15,7 +15,7 @@
     <header id="banner" class="body">
       <h1><a href="/">In principio erat Verbum </a></h1>
       <nav><ul>
-        <li><a href="/category/math-212.html">Math 212</a></li>
+        <li class="active"><a href="/category/math-212.html">Math 212</a></li>
       </ul></nav>
     </header><!-- /#banner -->
 <section id="content" class="body">
@@ -23,7 +23,7 @@
     <header>
       <h1 class="entry-title">
         <a href="/drafts/vectors.html" rel="bookmark"
-           title="Permalink to Vectors: Definition, Operation, Examples">Vectors: Definition, Operation, Examples</a></h1>
+           title="Permalink to Week 1 Highlights: Vectors">Week 1 Highlights: Vectors</a></h1>
     </header>
 
     <div class="entry-content">
@@ -32,16 +32,17 @@
                 Published: Wed 26 August 2015
         </abbr>
 		<br />
-        <abbr class="modified" title="2015-08-27T21:03:00-04:00">
-                Updated: Thu 27 August 2015
+        <abbr class="modified" title="2015-08-28T17:09:00-04:00">
+                Updated: Fri 28 August 2015
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
         </address>
-<p>In <a href="/category/lecture-notes.html">Lecture Notes</a>.</p>
-<p>tags: <a href="/tag/vectors.html">Vectors</a> </p>
-</footer><!-- /.post-info -->      <h3>Introducing <em>Vector</em></h3>
+<p>In <a href="/category/math-212.html">Math 212</a>.</p>
+<p>tags: <a href="/tag/math-212.html">Math 212</a> </p>
+</footer><!-- /.post-info -->      <!-- <h3 markdown="1"><span style="text-decoration:underline">Introducing *Vector*</span></h3> -->
+<h2>Introducitn <em>Vectors</em></h2>
 <p>According to <a href="http://www.merriam-webster.com/dictionary/vector">Merriam-Webster</a>, the term <em>vector</em> stems from the past participle of Latin <em>vehere</em> "carry, convey". Mathematically, it denotes a tuple of numbers, e.g.</p>
 <div class="math">$$\left(1,2,3\right),\quad \left(-100.5,202\right),\quad \left(38,16,9,74,880\right).$$</div>
 <p>The set of all vectors of length <span class="math">\(n\)</span>, where <span class="math">\(n\)</span> is a positive integer, is called the <span class="math">\(n\)</span>-dimensional <strong>Euclidean Space</strong>
@@ -53,18 +54,50 @@
 <p><em>Figure 1. a vector is determined only by its direction and magnitude, not its starting point</em></p>
 </div>
 <p>We consider a vector as <em>a direction plus a magnitude</em>, often represented as an arrow. We do not care where the arrow starts. If two arrows with equal length are parallel to each other, they are considered as the same vector even if their starting points are different. Equivalenty speaking, we allow vectors to "freely parallel-translate".</p>
-<h3>Vector Operations</h3>
+<!-- <h3 markdown="1"><span style="text-decoration:underline">Vector Operations</span></h3> -->
+<h2>Vector Operations</h2>
 <p>Given vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span>, we define their <strong>sum</strong> as
 </p>
-<div class="math">\begin{equation}
+<div class="math">\begin{equation}\label{eq:sum}
 \vec{v} + \vec{w} := \left(v_1+w_1, v_2+w_2, v_3+w_3\right).
 \end{equation}</div>
 <p>
-For any real number <span class="math">\(c\in \mathbb{R}\)</span>, define the <strong>scalar multiplication</strong> of <span class="math">\(c\)</span> and <span class="math">\(v\)</span> as
+For any real number <span class="math">\(c\in \mathbb{R}\)</span>, define the <strong>scalar multiplication</strong> of <span class="math">\(c\)</span> and <span class="math">\(\vec{v}\)</span> as
 </p>
-<div class="math">\begin{equation}
+<div class="math">\begin{equation}\label{eq:scalar_mult}
 c \vec{v} = \left(cv_1, cv_2, cv_3\right).
 \end{equation}</div>
+<p>
+With these two basic operations in mind, it is straightforward to define any linear combination of vectors, for instance
+</p>
+<div class="math">$$\vec{v}-\vec{w} = \vec{v} + \left(-1\right)\vec{w},$$</div>
+<div class="math">$$2\vec{u}-3\vec{v}+5\vec{w} = 2\vec{u}+\left(-3\right)\vec{v}+5\vec{u}.$$</div>
+<p>Properties of the sum and the scalar multiplication includes the following:
+</p>
+<div class="math">$$\vec{v}+\vec{w} = \vec{w}+\vec{v},\quad \left(\vec{u}+\vec{v}\right)+\vec{w}=\vec{u}+\left(\vec{v}+\vec{w}\right),$$</div>
+<div class="math">$$c\left(\vec{v}+\vec{w}\right)=c\vec{v}+c\vec{w},\quad \left(c+d\right)\vec{x} = c\vec{x}+d\vec{x},\quad c \left(d\vec{x}\right)=\left(cd\right)\vec{x}.$$</div>
+<p>
+All these formulae can be directly verified using \eqref{eq:sum} and \eqref{eq:scalar_mult}.
+<!--<div style="text-align:center; border:1px solid black;" markdown="1">-->
+<!--</div>--></p>
+<hr/>
+<p>The <strong>dot product</strong> (a.k.a. <strong>scalar product</strong> or <strong>inner product</strong>) of two vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span> is defined as
+</p>
+<div class="math">\begin{equation}\label{eq:dot_prod}
+\vec{v}\cdot\vec{w}=v_1w_1+v_2w_2+v_3w_3.
+\end{equation}</div>
+<p>
+The name <em>scalar</em> follows from the fact that the result of the product is a scalar.</p>
+<p>The following properties of the dot product can be verified directly via \eqref{eq:dot_prod}.
+</p>
+<div class="math">$$\vec{v}\cdot\vec{w} = \vec{w}\cdot\vec{v},\quad \vec{u}\cdot\left(\vec{v}+\vec{w}\right) = \vec{u}\cdot\vec{v}+\vec{u}\cdot\vec{w},\quad c\left(\vec{v}\cdot\vec{w}\right)=\left(c\vec{x}\right)\vec{w}.$$</div>
+<p>When <span class="math">\(\vec{v}=\vec{w}\)</span>, one has
+</p>
+<div class="math">$$\vec{v}\cdot\vec{v} = v_1^2+v_2^2+v_3^2,$$</div>
+<p>
+which represents the squared distance from the origin to the point <span class="math">\(\left(v_1,v_2,v_3\right)\)</span>. We thus define the <strong>magnitude</strong> of <span class="math">\(\vec{v}\)</span> as
+</p>
+<div class="math">$$\left|\vec{v}\right|=\sqrt{\vec{v}\cdot\vec{v}}.$$</div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -157,5 +190,5 @@ c \vec{v} = \left(cv_1, cv_2, cv_3\right).
 
   </body>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="/js/d3_vis_1.js"></script>
+    <script src="/js/"></script>
 </html>
