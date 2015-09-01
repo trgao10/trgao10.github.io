@@ -98,6 +98,50 @@ The name <em>scalar</em> follows from the fact that the result of the product is
 which represents the squared distance from the origin to the point <span class="math">\(\left(v_1,v_2,v_3\right)\)</span>. We thus define the <strong>magnitude</strong> of <span class="math">\(\vec{v}\)</span> as
 </p>
 <div class="math">$$\left|\vec{v}\right|=\sqrt{\vec{v}\cdot\vec{v}}.$$</div>
+<div style="float: right">
+<p><img alt="Vector_Angle" src="/images/vectorAngle.png" style="width: 388px; height: auto;"/></p>
+</div>
+<p>The dot product has a geometric interpretation. Let <span class="math">\(\vec{v}\)</span>, <span class="math">\(\vec{w}\)</span> be as in the figure on the right, and denote <span class="math">\(\theta\)</span> for the angle between <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>. We have the following</p>
+<p><strong>Theorem 1.</strong> <span class="math">\(\vec{v}\cdot\vec{w} = \left|\vec{v}\right|\left|\vec{w}\right|\cos\theta\)</span>.</p>
+<p><strong>Proof.</strong> Without loss of generality, assume <span class="math">\(\vec{v}\)</span>, <span class="math">\(\vec{w}\)</span> are <span class="math">\(3\)</span>-vectors. For the <span class="math">\(2\)</span>-vector case, simply treat the last coordiantes of <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span> as <span class="math">\(0\)</span>.</p>
+<p>The triangle on the right consists of three edges of length <span class="math">\(\left|\vec{v}\right|\)</span>, <span class="math">\(\left|\vec{w}\right|\)</span>, <span class="math">\(\left|\vec{v}-\vec{w}\right|\)</span>. By the <a href="https://en.wikipedia.org/wiki/Law_of_cosines"><em>Law of Cosines</em></a>, one has
+</p>
+<div class="math">$$\left|\vec{v}\right|^2+\left|\vec{w}\right|^2-\left|\vec{v}-\vec{w}\right|^2=2\left|\vec{v}\right|\left|\vec{w}\right|\cos\theta.$$</div>
+<p>
+Note that
+</p>
+<div class="math">$$\left|\vec{v}-\vec{w}\right|^2=\left(\vec{v}-\vec{w}\right)\cdot\left(\vec{v}-\vec{w}\right)=\vec{v}\cdot\vec{v}+\vec{w}\cdot\vec{w}-2\vec{v}\cdot\vec{w}=\left|\vec{v}\right|^2+\left|\vec{w}\right|^2-2\vec{v}\cdot\vec{w},$$</div>
+<p>
+thus the left hand side of the law of cosines can be written as
+</p>
+<div class="math">$$\left|\vec{v}\right|^2+\left|\vec{w}\right|^2-\left|\vec{v}-\vec{w}\right|^2=2\vec{v}\cdot\vec{w},$$</div>
+<p>
+which yields
+</p>
+<div class="math">$$2\vec{v}\cdot\vec{w}=2\left|\vec{v}\right|\left|\vec{w}\right|\cos\theta,$$</div>
+<p>
+and the conclusion follows immediately. <span class="math">\(\blacksquare\)</span></p>
+<p>Theorem 1 builds the connection between dot product and the angle between two vectors. More specifically,
+</p>
+<div class="math">$$\vec{v}\cdot\vec{w}&gt;0\quad \Leftrightarrow\quad \cos\theta &gt;0\quad \Leftrightarrow\quad \theta \textrm{ is acute}$$</div>
+<div class="math">$$\vec{v}\cdot\vec{w}&lt;0\quad \Leftrightarrow\quad \cos\theta &lt;0\quad \Leftrightarrow\quad \theta \textrm{ is obtuse}$$</div>
+<p>
+If <span class="math">\(\vec{v}\cdot\vec{w}=0\)</span>, <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span> are said to be <strong>orthogonal</strong> or <strong>perpendicular</strong> to each other. When <span class="math">\(\left|\vec{v}\right|\neq0\)</span> and <span class="math">\(\left|\vec{w}\right|\neq0\)</span>, this happens if and only if <span class="math">\(\cos\theta = 0\)</span>.</p>
+<p>The last important notion related to dot product is <strong>component</strong>. The component of a vector <span class="math">\(\vec{v}\)</span> along another vector <span class="math">\(\vec{w}\)</span> is defined as
+</p>
+<div class="math">$$\mathrm{comp}_{\vec{w}}\vec{v}=\frac{\vec{v}\cdot\vec{w}}{\left|\vec{w}\right|}.$$</div>
+<p>
+Note that <span class="math">\(\mathrm{comp}_{\vec{w}}\vec{v}\)</span> can be understood as the dot product between <span class="math">\(\vec{v}\)</span> and a unit vector <span class="math">\(\vec{w}\big/\left|\vec{w}\right|\)</span>. In particular, if we choose <span class="math">\(\vec{w}\)</span> to be one of the following three unit vectors
+</p>
+<div class="math">$$\vec{i}=\left(1,0,0\right),\quad \vec{j}=\left(0,1,0\right),\quad \vec{k}=\left(0,0,1\right),$$</div>
+<p>
+then
+</p>
+<div class="math">$$\mathrm{comp}_{\vec{i}}\vec{v}=\vec{v}\cdot\vec{i}=v_1,$$</div>
+<div class="math">$$\mathrm{comp}_{\vec{j}}\vec{v}=\vec{v}\cdot\vec{j}=v_2,$$</div>
+<div class="math">$$\mathrm{comp}_{\vec{k}}\vec{v}=\vec{v}\cdot\vec{k}=v_3,$$</div>
+<p>
+which are often referred to as the <span class="math">\(x\)</span>-component, <span class="math">\(y\)</span>-component, and <span class="math">\(z\)</span>-component of <span class="math">\(v\)</span>, respectively.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
