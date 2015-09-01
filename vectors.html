@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Week 1 Highlights: Vectors</title>
+    <title>Review Notes: Vectors</title>
     <link rel="stylesheet" href="/theme/css/main.css" />
 
     <link rel="stylesheet" href="/css/" type="text/css" />
@@ -23,7 +23,7 @@
     <header>
       <h1 class="entry-title">
         <a href="/vectors.html" rel="bookmark"
-           title="Permalink to Week 1 Highlights: Vectors">Week 1 Highlights: Vectors</a></h1>
+           title="Permalink to Review Notes: Vectors">Review Notes: Vectors</a></h1>
     </header>
 
     <div class="entry-content">
@@ -40,9 +40,8 @@
                 By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
         </address>
 <p>In <a href="/category/math-212.html">Math 212</a>.</p>
-<p>tags: <a href="/tag/math-212.html">Math 212</a> </p>
-</footer><!-- /.post-info -->      <!-- <h3 markdown="1"><span style="text-decoration:underline">Introducing *Vector*</span></h3> -->
-<h2>Introducitn <em>Vectors</em></h2>
+<p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/notes.html">Notes</a> </p>
+</footer><!-- /.post-info -->      <h2>Introducitn <em>Vectors</em></h2>
 <p>According to <a href="http://www.merriam-webster.com/dictionary/vector">Merriam-Webster</a>, the term <em>vector</em> stems from the past participle of Latin <em>vehere</em> "carry, convey". Mathematically, it denotes a tuple of numbers, e.g.</p>
 <div class="math">$$\left(1,2,3\right),\quad \left(-100.5,202\right),\quad \left(38,16,9,74,880\right).$$</div>
 <p>The set of all vectors of length <span class="math">\(n\)</span>, where <span class="math">\(n\)</span> is a positive integer, is called the <span class="math">\(n\)</span>-dimensional <strong>Euclidean Space</strong>
@@ -54,7 +53,7 @@
 <p><em>Figure 1. a vector is determined only by its direction and magnitude, not its starting point</em></p>
 </div>
 <p>We consider a vector as <em>a direction plus a magnitude</em>, often represented as an arrow. We do not care where the arrow starts. If two arrows with equal length are parallel to each other, they are considered as the same vector even if their starting points are different. Equivalenty speaking, we allow vectors to "freely parallel-translate".</p>
-<!-- <h3 markdown="1"><span style="text-decoration:underline">Vector Operations</span></h3> -->
+<!-- <h3 markdown=1><span style="text-decoration:underline">Vector Operations</span></h3> -->
 <h2>Vector Operations</h2>
 <p>Given vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span>, we define their <strong>sum</strong> as
 </p>
@@ -78,7 +77,7 @@ With these two basic operations in mind, it is straightforward to define any lin
 <div class="math">$$c\left(\vec{v}+\vec{w}\right)=c\vec{v}+c\vec{w},\quad \left(c+d\right)\vec{x} = c\vec{x}+d\vec{x},\quad c \left(d\vec{x}\right)=\left(cd\right)\vec{x}.$$</div>
 <p>
 All these formulae can be directly verified using \eqref{eq:sum} and \eqref{eq:scalar_mult}.
-<!--<div style="text-align:center; border:1px solid black;" markdown="1">-->
+<!--<div style="text-align:center; border:1px solid black;" markdown=1>-->
 <!--</div>--></p>
 <hr/>
 <p>The <strong>dot product</strong> (a.k.a. <strong>scalar product</strong> or <strong>inner product</strong>) of two vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span> is defined as
@@ -98,6 +97,244 @@ The name <em>scalar</em> follows from the fact that the result of the product is
 which represents the squared distance from the origin to the point <span class="math">\(\left(v_1,v_2,v_3\right)\)</span>. We thus define the <strong>magnitude</strong> of <span class="math">\(\vec{v}\)</span> as
 </p>
 <div class="math">$$\left|\vec{v}\right|=\sqrt{\vec{v}\cdot\vec{v}}.$$</div>
+<div style="float: right">
+<p><img alt="Vector_Angle" src="/images/vectorAngle.png" style="width: 388px; height: auto;"/></p>
+</div>
+<p>The dot product has a geometric interpretation. Let <span class="math">\(\vec{v}\)</span>, <span class="math">\(\vec{w}\)</span> be as in the figure on the right, and denote <span class="math">\(\theta\)</span> for the angle between <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>. We have the following</p>
+<p><strong>Theorem 1.</strong> <span class="math">\(\vec{v}\cdot\vec{w} = \left|\vec{v}\right|\left|\vec{w}\right|\cos\theta\)</span>.</p>
+<p><strong>Proof.</strong> Without loss of generality, assume <span class="math">\(\vec{v}\)</span>, <span class="math">\(\vec{w}\)</span> are <span class="math">\(3\)</span>-vectors. For the <span class="math">\(2\)</span>-vector case, simply treat the last coordiantes of <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span> as <span class="math">\(0\)</span>.</p>
+<p>The triangle on the right consists of three edges of length <span class="math">\(\left|\vec{v}\right|\)</span>, <span class="math">\(\left|\vec{w}\right|\)</span>, <span class="math">\(\left|\vec{v}-\vec{w}\right|\)</span>. By the <a href="https://en.wikipedia.org/wiki/Law_of_cosines"><em>Law of Cosines</em></a>, one has
+</p>
+<div class="math">$$\left|\vec{v}\right|^2+\left|\vec{w}\right|^2-\left|\vec{v}-\vec{w}\right|^2=2\left|\vec{v}\right|\left|\vec{w}\right|\cos\theta.$$</div>
+<p>
+Note that
+</p>
+<div class="math">$$\left|\vec{v}-\vec{w}\right|^2=\left(\vec{v}-\vec{w}\right)\cdot\left(\vec{v}-\vec{w}\right)=\vec{v}\cdot\vec{v}+\vec{w}\cdot\vec{w}-2\vec{v}\cdot\vec{w}=\left|\vec{v}\right|^2+\left|\vec{w}\right|^2-2\vec{v}\cdot\vec{w},$$</div>
+<p>
+thus the left hand side of the law of cosines can be written as
+</p>
+<div class="math">$$\left|\vec{v}\right|^2+\left|\vec{w}\right|^2-\left|\vec{v}-\vec{w}\right|^2=2\vec{v}\cdot\vec{w},$$</div>
+<p>
+which yields
+</p>
+<div class="math">$$2\vec{v}\cdot\vec{w}=2\left|\vec{v}\right|\left|\vec{w}\right|\cos\theta,$$</div>
+<p>
+and the conclusion follows immediately. <span class="math">\(\blacksquare\)</span></p>
+<p>Theorem 1 builds the connection between dot product and the angle between two vectors. More specifically,
+</p>
+<div class="math">$$\vec{v}\cdot\vec{w}&gt;0\quad \Leftrightarrow\quad \cos\theta &gt;0\quad \Leftrightarrow\quad \theta \textrm{ is acute},$$</div>
+<div class="math">$$\vec{v}\cdot\vec{w}&lt;0\quad \Leftrightarrow\quad \cos\theta &lt;0\quad \Leftrightarrow\quad \theta \textrm{ is obtuse}.$$</div>
+<p>
+If <span class="math">\(\vec{v}\cdot\vec{w}=0\)</span>, <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span> are said to be <strong>orthogonal</strong> or <strong>perpendicular</strong> to each other. When <span class="math">\(\left|\vec{v}\right|\neq0\)</span> and <span class="math">\(\left|\vec{w}\right|\neq0\)</span>, this happens if and only if <span class="math">\(\cos\theta = 0\)</span>.</p>
+<p>The last important notion related to dot product is <strong>component</strong>. The component of a vector <span class="math">\(\vec{v}\)</span> along another vector <span class="math">\(\vec{w}\)</span> is defined as
+</p>
+<div class="math">$$\mathrm{comp}_{\vec{w}}\vec{v}=\frac{\vec{v}\cdot\vec{w}}{\left|\vec{w}\right|}.$$</div>
+<p>
+Note that <span class="math">\(\mathrm{comp}_{\vec{w}}\vec{v}\)</span> can be understood as the dot product between <span class="math">\(\vec{v}\)</span> and a unit vector <span class="math">\(\vec{w}\big/\left|\vec{w}\right|\)</span>. In particular, if we choose <span class="math">\(\vec{w}\)</span> to be one of the following three unit vectors
+</p>
+<div class="math">$$\vec{i}=\left(1,0,0\right),\quad \vec{j}=\left(0,1,0\right),\quad \vec{k}=\left(0,0,1\right),$$</div>
+<p>
+then
+</p>
+<div class="math">$$\mathrm{comp}_{\vec{i}}\vec{v}=\vec{v}\cdot\vec{i}=v_1,$$</div>
+<div class="math">$$\mathrm{comp}_{\vec{j}}\vec{v}=\vec{v}\cdot\vec{j}=v_2,$$</div>
+<div class="math">$$\mathrm{comp}_{\vec{k}}\vec{v}=\vec{v}\cdot\vec{k}=v_3,$$</div>
+<p>
+which are often referred to as the <span class="math">\(x\)</span>-component, <span class="math">\(y\)</span>-component, and <span class="math">\(z\)</span>-component of <span class="math">\(v\)</span>, respectively.</p>
+<hr/>
+<p>The <strong>cross product</strong> (a.k.a. <strong>vector product</strong> or <strong>outer product</strong>) of two <span class="math">\(3\)</span>-d vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span> is defined as
+</p>
+<div class="math">\begin{equation}\label{eq:cross_prod}
+\vec{v}\times\vec{w}=\left(v_2w_3-v_3w_2, -\left(v_1w_3-v_3w_1\right), v_1w_2-v_2w_1\right).
+\end{equation}</div>
+<p>
+The name <em>vector</em> follows from the fact that the result of the product is a vector. Formally, <span class="math">\(\vec{v}\times\vec{w}\)</span> can be defined as the following determinant
+</p>
+<div class="math">$$\vec{v}\times\vec{w}=\begin{vmatrix}
+\vec{i} &amp; \vec{j} &amp; \vec{k} \\ 
+v_1 &amp; v_2 &amp; v_3 \\ 
+w_1 &amp; w_2 &amp; w_3 \notag
+\end{vmatrix}.$$</div>
+<p>
+From either definitions, one has
+</p>
+<div class="math">$$\vec{v}\times\vec{w}=-\vec{w}\times\vec{v},$$</div>
+<p>
+and in particular
+</p>
+<div class="math">$$\vec{v}\times\vec{v}=0.$$</div>
+<p>By definition, it is straightforward to verify that <span class="math">\(\vec{v}\times\vec{w}\)</span> is orthogonal to both <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>. For instance,
+</p>
+<div class="math">$$
+\begin{align*}
+\vec{v}\cdot\left(\vec{v}\times\vec{w}\right)&amp;=v_1\left(v_2w_3-v_3w_2\right)-v_2\left(v_1w_3-v_3w_1\right)+v_3\left(v_1w_2-v_2w_1\right)\\
+&amp;=v_1v_2w_3-v_1w_2v_3-v_1v_2w_3+w_1v_2v_3+v_1w_2v_3-w_1v_2v_3=0.
+\end{align*}
+$$</div>
+<p>
+In other words, <span class="math">\(\vec{v}\times\vec{w}\)</span> is orthogonal to the plane spanned by <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>, or equivalently, <span class="math">\(\vec{v}\times\vec{w}\)</span> is a <em>normal vector</em> of that plane.</p>
+<p>We would like to determine the direction and magnitude of <span class="math">\(\vec{v}\times\vec{w}\)</span>. The magnitude can be directly computated.</p>
+<p><strong>Theorem 2.</strong> <span class="math">\(\left|\vec{v}\times\vec{w}\right|^2=\left|\vec{v}\right|^2\left|\vec{w}\right|^2-\left|\vec{v}\cdot\vec{w}\right|^2\)</span>.</p>
+<p><strong>Proof.</strong> Note that
+</p>
+<div class="math">$$
+\begin{align*}
+\left|\vec{v}\times\vec{w}\right|^2&amp;=\left(v_2w_3-v_3w_2\right)^2+\left(v_1w_3-v_3w_1\right)^2+\left(v_1w_2-v_2w_1\right)^2\\
+&amp;=v_2^2w_3^2+v_3^2v_2^2+v_1^2w_3^2+v_3^2w_1^2+v_1^2w_2^2+v_2^2w_1^2\\
+&amp;\qquad-2v_2w_3v_3w_2-2v_1w_3v_3w_1-2v_1w_2v_2w_1\\
+&amp;=\left(v_1^2+v_2^2+v_3^2\right)\left(w_1^2+w_2^2+w_3^2\right)-v_1^2w_1^2-v_2^2w_2^2-v_3^2w_3^2\\
+&amp;\qquad -2v_2w_2\cdot v_3w_3-2v_1w_1\cdot v_3w_3-2v_1w_1\cdot v_2w_2\\
+&amp;=\left(v_1^2+v_2^2+v_3^2\right)\left(w_1^2+w_2^2+w_3^2\right)-\left(v_1w_1+v_2w_2+v_3w_3\right)^2\\
+&amp;=\left|\vec{v}\right|^2\left|\vec{w}\right|^2-\left|\vec{v}\cdot\vec{w}\right|^2.
+\end{align*}
+$$</div>
+<p>
+<span class="math">\(\blacksquare\)</span></p>
+<p><strong>Corollary 1.</strong> Let <span class="math">\(\theta\)</span> denote the angle between <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>. Then
+</p>
+<div class="math">$$\left|\vec{v}\cdot\vec{w}\right|=\left|\vec{v}\right|\left|\vec{w}\right|\sin\theta.$$</div>
+<p><strong>Proof.</strong> Recall from Theorem 1 that <span class="math">\(\vec{v}\cdot\vec{w}=\left|\vec{v}\right|\left|\vec{w}\right|\cos\theta\)</span>. Thus by Theorem 2
+</p>
+<div class="math">$$
+\begin{align*}
+\left|\vec{v}\times\vec{w}\right|^2&amp;=\left|\vec{v}\right|^2\left|\vec{w}\right|^2-\left|\vec{v}\cdot\vec{w}\right|^2=\left|\vec{v}\right|^2\left|\vec{w}\right|^2-\left|\vec{v}\right|^2\left|\vec{w}\right|^2\cos^2\theta\\
+&amp;=\left|\vec{v}\right|^2\left|\vec{w}\right|^2\left(1-\cos^2\theta\right)=\left|\vec{v}\right|^2\left|\vec{w}\right|^2\sin^2\theta.
+\end{align*}
+$$</div>
+<p>
+The result then follows from taking square roots. <span class="math">\(\blacksquare\)</span></p>
+<p><strong>Corollary 2.</strong> If <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span> are collinear, then <span class="math">\(\vec{v}\times\vec{w}=0\)</span>.</p>
+<p><strong>Remark.</strong> Corollary 1 implies that <span class="math">\(\left|\vec{v}\times\vec{w}\right|\)</span> equals to the area of the parallelogram spanned by <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>.
+<div markdown="1" style="text-align:center">
+<img alt="Vectors" src="/images/parallelogram.png" style="width: 453px; height: auto;"/>
+</div></p>
+<p>To facilitate describing the direction of <span class="math">\(\vec{v}\times\vec{w}\)</span>, let us introduce the one last vector operations, the <strong>scalar triple product</strong> (a.k.a. <strong>mixed product</strong> or <strong>box product</strong>). For three <span class="math">\(3\)</span>-d vectors <span class="math">\(\vec{u}\)</span>, <span class="math">\(\vec{v}\)</span>, <span class="math">\(\vec{w}\)</span> (the order matters!), define their scalar triple product as
+</p>
+<div class="math">$$\vec{u}\cdot\left(\vec{v}\times\vec{w}\right).$$</div>
+<p><strong>Theorem 3.</strong> The scalar triple product can be written in determinant form
+</p>
+<div class="math">$$
+\begin{align*}
+\vec{u}\cdot\left(\vec{v}\times\vec{w}\right)=\begin{vmatrix}
+u_1 &amp; u_2 &amp; u_3 \\ 
+v_1 &amp; v_2 &amp; v_3 \\ 
+w_1 &amp; w_2 &amp; w_3 \notag
+\end{vmatrix}
+\end{align*}
+$$</div>
+<p><strong>Proof.</strong> Recall from the definition of the cross product that
+</p>
+<div class="math">$$\vec{v}\times\vec{w}=\begin{vmatrix}
+\vec{i} &amp; \vec{j} &amp; \vec{k} \\ 
+v_1 &amp; v_2 &amp; v_3 \\ 
+w_1 &amp; w_2 &amp; w_3 \notag
+\end{vmatrix}=
+\begin{vmatrix}
+v_2 &amp; v_3\\
+w_2 &amp; w_3 \notag
+\end{vmatrix}\vec{i}
+-\begin{vmatrix}
+v_1 &amp; v_3\\
+w_1 &amp; w_3 \notag
+\end{vmatrix}\vec{j}
++\begin{vmatrix}
+v_1 &amp; v_2\\
+w_1 &amp; w_2 \notag
+\end{vmatrix}\vec{k},$$</div>
+<p>
+thus
+</p>
+<div class="math">$$
+\begin{align*}
+\vec{u}\cdot\left(\vec{v}\times\vec{w}\right)&amp;=\left(u_1\vec{i}+u_2\vec{j}+u_3\vec{k}\right)\cdot\left(\begin{vmatrix}
+v_2 &amp; v_3\\
+w_2 &amp; w_3 \notag
+\end{vmatrix}\vec{i}
+-\begin{vmatrix}
+v_1 &amp; v_3\\
+w_1 &amp; w_3 \notag
+\end{vmatrix}\vec{j}
++\begin{vmatrix}
+v_1 &amp; v_2\\
+w_1 &amp; w_2 \notag
+\end{vmatrix}\vec{k}\right)\\
+&amp;=u_1\begin{vmatrix}
+v_2 &amp; v_3\\
+w_2 &amp; w_3 \notag
+\end{vmatrix}
+-u_2\begin{vmatrix}
+v_1 &amp; v_3\\
+w_1 &amp; w_3 \notag
+\end{vmatrix}
++u_3\begin{vmatrix}
+v_1 &amp; v_2\\
+w_1 &amp; w_2 \notag
+\end{vmatrix}\\
+&amp;=\begin{vmatrix}
+u_1 &amp; u_2 &amp; u_3 \\ 
+v_1 &amp; v_2 &amp; v_3 \\ 
+w_1 &amp; w_2 &amp; w_3 \notag
+\end{vmatrix}.
+\end{align*}
+$$</div>
+<p>
+<span class="math">\(\blacksquare\)</span></p>
+<p><strong>Corollary 3.</strong> </p>
+<div class="math">$$\vec{u}\cdot\left(\vec{v}\times\vec{w}\right)=\vec{v}\cdot\left(\vec{w}\times\vec{u}\right)=\vec{w}\cdot\left(\vec{u}\times\vec{v}\right).$$</div>
+<p><strong>Proof.</strong> Use the properties of the determinant. <span class="math">\(\blacksquare\)</span></p>
+<p><strong>Definition.</strong> An ordered vector triple <span class="math">\(\vec{u}, \vec{v}, \vec{w}\)</span> is said to form a <strong>right-handed triple</strong> if
+</p>
+<div class="math">$$\begin{vmatrix}
+u_1 &amp; u_2 &amp; u_3 \\ 
+v_1 &amp; v_2 &amp; v_3 \\ 
+w_1 &amp; w_2 &amp; w_3 \notag
+\end{vmatrix}&gt;0.$$</div>
+<div style="float: left">
+<img ,="" alt="right-handed triple" src="/images/RHT.png" style="width: 250px; height: autowidth: 385px; height: auto;">
+</img></div>
+<p><strong>Theorem 4.</strong> If <span class="math">\(\vec{v}\times\vec{w}\neq 0\)</span>, the ordered triple <span class="math">\(\vec{v},\vec{w},\vec{v}\times\vec{w}\)</span> forms a right-handed triple.</p>
+<p><strong>Proof.</strong> By Theorem 3, it suffices to show that
+</p>
+<div class="math">$$\vec{v}\cdot\left(\vec{w}\times\left(\vec{v}\times\vec{w}\right)\right)&gt;0.$$</div>
+<p>
+To see why this is true, use Corollary 3:
+</p>
+<div class="math">$$
+\begin{align*}
+&amp;\vec{v}\cdot\left(\vec{w}\times\left(\vec{v}\times\vec{w}\right)\right)=\left(\vec{v}\times\vec{w}\right)\cdot\left(\vec{v}\times\vec{w}\right)\\
+&amp;\qquad =\left|\vec{v}\times\vec{w}\right|^2&gt;0,
+\end{align*}
+$$</div>
+<p>
+where the last strict positivity follows from the assumption that <span class="math">\(\vec{v}\times\vec{w}\neq 0\)</span>. <span class="math">\(\blacksquare\)</span></p>
+<p>The fact that <span class="math">\(\vec{v}, \vec{w}, \vec{v}\times\vec{w}\)</span> form a right-handed triple suggests that we can determine the direction of <span class="math">\(\vec{v}\times\vec{w}\)</span> using the <a href="https://en.wikipedia.org/wiki/Right-hand_rule">Right-hand Rule</a>, as illustrated in the figure above. It can also be deduced directly from this geometric picture that
+</p>
+<div class="math">$$\vec{v}\times\vec{w}=-\vec{w}\times\vec{v}.$$</div>
+<p>
+For this reason, sometimes people interprete <span class="math">\(\vec{v}\times\vec{w}\)</span> as the "signed area" of the parallelogram spanned by <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>.</p>
+<hr/>
+<p>The last important point for vectors is the geometric interpretation of the scalar triple product. In fact, <span class="math">\(\vec{u}\cdot\left(\vec{v}\times\vec{w}\right)\)</span> equals to the "signed volume" of the parallelepiped spanned by the three vectors <span class="math">\(\vec{u},\vec{v},\vec{w}\)</span>, as explained in Figure 2.</p>
+<div style="text-align:center">
+<p><img alt="Scalar Triple Product" src="/images/parallelepiped.png" style="width: 597px; height: auto;"/></p>
+<p><em>Figure 2. scalar triple product equals to the "signed volume" of the parallelepiped</em></p>
+</div>
+<p>To understand this picture, note that
+</p>
+<div class="math">$$
+\begin{align*}
+\vec{u}\cdot\left(\vec{v}\times\vec{w}\right)&amp;=\left|\vec{u}\right|\left|\vec{v}\times\vec{w}\right|\cos\theta=\left|\vec{u}\right|\cos\theta\cdot\left|\vec{v}\times\vec{w}\right|\\
+&amp;=\left(\textrm{"signed height" of the parallelpiped}\right)\cdot\left(\textrm{based area of the parallelpiped}\right)\\
+&amp;=\textrm{"signed volume" of the parallelpiped}.
+\end{align*}
+$$</div>
+<p>
+The sign of the "signed volume" only depends on the left- or right-handedness of the ordered triple <span class="math">\(\vec{u},\vec{v},\vec{w}\)</span>. Note that the triples
+</p>
+<div class="math">$$\left(\vec{u},\vec{v},\vec{w}\right),\quad \left(\vec{v},\vec{w},\vec{u}\right),\quad \left(\vec{w},\vec{u},\vec{v}\right)$$</div>
+<p>
+all have the same handedness, thus it is clear from this geometric interpretation that
+</p>
+<div class="math">$$\vec{u}\cdot\left(\vec{v}\times\vec{w}\right)=\vec{v}\cdot\left(\vec{w}\times\vec{u}\right)=\vec{w}\cdot\left(\vec{u}\times\vec{v}\right).$$</div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
