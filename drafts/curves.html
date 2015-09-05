@@ -41,7 +41,297 @@
         </address>
 <p>In <a href="/category/math-212.html">Math 212</a>.</p>
 <p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/notes.html">Notes</a> </p>
-</footer><!-- /.post-info -->      
+</footer><!-- /.post-info -->      <h2>Lines in <span class="math">\(\mathbb{R}^3\)</span></h2>
+<p>A line in <span class="math">\(\mathbb{R}^3\)</span> can be uniquely determined by a point <span class="math">\(P_0=\left(x_0, y_0, z_0\right)\)</span> and a direction <span class="math">\(\vec{v} = \left(v_x, v_y, v_z\right)\)</span>, as
+</p>
+<div class="math">$$\ell:\left\{\overrightarrow{OP_0}+t\,\vec{v}\mid t\in\mathbb{R}\right\}.$$</div>
+<p>
+Equivalently, any point <span class="math">\(P=\left(x,y,z\right)\)</span> on <span class="math">\(\ell\)</span> must satisfy the <strong>parametric equation</strong>
+</p>
+<div class="math">\begin{equation}\label{eq:parametricLine}
+\left\{
+\begin{array}{rl}
+x &amp;= x_0+t\,v_x,\\
+y &amp;= y_0+t\,v_y,\\
+z &amp;= z_0+t\,v_z.
+\end{array} \right.
+\end{equation}</div>
+<div style="text-align:center">
+<p><img alt="Parametric Line" src="/images/parametricLine.png" style="width: 619px; height: auto;"/></p>
+<p><em>Figure 1. the parametric equation of a line</em></p>
+</div>
+<p>If <span class="math">\(v_x\neq 0, v_y\neq 0, v_z\neq 0\)</span>, we can also put \eqref{eq:parametricLine} into the following <strong>symmetric equations</strong>:
+</p>
+<div class="math">\begin{equation}\label{eq:symmetricEquation}
+\frac{x-x_0}{v_x}=\frac{y-y_0}{v_y}=\frac{z-z_0}{v_z}.
+\end{equation}</div>
+<p>Alternatively, a line in <span class="math">\(\mathbb{R}^3\)</span> can also be determined by two <em>distinct</em> points <span class="math">\(P_0=\left(x_0, y_0, z_0\right)\)</span>, <span class="math">\(P_1=\left(x_1, y_1, z_1\right)\)</span>. In this case, set the direction vector <span class="math">\(\vec{v}\)</span> in \eqref{eq:parametricLine} as
+</p>
+<div class="math">$$\vec{v}=\overrightarrow{P_0P_1}=\overrightarrow{OP_1}-\overrightarrow{OP_0}=\left(x_1-x_0, y_1-y_0, z_1-z_0\right),$$</div>
+<p>
+thus any point <span class="math">\(P=\left(x,y,z\right)\)</span> on <span class="math">\(\ell\)</span> must satisfy
+</p>
+<div class="math">\begin{equation}
+\left\{
+\begin{array}{rl}
+x &amp;= x_0+t\left(x_1-x_0\right),\\
+y &amp;= y_0+t\left(y_1-y_0\right),\\
+z &amp;= z_0+t\left(z_1-z_0\right).
+\end{array} \right.
+\end{equation}</div>
+<hr/>
+<h2>Parametric Curves in <span class="math">\(\mathbb{R}^3\)</span></h2>
+<p>In the parametric equation \eqref{eq:parametricLine}, coordiantes <span class="math">\(x,y,z\)</span> are functions of <span class="math">\(t\)</span>. We can denote the tuple <span class="math">\(\left(x,y,z\right)\)</span> as a <strong>vector-valued function</strong> of <span class="math">\(t\)</span>:
+</p>
+<div class="math">$$\vec{r}\left(t\right)=\left(x_0+t\,v_x,y_0+t\,v_y,z_0+t\,v_z\right)=:\left(x\left(t\right),y\left(t\right),z\left(t\right)\right).$$</div>
+<p>Taking one step further, <span class="math">\(x\left(t\right), y\left(t\right), z\left(t\right)\)</span> can be much more general functions than linear ones. Each vector-valued funciton of a single variable gives rise to a <strong>parametric curve</strong>
+</p>
+<div class="math">\begin{equation}\label{eq:parametricCurve}
+\vec{r}\left(t\right)=\left(x\left(t\right),y\left(t\right),z\left(t\right)\right).
+\end{equation}</div>
+<div style="float: right">
+<p><img alt="Helix" src="/images/helix.png" style="width: 360px; height: auto;"/></p>
+</div>
+<p><strong>Example.</strong> Let
+</p>
+<div class="math">$$x\left(t\right)=\cos 10t,\quad y\left(t\right)=\sin 10t,\quad z\left(t\right)=t$$</div>
+<p>
+where <span class="math">\(t\in\left(-\infty,\infty\right)\)</span>. Then
+</p>
+<div class="math">$$\vec{r}\left(t\right)=\left(\cos 10t, \sin 10t, t\right)$$</div>
+<p>
+is a <em>helix</em> in <span class="math">\(\mathbb{R}^3\)</span> (see the figure on the right).</p>
+<p><strong>Remark.</strong> It is worth noting that the parametrizations of curves are not unique. For instance, the helix in the example above can be equivalently parametrized as
+</p>
+<div class="math">$$\vec{r}\left(t\right)=\left(\cos t,\sin t, \frac{t}{10}\right)$$</div>
+<p>
+where <span class="math">\(t\in\left(-\infty,\infty\right)\)</span>. One way to understand this is to consider parametrization as a physical motion, where <span class="math">\(t\)</span> stands for time and <span class="math">\(\vec{r}\left(t\right)\)</span> is the location of a point mass. The curve is the trace of <span class="math">\(\vec{r}\left(t\right)\)</span> in time, but the same trace can be generated from an infinite number of possible motions. For instance, the point mass may move with constant speed, or go back and forth, or stop moving every five minutes......</p>
+<p><strong>Example.</strong> The following two sets of parametrization equations
+</p>
+<div class="math">\begin{align*}
+\ell_1:\quad &amp;\vec{r}_1\left(t\right) = \left(1,0,0\right)+t\left(1,2,1\right),\\
+\ell_2:\quad &amp;\vec{r}_2\left(t\right) = \left(2,2,1\right)+t\left(2,4,2\right).
+\end{align*}</div>
+<p>
+To see this, notice that <span class="math">\(\ell_1\)</span> is parallel to the vector <span class="math">\(\left(1,2,1\right)\)</span> and <span class="math">\(\ell_2\)</span> is parallel to the vector <span class="math">\(\left(2,4,2\right)=2\cdot\left(1,2,1\right)\)</span>, which means that <span class="math">\(\ell_1,\ell_2\)</span> are parallel to each other. Moreover, notice that point <span class="math">\(\left(2,2,1\right)\)</span> lies on both <span class="math">\(\ell_1\)</span> and <span class="math">\(\ell_2\)</span>
+</p>
+<div class="math">\begin{align*}
+\ell_1\left(1\right) &amp;= \left(1,0,0\right)+\left(1,2,1\right)=\left(2,2,1\right),\\
+\ell_2\left(0\right) &amp;= \left(2,2,1\right)+\left(0,0,0\right)=\left(2,2,1\right),
+\end{align*}</div>
+<p>
+thus <span class="math">\(\ell_1,\ell_2\)</span> are the same line.</p>
+<hr/>
+<p>All standard differential and integral operations can be defined on vector-valued functions; one just need to apply the operations to each component. Assume <span class="math">\(\vec{r}\left(t\right)=\left(x\left(t\right),y\left(t\right),z\left(t\right)\right)\)</span>, then the derivative of <span class="math">\(\vec{r}\left(t\right)\)</span> is
+</p>
+<div class="math">$$\frac{d}{dt}\vec{r}\left(t\right)=\left(\frac{d}{dt}x\left(t\right),\frac{d}{dt}y\left(t\right),\frac{d}{dt}z\left(t\right)\right).$$</div>
+<p>
+When the context is clear, one can also write the derivative of <span class="math">\(\vec{r}\left(t\right)\)</span> with the prime notation:
+</p>
+<div class="math">$$\vec{r}'\left(t\right)=\left(x'\left(t\right),y'\left(t\right),z'\left(t\right)\right).$$</div>
+<p>
+Major rules of derivatives from single-variable calculus still holds for vector-values functions; it often suffices to replace scalar products with dot or cross products. In particular,
+</p>
+<div class="math">\begin{align*}
+&amp;\left(\vec{u}\left(t\right)+\vec{u}\left(t\right)\right)'=\vec{u}'\left(t\right)+\vec{v}'\left(t\right),\\
+&amp;\left(c\vec{u}\left(t\right)\right)'=c\vec{u}'\left(t\right),\\
+&amp;\left(c\left(t\right)\vec{u}\left(t\right)\right)'=c'\left(t\right)\vec{u}\left(t\right)+c\left(t\right)\vec{u}'\left(t\right),\\
+&amp;\left(\vec{u}\left(t\right)\cdot \vec{v}\left(t\right)\right)'=\vec{u}'\left(t\right)\cdot\vec{v}\left(t\right)+\vec{u}\left(t\right)\cdot\vec{v}'\left(t\right),\\
+&amp;\left(\vec{u}\left(t\right)\times \vec{v}\left(t\right)\right)'=\vec{u}'\left(t\right)\times\vec{v}\left(t\right)+\vec{u}\left(t\right)\times\vec{v}'\left(t\right).
+\end{align*}</div>
+<p><strong>Example.</strong>
+</p>
+<div class="math">\begin{align*}
+\left(\vec{u}\left(t\right)\cdot\left(\vec{v}\left(t\right)\times\vec{w}\left(t\right)\right)\right)'&amp;=\vec{u}'\left(t\right)\cdot\left(\vec{v}\left(t\right)\times\vec{w}\left(t\right)\right)+\vec{u}\left(t\right)\cdot\left(\vec{v}\left(t\right)\times\vec{w}\left(t\right)\right)'\\
+&amp;=\vec{u}'\left(t\right)\cdot\left(\vec{v}\left(t\right)\times\vec{w}\left(t\right)\right)+\vec{u}\left(t\right)\cdot\left(\vec{v}'\left(t\right)\times\vec{w}\left(t\right)+\vec{v}\left(t\right)\times\vec{w}'\left(t\right)\right)\\
+&amp;=\vec{u}'\left(t\right)\cdot\left(\vec{v}\left(t\right)\times\vec{w}\left(t\right)\right)+\vec{u}\left(t\right)\cdot\left(\vec{v}'\left(t\right)\times\vec{w}\left(t\right)\right)+\vec{u}\left(t\right)\cdot\left(\vec{v}\left(t\right)\times\vec{w}'\left(t\right)\right).
+\end{align*}</div>
+<p>Similar to the derivative, the integral and anti-derivative of <span class="math">\(\vec{r}\left(t\right)\)</span> are also defined component-wise:
+</p>
+<div class="math">\begin{align*}
+\int_a^b\vec{r}\left(t\right)dt&amp;=\left(\int_a^bx\left(t\right)dt,\int_a^by\left(t\right)dt,\int_a^bz\left(t\right)dt\right),\quad\textrm{(integral)}\\
+\int\vec{r}\left(t\right)dt&amp;=\left(\int x\left(t\right)dt,\int y\left(t\right)dt,\int z\left(t\right)dt\right).\quad\textrm{(anti-derivative)}
+\end{align*}</div>
+<p>
+Recall the difference between integral and anti-derivative in one-variable calculus. If <span class="math">\(X\left(t\right),Y\left(t\right),Z\left(t\right)\)</span> are real-valued functions satisfying
+</p>
+<div class="math">$$X'\left(t\right)=x\left(t\right),\quad Y'\left(t\right)=y\left(t\right),\quad Z'\left(t\right)=z\left(t\right)$$</div>
+<p>
+then
+</p>
+<div class="math">\begin{align*}
+\int\vec{r}\left(t\right)dt&amp;=\left(\int x\left(t\right)dt,\int y\left(t\right)dt,\int z\left(t\right)dt\right)\\
+&amp;=\left(X\left(t\right)+C_1, Y\left(t\right)+C_2, Z\left(t\right)+C_3\right)\\
+&amp;=\left(X\left(t\right), Y\left(t\right), Z\left(t\right)\right)+\left(C_1, C_2, C_3\right)
+\end{align*}</div>
+<p>
+where <span class="math">\(C_1, C_2, C_3\)</span> are arbitrary constants. Moreover, it is important that the <strong>Fundamental Theorem of Calculus</strong> (FTC) holds for vector-valued functions:
+</p>
+<div class="math">\begin{align*}
+\int_a^b\vec{r}\left(t\right)dt&amp;=\left(X\left(b\right)-X\left(a\right), Y\left(b\right)-Y\left(a\right), Z\left(b\right)-Z\left(a\right)\right)\\
+&amp;=\left(X\left(b\right),Y\left(b\right),Z\left(b\right)\right)-\left(X\left(a\right),Y\left(a\right),Z\left(a\right)\right).
+\end{align*}</div>
+<p><strong>Example.</strong> Write <span class="math">\(\vec{r}'\left(t\right)=v\left(t\right)\)</span>, <span class="math">\(\vec{v}'\left(t\right)=\vec{a}\left(t\right)\)</span>. Suppose
+</p>
+<div class="math">$$\vec{a}\left(t\right)=\left(\cos t,\sin t\right),\quad \vec{v}\left(0\right)=\left(1,2\right), \quad\vec{r}\left(0\right)=\left(3,4\right),$$</div>
+<p>
+let's compute <span class="math">\(\vec{r}\left(t\right)\)</span>. First, note that
+</p>
+<div class="math">$$\vec{v}\left(t\right)=\int\vec{a}\left(t\right)dt=\left(\int\cos t\, dt, \int\sin t\, dt\right)=\left(\sin t,-\cos t\right)+\left(C_1,C_2\right)$$</div>
+<p>
+and
+</p>
+<div class="math">$$\left(1,2\right)=\vec{v}\left(0\right)=\left(0,-1\right)+\left(C_1,C_2\right)$$</div>
+<p>
+thus
+</p>
+<div class="math">$$\left(C_1,C_2\right)=\left(1,2\right)-\left(0,-1\right)=\left(1,3\right)$$</div>
+<p>
+from which one has
+</p>
+<div class="math">$$\vec{v}\left(t\right)=\left(\sin t,-\cos t\right)+\left(1,3\right)=\left(\sin t+1, -\cos t+3\right).$$</div>
+<p>
+Next,
+</p>
+<div class="math">$$\vec{r}\left(t\right)=\int\vec{v}\left(t\right)dt=\left(\int\left(\sin t + 1\right) dt, \int\left(-\cos t + 3\right) dt\right)=\left(-\cos t + t, -\sin t +3t\right)+\left(C_3,C_4\right),$$</div>
+<p>
+and we can find <span class="math">\(C_3, C_4\)</span> using the initial condition
+</p>
+<div class="math">$$\left(3,4\right)=\vec{v}\left(0\right)=\left(-1,0\right)+\left(C_3,C_4\right)\quad\Rightarrow\quad \left(C_3,C_4\right)=\left(4,4\right).$$</div>
+<p>
+Thus
+</p>
+<div class="math">$$\vec{v}\left(t\right)=\left(4+t-\cos t, 4+3t-\sin t\right).$$</div>
+<hr/>
+<h2>Curvature and Accerleration</h2>
+<p>We saw from last section that the parametrization of a curve is not unique. In fact, every curve can be parametrized in inifinitely many ways: given a vector-valued function <span class="math">\(\vec{r}\left(t\right)\)</span>, we can pick any smooth monotonic function <span class="math">\(u\left(\tau\right)\)</span> and compose <span class="math">\(\vec{r}\left(t\right)\)</span> with it, obtaining
+</p>
+<div class="math">$$\vec{r}\left(\tau\right):=\vec{r}\left(u\left(\tau\right)\right),$$</div>
+<p>
+which is just a different parametrization of the same curve.</p>
+<p>Despite the abundant choices of parametrizations available, <a href="https://en.wikipedia.org/wiki/Erlangen_program"><em>geometry</em></a> is all about properties of things that hold <em>invariant</em> regardless of parametrization. <strong>Arc length</strong> of a curve is one such example. Intuitively this makes sense: different parametrizations are like different ways to "draw" the curve, but arc length has nothing to do with the "drawing" process; in fact, it only depends on what is actually "drawn".
+<div style="float: left">
+<img ,="" alt="compute arc length" src="/images/arclength.png" style="width: 450px; height: autowidth: 702px; height: auto;">
+</img></div>
+Mathematically, the arc length of a curve <span class="math">\(\vec{v}\left(t\right)\)</span> from time <span class="math">\(t_0\)</span> to time <span class="math">\(t\)</span> can be computed using integrals. Let
+</p>
+<div class="math">$$t_0&lt;t_1&lt;t_2&lt;\cdots&lt;t_{n-1}&lt;t_n=:t$$</div>
+<p>
+be a partition of the interval <span class="math">\(\left[t_0, t\right]\)</span>, such that
+</p>
+<div class="math">$$\Delta t = t_{j+1}-t_j$$</div>
+<p>
+is the same for all <span class="math">\(j=0,\cdots,n-1\)</span>. When <span class="math">\(\Delta t\)</span> is sufficiently small, the arc length between <span class="math">\(\vec{r}\left(t_{j}\right)\)</span> and <span class="math">\(\vec{r}\left(t_{j+1}\right)\)</span> can be well approximated by the length of the line segment connecting these two points, i.e.,
+</p>
+<div class="math">\begin{align*}
+&amp;\textrm{arc length between } \vec{r}\left(t_{j}\right) \textrm{ and } \vec{r}\left(t_{j+1}\right)\\
+&amp;\qquad \approx \left|\vec{r}\left(t_{j}\right) - \vec{r}\left(t_{j+1}\right)\right|.
+\end{align*}</div>
+<p>
+Denoting <span class="math">\(s=s\left(t\right)\)</span> for the arc length from <span class="math">\(\vec{r}\left(t_0\right)\)</span> to <span class="math">\(\vec{r}\left(t_n\right)=\vec{r}\left(t\right)\)</span>, we have
+</p>
+<div class="math">\begin{align*}
+s=s\left(t\right)&amp;=\sum_{j=1}^{n-1}\textrm{arc length between } \vec{r}\left(t_{j}\right) \textrm{ and } \vec{r}\left(t_{j+1}\right)\\
+&amp;\approx \sum_{j=1}^{n-1}\left|\vec{r}\left(t_{j}\right) - \vec{r}\left(t_{j+1}\right)\right|\\
+&amp;\approx\sum_{j=1}^{n-1}\left|\vec{r}'\left(t_j\right)\Delta t\right|\\
+&amp;=\sum_{j=1}^{n-1}\left|\vec{r}'\left(t_j\right)\right|\Delta t\longrightarrow \int_{t_0}^t\left|\vec{r}'\left(\tau\right)\right|d\tau\quad\textrm{as }\Delta t\rightarrow 0.
+\end{align*}</div>
+<p>
+Therefore, we have the following formula for the arc length computation:
+</p>
+<div class="math">\begin{equation}\label{eq:arclength}
+s\left(t\right)=\int_{t_0}^t\left|\vec{r}'\left(\tau\right)\right|d\tau.
+\end{equation}</div>
+<p>
+Arc length is the very first <em>geometric quantity</em> among the many we are about to see in this course. Suppose <span class="math">\(\vec{r}\left(\tau\left(\xi\right)\right)\)</span> is another parametrization of the same curve, then the beginning and ending points of the curve should be fixed and thus
+</p>
+<div class="math">$$t_0=\tau\left(\xi_0\right),\quad t=\tau\left(\xi\right).$$</div>
+<p>
+Following \eqref{eq:arclength}, the arc length under this new parametrization is
+</p>
+<div class="math">$$s\left(\xi\right)=\int_{\xi_0}^{\xi}\left|\vec{r}'\left(\xi\right)\right|d\xi.$$</div>
+<p>
+However, by the chain rule
+</p>
+<div class="math">$$\vec{r}'\left(\xi\right)=\vec{r}'\left(\tau\right)\tau\left(\xi\right),$$</div>
+<p>
+thus by the <a href="https://en.wikipedia.org/wiki/Integration_by_substitution">change-of-variables formula</a>
+</p>
+<div class="math">\begin{align*}
+s\left(\xi\right)&amp;=\int_{\xi_0}^{\xi}\left|\vec{r}'\left(\xi\right)\right|d\xi\\
+&amp;=\int_{\xi_0}^{\xi}\left|\vec{r}'\left(\tau\right)\right|\tau\left(\xi\right)d\xi\quad\textrm{(chain rule)}\\
+&amp;=\int_{t_0}^{t}\left|\vec{r}'\left(\tau\right)\right|d\tau\quad\textrm{(change of variable)}\\
+&amp;=s\left(t\right).
+\end{align*}</div>
+<p>
+In other words, \eqref{eq:arclength} defines a quantity that is <em>independent of the parametrization</em> of the curve! Conventionally, we refer to such "parametrization independent" quantities as <em>geometric quantities</em>.</p>
+<p>Seeing as arc length is a geometric quantity, it is canonically chosen as the "golden standard" for curve parametrization. We say that a curve is <em>arc-parametrized</em> if it can be written as a vector-valued function of a single variable — the arc length. The <em>arc-length parametrization</em> can be constructed from any parametrization* of a curve, following these steps:</p>
+<ol>
+<li>Starting with an arbitrary parametrization <span class="math">\(\vec{r}\left(t\right)\)</span> of the curve, compute <span class="math">\(\vec{r}'\left(t\right)\)</span> and <span class="math">\(\left|\vec{r}'\left(t\right)\right|\)</span>;</li>
+<li>Compute <span class="math">\(s=s\left(t\right)\)</span> by \eqref{eq:arclength}, and find the inverse function <span class="math">\(t=t\left(s\right)\)</span>;</li>
+<li>Compose <span class="math">\(\vec{r}\left(t\right)\)</span> with <span class="math">\(t=t\left(s\right)\)</span> to obtain the arc-length parametrization of the curve <span class="math">\(\vec{r}\left(s\right)=\vec{r}\left(t\left(s\right)\right)\)</span>.</li>
+</ol>
+<p><strong>Example.</strong> Find the arc-length parametrization of the curve
+</p>
+<div class="math">$$\vec{r}\left(t\right)=\left(\cos 3t,\sin 3t, t\right).$$</div>
+<p>
+<em>Solution.</em> </p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript'; 
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
     </div><!-- /.entry-content -->
 
   </article>
