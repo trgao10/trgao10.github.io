@@ -203,7 +203,7 @@ Thus
 </p>
 <div class="math">$$\vec{v}\left(t\right)=\left(4+t-\cos t, 4+3t-\sin t\right).$$</div>
 <hr/>
-<h2>Curvature and Accerleration</h2>
+<h2>Arc Length Parametrization</h2>
 <p>We saw from last section that the parametrization of a curve is not unique. In fact, every curve can be parametrized in inifinitely many ways: given a vector-valued function <span class="math">\(\vec{r}\left(t\right)\)</span>, we can pick any smooth monotonic function <span class="math">\(u\left(\tau\right)\)</span> and compose <span class="math">\(\vec{r}\left(t\right)\)</span> with it, obtaining
 </p>
 <div class="math">$$\vec{r}\left(\tau\right):=\vec{r}\left(u\left(\tau\right)\right),$$</div>
@@ -273,9 +273,115 @@ In other words, \eqref{eq:arclength} defines a quantity that is <em>independent 
 </ol>
 <p><strong>Example.</strong> Find the arc-length parametrization of the curve
 </p>
-<div class="math">$$\vec{r}\left(t\right)=\left(\cos 3t,\sin 3t, t\right).$$</div>
+<div class="math">$$\vec{r}\left(t\right)=\left(\cos 3t,\sin 3t, t\right),\quad t\in\left[\frac{3\pi}{2},\frac{7\pi}{2}\right].$$</div>
 <p>
-<em>Solution.</em> </p>
+<em>Solution.</em> Note that
+</p>
+<div class="math">$$\vec{r}'\left(t\right)=\left(-3\sin 3t, 3\cos 3t, 1\right),\quad \left|\vec{r}'\left(t\right)\right|=\sqrt{9\sin^23t+9\cos^23t+1}=\sqrt{10}$$</div>
+<p>
+thus the arc length of <span class="math">\(\vec{r}\left(t\right)\)</span> is
+</p>
+<div class="math">$$s = s\left(t\right)=\int_{\frac{3\pi}{2}}^t\left|\vec{r}'\left(\tau\right)\right|d\tau=\sqrt{10}\left(t-\frac{3\pi}{2}\right).$$</div>
+<p>
+Inversely,
+</p>
+<div class="math">$$t = \frac{s}{\sqrt{10}}+\frac{3\pi}{2}.$$</div>
+<p>
+Thus the arc-length parametrization of <span class="math">\(\vec{r}\left(t\right)\)</span> is
+</p>
+<div class="math">$$\vec{r}\left(s\right)=\vec{r}\left(t\left(s\right)\right)=\vec{r}\left(\frac{s}{\sqrt{10}}+\frac{3\pi}{2}\right)=\left(\cos\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), \sin\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), \frac{s}{\sqrt{10}}+\frac{3\pi}{2}\right).$$</div>
+<p>
+A major advantage of arc-length parametrization is that it normalizes the speed of the curve.</p>
+<p><strong>Theorem 1.</strong> If <span class="math">\(\vec{r}\left(s\right)\)</span> is an arc-length parametrized curve, then <span class="math">\(\left|\vec{r}'\left(s\right)\right|=1\)</span>.</p>
+<p><strong>Proof.</strong> Differentiating both sides of \eqref{eq:arclength}, we see that <span class="math">\(s'\left(t\right)=\left|\vec{r}'\left(t\right)\right|\)</span>. Since <span class="math">\(t=t\left(s\right)\)</span> is the inverse function of <span class="math">\(s=s\left(t\right)\)</span>, there holds
+</p>
+<div class="math">$$t'\left(s\right)=\frac{1}{s'\left(t\right)}=\frac{1}{\left|\vec{r}'\left(t\right)\right|}.$$</div>
+<p>
+It then follows from the <a href="https://en.wikipedia.org/wiki/Chain_rule"><em>chain rule</em></a> that
+</p>
+<div class="math">\begin{align*}
+\left|\vec{r}'\left(s\right)\right|=\left|\vec{v}'\left(t\right)\,t'\left(s\right)\right|=\left|\vec{v}'\left(t\right)\cdot\frac{1}{\left|\vec{v}'\left(t\right)\right|}\right|=\frac{1}{\left|\vec{v}'\left(t\right)\right|}\cdot \left|\vec{v}'\left(t\right)\right|=1.
+\end{align*}</div>
+<p>
+<span class="math">\(\blacksquare\)</span></p>
+<hr/>
+<h2>Curvature and Principal Normal Vectors</h2>
+<p>As one might infer from the name, <strong>curvature</strong> measures the "curviness" of a curve (how much it deviates from a straight line). Since the direction of tangent vectors along a line stay constant, it is natural to quantify "curviness" using the change in the direction of tangent vectors. The direction of tangent vectors is fully captured in their "unit" counterpart.</p>
+<p><strong>Definition.</strong> The <strong>unit tangent vector</strong> along a curve <span class="math">\(\vec{r}\left(t\right)\)</span> is
+</p>
+<div class="math">$$\vec{T}\left(t\right)=\frac{\vec{r}'\left(t\right)}{\left|\vec{r}'\left(t\right)\right|}.$$</div>
+<p><strong>Proposition 1.</strong> Under arc-length parametrization, <span class="math">\(\vec{T}\left(s\right)=\vec{r}'\left(s\right)\)</span>.</p>
+<p><strong>Proof.</strong> Recall from Theorem 1 that <span class="math">\(\left|\vec{r}'\left(s\right)\right|=1\)</span>. <span class="math">\(\blacksquare\)</span></p>
+<p>We define curvature as the magnitude of the change of the unit tangent vectors under arc-length parametrization.</p>
+<p><strong>Definition.</strong> The <strong>curvature</strong> of a curve <span class="math">\(\vec{r}\left(t\right)\)</span> is
+</p>
+<div class="math">$$\kappa\left(s\right)=\left|\frac{d\vec{T}\left(s\right)}{ds}\right|.$$</div>
+<p>
+There are 2 key points in this definition: (1) If one needs to compute <span class="math">\(\kappa\)</span> from its definition, then the curve has to be first cast into arc-length parametrization (there are also other ways to compute <span class="math">\(\kappa\)</span>, as the textbook indicates); (2) The curvature of a curve is always non-negative (this is no longer true for the curvature of surfaces, as we shall see later in this course). According to Proposition 1, under arc-length parametrization
+</p>
+<div class="math">$$\kappa\left(s\right)=\left|\vec{r}''\left(s\right)\right|.$$</div>
+<p>
+In words, for a curve under arc-length parametrization, its curvature is the magnitude of the second order derivative of the vector-valued function that represents the curve.</p>
+<p><strong>Example.</strong> Let us compute the curvature of the curve 
+</p>
+<div class="math">$$\vec{r}\left(t\right)=\left(\cos 3t,\sin 3t, t\right),\quad t\in\left[\frac{3\pi}{2},\frac{7\pi}{2}\right].$$</div>
+<p>
+Note that this is exactly the same curve for which we computed arc-length parametrization in the previous section. The arc-length parametrization is
+</p>
+<div class="math">$$\vec{r}\left(s\right)=\left(\cos\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), \sin\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), \frac{s}{\sqrt{10}}+\frac{3\pi}{2}\right),$$</div>
+<p>
+thus
+</p>
+<div class="math">\begin{align*}
+\vec{r}'\left(s\right)&amp;=\left(-\frac{3}{\sqrt{10}}\sin\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), \frac{3}{\sqrt{10}}\cos\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), \frac{1}{\sqrt{10}}\right),\\
+\vec{r}''\left(s\right)&amp;=\left(-\frac{9}{10}\cos\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), -\frac{9}{10}\sin\left(\frac{3s}{\sqrt{10}}+\frac{9\pi}{2}\right), 0\right),
+\end{align*}</div>
+<p>
+and we have
+</p>
+<div class="math">$$\kappa\left(s\right)=\left|\vec{r}''\left(s\right)\right|=\frac{9}{10}.$$</div>
+<p>
+<strong>A Computational Trick.</strong> Finding the arc-length parametrization involves computing <span class="math">\(\vec{r}'\left(t\right)\)</span> and <span class="math">\(\left|\vec{r}'\left(t\right)\right|\)</span>, which essentially gives <span class="math">\(\vec{T}\left(t\right)\)</span>. But this is not good enough for curvature — we have to take the derivative of <span class="math">\(\vec{T}\left(s\right)\)</span>, not <span class="math">\(\vec{T}\left(t\right)\)</span>! When we move on to computing <span class="math">\(\kappa\left(s\right)\)</span> under the arc-length parametrization, it seems too much repeated work that we have to take derivatives of each component of <span class="math">\(\vec{r}'\left(s\right)\)</span> all over again. A computational trick is that one can reuse <span class="math">\(\vec{T}\left(t\right)\)</span> for computing <span class="math">\(\vec{T}\left(s\right)\)</span>, as long as one recalls from chain rule
+</p>
+<div class="math">$$\vec{T}'\left(s\right)=\vec{T}'\left(t\right)\cdot t'\left(s\right).$$</div>
+<p>
+<strong>Example.</strong> Find the curvature of the curve
+</p>
+<div class="math">$$\vec{r}\left(t\right)=\left(\cos t+t\,\sin t, \sin t-t\,\cos t\right),\quad t\in \left[0,\infty\right).$$</div>
+<p>
+<em>Solution.</em> Note that
+</p>
+<div class="math">$$\vec{r}'\left(t\right)=\left(-\sin t+\sin t+t\,\cos t, \cos t-\cos t +t\,\sin t\right)=\left(t\,\cos t, t\,\sin t\right),\quad \left|\vec{r}'\left(t\right)\right|=t,$$</div>
+<p>
+thus
+</p>
+<div class="math">$$\vec{T}\left(t\right)=\frac{\vec{r}'\left(t\right)}{\left|\vec{r}'\left(t\right)\right|}=\frac{1}{t}\cdot \left(t\,\cos t, t\,\sin t\right)=\left(\cos t,\sin t\right).$$</div>
+<p>
+The arc length is
+</p>
+<div class="math">$$s=s\left(t\right)=\int_0^t\left|\vec{r}'\left(\tau\right)\right|d\tau=\int_0^t\tau d\tau=\frac{t^2}{2}.$$</div>
+<p>
+Inversely,
+</p>
+<div class="math">$$t=t\left(s\right)=\sqrt{2s},\quad\Rightarrow\quad t'\left(s\right)=\frac{1}{\sqrt{2s}}.$$</div>
+<p>
+Therefore,
+</p>
+<div class="math">$$\kappa\left(s\right)=\left|\vec{T}'\left(s\right)\right|=\left|\vec{T}'\left(t\right)\cdot t'\left(s\right)\right|=\left|\left(-\sin t, \cos t\right)\cdot \frac{1}{\sqrt{s}}\right|=\frac{1}{\sqrt{2s}}.$$</div>
+<p>As curvature is the magnitude of <span class="math">\(\vec{T}'\left(s\right)\)</span>, what does the direction of <span class="math">\(\vec{T}'\left(s\right)\)</span> tell us? This motivates the following definition of <em>principal normal vectors</em>.</p>
+<p><strong>Definition.</strong> On a curve <span class="math">\(\vec{r}\left(s\right)\)</span> (arc-length parametrized) where <span class="math">\(\kappa\left(s\right)\neq 0\)</span>, the <strong>principal normal vector</strong> is defined as
+</p>
+<div class="math">$$\vec{N}\left(s\right)=\frac{\vec{T}'\left(s\right)}{\left|\vec{T}'\left(s\right)\right|}=\frac{1}{\kappa\left(s\right)}\vec{T}'\left(s\right).$$</div>
+<p>
+<strong>Remark.</strong> Note that at points <span class="math">\(\vec{r}\left(s\right)\)</span> where <span class="math">\(\kappa\left(s\right)=0\)</span> the principal normal curvature is not defined (since <span class="math">\(\kappa\left(s\right)\)</span> has to appear in the denominator).
+<div style="float: right">
+<img ,="" alt="compute arc length" src="/images/principalNormal.png" style="width: 350px; height: autowidth: 488px; height: auto;">
+</img></div>
+<strong>Proposition.</strong> Let <span class="math">\(s\)</span> denote the arc-length parameter. Wherever <span class="math">\(\vec{N}\left(s\right)\)</span> is defined, there holds
+</p>
+<div class="math">$$\vec{N}\left(s\right)\cdot\vec{T}\left(s\right)=0.$$</div>
+<p>
+<strong>Proof.</strong> </p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
