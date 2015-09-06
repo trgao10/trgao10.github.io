@@ -375,13 +375,125 @@ Therefore,
 <p>
 <strong>Remark.</strong> Note that at points <span class="math">\(\vec{r}\left(s\right)\)</span> where <span class="math">\(\kappa\left(s\right)=0\)</span> the principal normal curvature is not defined (since <span class="math">\(\kappa\left(s\right)\)</span> has to appear in the denominator).
 <div style="float: right">
-<img ,="" alt="compute arc length" src="/images/principalNormal.png" style="width: 350px; height: autowidth: 488px; height: auto;">
+<img ,="" alt="compute arc length" src="/images/principalNormal.png" style="width: 350px; height: autowidth: 466px; height: auto;">
 </img></div>
 <strong>Proposition.</strong> Let <span class="math">\(s\)</span> denote the arc-length parameter. Wherever <span class="math">\(\vec{N}\left(s\right)\)</span> is defined, there holds
 </p>
 <div class="math">$$\vec{N}\left(s\right)\cdot\vec{T}\left(s\right)=0.$$</div>
 <p>
-<strong>Proof.</strong> </p>
+<strong>Proof.</strong> Since <span class="math">\(\left|\vec{T}\left(s\right)\right|=1\)</span>, we have
+</p>
+<div class="math">$$\vec{T}\left(s\right)\cdot\vec{T}\left(s\right)=1.$$</div>
+<p>
+Differentiating both sides of the equality, we see that
+</p>
+<div class="math">$$2\vec{T}'\left(s\right)\cdot\vec{T}\left(s\right)=0.$$</div>
+<p>
+Since
+</p>
+<div class="math">$$\vec{T}'\left(s\right)=\kappa\left(s\right)\vec{N}\left(s\right),$$</div>
+<p>
+we conclude that
+</p>
+<div class="math">$$\kappa\left(s\right)\vec{N}\left(s\right)\cdot\vec{T}\left(s\right)=0.$$</div>
+<p>
+Recall that <span class="math">\(\kappa\left(s\right)\neq 0\)</span> wherever <span class="math">\(\vec{N}\left(s\right)\)</span> is defined, thus
+</p>
+<div class="math">$$\vec{N}\left(s\right)\cdot\vec{T}\left(s\right)=0.$$</div>
+<p>
+<span class="math">\(\blacksquare\)</span></p>
+<hr/>
+<h2>Decompose Accerleration</h2>
+<p>For a curve <span class="math">\(\vec{r}\left(t\right)\)</span>, <span class="math">\(\vec{v}\left(t\right)=\vec{r}'\left(t\right)\)</span> and <span class="math">\(\vec{a}\left(t\right)=\vec{r}''\left(t\right)\)</span> are often referred to as the <em>velocity</em> and the <em>accerleration</em> vector, respectively. According to the definition, the unit tangent vector <span class="math">\(\vec{T}\left(t\right)\)</span> is always in the same direction as <span class="math">\(\vec{r}'\left(t\right)\)</span>. The direction of an acceleration vector is less straightforward; however, it is easy to derive that <span class="math">\(\vec{r}''\left(t\right)\)</span> always lives in the plane spanned by <span class="math">\(\vec{T}\)</span> and <span class="math">\(\vec{N}\)</span>.</p>
+<p><strong>Theorem 2.</strong> The accerleration vector can be decomposed as
+</p>
+<div class="math">\begin{equation}\label{eq:accerlerationDecomposition}
+\vec{a}\left(t\right)=a_T\left(t\right)\vec{T}\left(t\right)+a_N\left(t\right)\vec{N}\left(t\right),
+\end{equation}</div>
+<p>
+where
+</p>
+<div class="math">$$a_T\left(t\right)=\frac{d}{dt}\left|\vec{r}'\left(t\right)\right|,\quad a_N\left(t\right)=\kappa\left(t\right)\left|\vec{r}'\left(t\right)\right|^2.$$</div>
+<p>
+<strong>Proof.</strong> Direct computation yields
+</p>
+<div class="math">\begin{align*}
+\vec{a}\left(t\right)&amp;=\vec{r}''\left(t\right)=\frac{d}{dt}\left(\left|\vec{r}'\left(t\right)\right|\cdot \frac{\vec{r}'\left(t\right)}{\left|\vec{r}'\left(t\right)\right|}\right)=\frac{d}{dt}\left(\left|\vec{r}'\left(t\right)\right|\cdot\vec{T}\left(t\right)\right)\\
+&amp;=\left(\frac{d}{dt}\left|\vec{r}'\left(t\right)\right|\right)\vec{T}\left(t\right)+\left|\vec{r}'\left(t\right)\right|\frac{d}{dt}\vec{T}\left(t\right)\\
+&amp;=\left(\frac{d}{dt}\left|\vec{r}'\left(t\right)\right|\right)\vec{T}\left(t\right)+\left|\vec{r}'\left(t\right)\right|\frac{d}{ds}\vec{T}\left(s\right)s'\left(t\right)\\
+&amp;=\left(\frac{d}{dt}\left|\vec{r}'\left(t\right)\right|\right)\vec{T}\left(t\right)+\left|\vec{r}'\left(t\right)\right|\kappa\left(s\right)\vec{N}\left(s\right)\cdot\left|\vec{r}'\left(t\right)\right|\\
+&amp;=\left(\frac{d}{dt}\left|\vec{r}'\left(t\right)\right|\right)\vec{T}\left(t\right)+\kappa\left(s\right)\left|\vec{r}'\left(t\right)\right|^2\vec{N}\left(s\right).
+\end{align*}</div>
+<p>
+The conclusion follows as we define
+</p>
+<div class="math">$$a_T\left(t\right):=\frac{d}{dt}\left|\vec{r}'\left(t\right)\right|,$$</div>
+<div class="math">$$a_N\left(t\right):=\kappa\left(s\right)\left|\vec{r}'\left(t\right)\right|^2=\kappa\left(s\left(t\right)\right)\left|\vec{r}'\left(t\right)\right|^2=\kappa\left(t\right)\left|\vec{r}'\left(t\right)\right|^2,$$</div>
+<p>
+and conventionally write <span class="math">\(\vec{N}\left(t\right):=\vec{N}\left(s\left(t\right)\right)=\vec{N}\left(s\right)\)</span>.
+<span class="math">\(\blacksquare\)</span></p>
+<p><strong>Remark.</strong> Note that <span class="math">\(a_N\left(t\right)\geq 0\)</span> always holds, since <span class="math">\(\kappa\left(t\right)\geq0\)</span> and <span class="math">\(\left|\vec{r}'\left(t\right)\right|^2\geq 0\)</span>.</p>
+<p>Typical questions for the decomposition of accerleration vectors involves computing <span class="math">\(\vec{T},\vec{N},a_T,a_N,\kappa\)</span> given curve <span class="math">\(\vec{r}\left(t\right)\)</span>. We summarize these computations in the following "road map".</p>
+<ol>
+<li>Compute <span class="math">\(\vec{r}'\left(t\right)\)</span> and <span class="math">\(\vec{r}''\left(t\right)\)</span>. Both of them are straightforward derivative computations on each component of <span class="math">\(\vec{r}\left(t\right)\)</span>.</li>
+<li>The unit tangent vector <span class="math">\(\vec{T}\)</span> can be computed from its definition
+<div class="math">$$\vec{T}\left(t\right)=\frac{\vec{r}'\left(t\right)}{\left|\vec{r}'\left(t\right)\right|}.$$</div>
+</li>
+<li>The "tangent component" of <span class="math">\(\vec{a}\left(t\right)\)</span>, or <span class="math">\(a_T\)</span>, can be computed from the decomposition formula \eqref{eq:accerlerationDecomposition}. In fact, dot product both sides of \eqref{eq:accerlerationDecomposition} with <span class="math">\(\vec{T}\left(t\right)\)</span> and using the fact that <span class="math">\(\vec{T}\cdot\vec{N}=0\)</span>, one has
+<div class="math">$$\vec{a}\left(t\right)\cdot\vec{T}\left(t\right)=a_T\left(t\right)\vec{T}\left(t\right)\cdot\vec{T}\left(t\right)=a_T\left(t\right),$$</div>
+or equivalently
+<div class="math">\begin{equation}\label{eq:tangentComp}
+a_T\left(t\right)=\vec{r}''\left(t\right)\cdot\vec{T}\left(t\right)=\frac{\vec{r}''\left(t\right)\cdot\vec{r}'\left(t\right)}{\left|\vec{r}'\left(t\right)\right|}.
+\end{equation}</div>
+</li>
+<li>The "normal component" of <span class="math">\(\vec{a}\left(t\right)\)</span>, or <span class="math">\(a_N\)</span>, can also be computed from the decomposition formula \eqref{eq:accerlerationDecomposition}. This time we cross product both sides of \eqref{eq:accerlerationDecomposition} with <span class="math">\(\vec{T}\left(t\right)\)</span> and use the facts <span class="math">\(\vec{T}\cdot\vec{N}=0\)</span>, <span class="math">\(\vec{T}\left(t\right)\times\vec{T}\left(t\right)=0\)</span>, and
+<div class="math">$$\left|\vec{N}\left(t\right)\times\vec{T}\left(t\right)\right|=\left|\vec{N}\left(t\right)\right|\left|\vec{T}\left(t\right)\right|\sin\left(\frac{\pi}{2}\right)=1$$</div>
+to conclude that
+<div class="math">$$\left|\vec{a}\left(t\right)\times\vec{T}\left(t\right)\right|=\left|a_N\left(t\right)\vec{N}\left(t\right)\times\vec{T}\left(t\right)\right|=\left|a_N\left(t\right)\right|\stackrel{(*)}{=}a_N\left(t\right),$$</div>
+and thus
+<div class="math">\begin{equation}\label{eq:normalComp}
+a_N\left(t\right)=\left|\vec{a}\left(t\right)\times\vec{T}\left(t\right)\right|=\frac{\left|\vec{r}''\left(t\right)\times\vec{r}'\left(t\right)\right|}{\left|\vec{r}'\left(t\right)\right|}.
+\end{equation}</div>
+Note that at equality <span class="math">\((*)\)</span> we used the fact that <span class="math">\(a_N\left(t\right)\geq0\)</span> to drop the absolute value bars.</li>
+<li>Once <span class="math">\(a_T,a_N,\vec{T}\)</span> are obtained, <span class="math">\(\vec{N}\)</span> can be very easily computed from the decomposition formula \eqref{eq:accerlerationDecomposition} as
+<div class="math">\begin{equation}\label{eq:normalVector}
+\vec{N}\left(t\right)=\frac{\vec{a}\left(t\right)-a_T\left(t\right)\vec{T}\left(t\right)}{a_N\left(t\right)}=\frac{1}{a_N\left(t\right)}\left(\vec{r}''\left(t\right)-a_T\left(t\right)\frac{\vec{r}'\left(t\right)}{\left|\vec{r}'\left(t\right)\right|}\right).
+\end{equation}</div>
+</li>
+<li>By Theorem 2, <span class="math">\(a_N\left(t\right)=\kappa\left(t\right)\left|\vec{r}'\left(t\right)\right|^2\)</span>, thus the curvature <span class="math">\(\kappa\)</span> can also be easily computed from <span class="math">\(a_N\)</span> as
+<div class="math">\begin{equation}\label{eq:curvatureFromAccerleration}
+\kappa\left(t\right)=\frac{a_N\left(t\right)}{\left|\vec{r}'\left(t\right)\right|^2}=\frac{\left|\vec{r}''\left(t\right)\times\vec{r}'\left(t\right)\right|}{\left|\vec{r}'\left(t\right)\right|^3}.
+\end{equation}</div>
+</li>
+</ol>
+<hr/>
+<h2>Plane Curves: A Special Case</h2>
+<p>Everything we developed so far applies equally well to plane (2D) curves. The only trick is to "embed" a 2D curve into 3D by trivially attaching a <span class="math">\(0\)</span> at the end of the 2D vector that represents the plane curve, making the curve 3D. If one needs to find <span class="math">\(\vec{T}\)</span> and <span class="math">\(\vec{N}\)</span> for a plane curve using this trick, remember to drop the artificially attached <span class="math">\(z\)</span>-component (thus bringing them back to 2D) at the end of the computation.</p>
+<p><strong>Example.</strong> Compute the curvature of the plane curve
+</p>
+<div class="math">$$t\mapsto\left(x\left(t\right),y\left(t\right)\right).$$</div>
+<p><em>Solution.</em> Let <span class="math">\(\vec{r}\left(t\right)=\left(x\left(t\right),y\left(t\right),0\right)\)</span>. Then
+</p>
+<div class="math">\begin{align*}
+\vec{r}'\left(t\right)&amp;=\left(x'\left(t\right),y'\left(t\right),0\right),\\
+\left|\vec{r}'\left(t\right)\right|&amp;=\sqrt{\left(x'\left(t\right)\right)^2+\left(y'\left(t\right)\right)^2},\\
+\vec{r}''\left(t\right)&amp;=\left(x''\left(t\right),y''\left(t\right),0\right),\\
+\vec{r}''\left(t\right)\times\vec{r}'\left(t\right)&amp;=\begin{vmatrix}
+\vec{i} &amp; \vec{j} &amp; \vec{k} \\ 
+x'\left(t\right) &amp; y'\left(t\right) &amp; 0 \\ 
+x''\left(t\right) &amp; y''\left(t\right) &amp; 0 \notag
+\end{vmatrix}
+=\left(x'\left(t\right)y''\left(t\right)-y'\left(t\right)x''\left(t\right)\right)\vec{k}.
+\end{align*}</div>
+<p>
+The curvature can thus be computed from \eqref{eq:curvatureFromAccerleration} as
+</p>
+<div class="math">\begin{equation}\label{eq:curvaturePlaneCurve}
+\kappa\left(t\right)=\frac{\left|\vec{r}''\left(t\right)\times\vec{r}'\left(t\right)\right|}{\left|\vec{r}'\left(t\right)\right|^3}=\frac{\left|x'\left(t\right)y''\left(t\right)-y'\left(t\right)x''\left(t\right)\right|}{\left[\left(x'\left(t\right)\right)^2+\left(y'\left(t\right)\right)^2\right]^{\frac{3}{2}}}.
+\end{equation}</div>
+<p>
+Note that this is exactly the same formula as in the textbook for plane curves (\$12.6 Equation (12)).</p>
+<!-- One catch is that the curvature of a plane curve can be defined to allow negative values, although the curvature of a space curve has to be non-negative. -->
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
