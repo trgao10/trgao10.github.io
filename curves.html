@@ -57,7 +57,7 @@ z &amp;= z_0+t\,v_z.
 \end{array} \right.
 \end{equation}</div>
 <div style="text-align:center">
-<p><img alt="Parametric Line" src="/images/parametricLine.png" style="width: 619px; height: auto;"/></p>
+<p><img alt="Parametric Line" src="/images/parametricLine.png" /></p>
 <p><em>Figure 1. the parametric equation of a line</em></p>
 </div>
 <p>If <span class="math">\(v_x\neq 0, v_y\neq 0, v_z\neq 0\)</span>, we can also put \eqref{eq:parametricLine} into the following <strong>symmetric equations</strong>:
@@ -79,7 +79,7 @@ y &amp;= y_0+t\left(y_1-y_0\right),\\
 z &amp;= z_0+t\left(z_1-z_0\right).
 \end{array} \right.
 \end{equation}</div>
-<hr/>
+<hr />
 <h2>Parametric Curves in <span class="math">\(\mathbb{R}^3\)</span></h2>
 <p>In the parametric equation \eqref{eq:parametricLine}, coordiantes <span class="math">\(x,y,z\)</span> are functions of <span class="math">\(t\)</span>. We can denote the tuple <span class="math">\(\left(x,y,z\right)\)</span> as a <strong>vector-valued function</strong> of <span class="math">\(t\)</span>:
 </p>
@@ -90,7 +90,7 @@ z &amp;= z_0+t\left(z_1-z_0\right).
 \vec{r}\left(t\right)=\left(x\left(t\right),y\left(t\right),z\left(t\right)\right).
 \end{equation}</div>
 <div style="float: right">
-<p><img alt="Helix" src="/images/helix.png" style="width: 360px; height: auto;"/></p>
+<p><img alt="Helix" src="/images/helix.png" /></p>
 </div>
 <p><strong>Example.</strong> Let
 </p>
@@ -121,7 +121,7 @@ To see this, notice that <span class="math">\(\ell_1\)</span> is parallel to the
 \end{align*}</div>
 <p>
 thus <span class="math">\(\ell_1,\ell_2\)</span> are the same line.</p>
-<hr/>
+<hr />
 <p>All standard differential and integral operations can be defined on vector-valued functions; one just need to apply the operations to each component. Assume <span class="math">\(\vec{r}\left(t\right)=\left(x\left(t\right),y\left(t\right),z\left(t\right)\right)\)</span>, then the derivative of <span class="math">\(\vec{r}\left(t\right)\)</span> is
 </p>
 <div class="math">$$\frac{d}{dt}\vec{r}\left(t\right)=\left(\frac{d}{dt}x\left(t\right),\frac{d}{dt}y\left(t\right),\frac{d}{dt}z\left(t\right)\right).$$</div>
@@ -202,7 +202,7 @@ and we can find <span class="math">\(C_3, C_4\)</span> using the initial conditi
 Thus
 </p>
 <div class="math">$$\vec{v}\left(t\right)=\left(4+t-\cos t, 4+3t-\sin t\right).$$</div>
-<hr/>
+<hr />
 <h2>Arc-Length Parametrization</h2>
 <p>We saw from last section that the parametrization of a curve is not unique. In fact, every curve can be parametrized in inifinitely many ways: given a vector-valued function <span class="math">\(\vec{r}\left(t\right)\)</span>, we can pick any smooth monotonic function <span class="math">\(u\left(\tau\right)\)</span> and compose <span class="math">\(\vec{r}\left(t\right)\)</span> with it, obtaining
 </p>
@@ -211,8 +211,8 @@ Thus
 which is just a different parametrization of the same curve.</p>
 <p>Despite the abundant choices of parametrizations available, <a href="https://en.wikipedia.org/wiki/Erlangen_program"><em>geometry</em></a> is all about properties of things that hold <em>invariant</em> regardless of parametrization. <strong>Arc length</strong> of a curve is one such example. Intuitively this makes sense: different parametrizations are like different ways to "draw" the curve, but arc length has nothing to do with the "drawing" process; in fact, it only depends on what is actually "drawn".
 <div style="float: left">
-<img ,="" alt="compute arc length" src="/images/arclength.png" style="width: 450px; height: autowidth: 702px; height: auto;">
-</img></div>
+<img src="/images/arclength.png", alt="compute arc length", style="width: 450px; height: auto">
+</div>
 Mathematically, the arc length of a curve <span class="math">\(\vec{v}\left(t\right)\)</span> from time <span class="math">\(t_0\)</span> to time <span class="math">\(t\)</span> can be computed using integrals. Let
 </p>
 <div class="math">$$t_0&lt;t_1&lt;t_2&lt;\cdots&lt;t_{n-1}&lt;t_n=:t$$</div>
@@ -265,7 +265,7 @@ s\left(\xi\right)&amp;=\int_{\xi_0}^{\xi}\left|\vec{r}'\left(\xi\right)\right|d\
 \end{align*}</div>
 <p>
 In other words, \eqref{eq:arclength} defines a quantity that is <em>independent of the parametrization</em> of the curve! Conventionally, we refer to such "parametrization independent" quantities as <em>geometric quantities</em>.</p>
-<p>Seeing as arc length is a geometric quantity, it is canonically chosen as the "golden standard" for curve parametrization. We say that a curve is <em>arc-parametrized</em> if it can be written as a vector-valued function of a single variable — the arc length. The <em>arc-length parametrization</em> can be constructed from any parametrization* of a curve, following these steps:</p>
+<p>Seeing as arc length is a geometric quantity, it is canonically chosen as the "golden standard" for curve parametrization. We say that a curve is <em>arc-parametrized</em> if it can be written as a vector-valued function of a single variable &mdash; the arc length. The <em>arc-length parametrization</em> can be constructed from any parametrization* of a curve, following these steps:</p>
 <ol>
 <li>Starting with an arbitrary parametrization <span class="math">\(\vec{r}\left(t\right)\)</span> of the curve, compute <span class="math">\(\vec{r}'\left(t\right)\)</span> and <span class="math">\(\left|\vec{r}'\left(t\right)\right|\)</span>;</li>
 <li>Compute <span class="math">\(s=s\left(t\right)\)</span> by \eqref{eq:arclength}, and find the inverse function <span class="math">\(t=t\left(s\right)\)</span>;</li>
@@ -304,7 +304,7 @@ It then follows from the <a href="https://en.wikipedia.org/wiki/Chain_rule"><em>
 \end{align*}</div>
 <p>
 <span class="math">\(\blacksquare\)</span></p>
-<hr/>
+<hr />
 <h2>Curvature and Principal Normal Vectors</h2>
 <p>As one might infer from the name, <strong>curvature</strong> measures the "curviness" of a curve (how much it deviates from a straight line). Since the direction of tangent vectors along a line stay constant, it is natural to quantify "curviness" using the change in the direction of tangent vectors. The direction of tangent vectors is fully captured in their "unit" counterpart.</p>
 <p><strong>Definition.</strong> The <strong>unit tangent vector</strong> along a curve <span class="math">\(\vec{r}\left(t\right)\)</span> is
@@ -341,7 +341,7 @@ and we have
 </p>
 <div class="math">$$\kappa\left(s\right)=\left|\vec{r}''\left(s\right)\right|=\frac{9}{10}.$$</div>
 <p>
-<strong>A Computational Trick.</strong> Finding the arc-length parametrization involves computing <span class="math">\(\vec{r}'\left(t\right)\)</span> and <span class="math">\(\left|\vec{r}'\left(t\right)\right|\)</span>, which essentially gives <span class="math">\(\vec{T}\left(t\right)\)</span>. But this is not good enough for curvature — we have to take the derivative of <span class="math">\(\vec{T}\left(s\right)\)</span>, not <span class="math">\(\vec{T}\left(t\right)\)</span>! When we move on to computing <span class="math">\(\kappa\left(s\right)\)</span> under the arc-length parametrization, it seems too much repeated work that we have to take derivatives of each component of <span class="math">\(\vec{r}'\left(s\right)\)</span> all over again. A computational trick is that one can reuse <span class="math">\(\vec{T}\left(t\right)\)</span> for computing <span class="math">\(\vec{T}\left(s\right)\)</span>, as long as one recalls from chain rule
+<strong>A Computational Trick.</strong> Finding the arc-length parametrization involves computing <span class="math">\(\vec{r}'\left(t\right)\)</span> and <span class="math">\(\left|\vec{r}'\left(t\right)\right|\)</span>, which essentially gives <span class="math">\(\vec{T}\left(t\right)\)</span>. But this is not good enough for curvature &mdash; we have to take the derivative of <span class="math">\(\vec{T}\left(s\right)\)</span>, not <span class="math">\(\vec{T}\left(t\right)\)</span>! When we move on to computing <span class="math">\(\kappa\left(s\right)\)</span> under the arc-length parametrization, it seems too much repeated work that we have to take derivatives of each component of <span class="math">\(\vec{r}'\left(s\right)\)</span> all over again. A computational trick is that one can reuse <span class="math">\(\vec{T}\left(t\right)\)</span> for computing <span class="math">\(\vec{T}\left(s\right)\)</span>, as long as one recalls from chain rule
 </p>
 <div class="math">$$\vec{T}'\left(s\right)=\vec{T}'\left(t\right)\cdot t'\left(s\right).$$</div>
 <p>
@@ -375,8 +375,8 @@ Therefore,
 <p>
 <strong>Remark.</strong> Note that at points <span class="math">\(\vec{r}\left(s\right)\)</span> where <span class="math">\(\kappa\left(s\right)=0\)</span> the principal normal curvature is not defined (since <span class="math">\(\kappa\left(s\right)\)</span> has to appear in the denominator).
 <div style="float: right">
-<img ,="" alt="compute arc length" src="/images/principalNormal.png" style="width: 350px; height: autowidth: 466px; height: auto;">
-</img></div>
+<img src="/images/principalNormal.png", alt="compute arc length", style="width: 350px; height: auto">
+</div>
 <strong>Proposition.</strong> Let <span class="math">\(s\)</span> denote the arc-length parameter. Wherever <span class="math">\(\vec{N}\left(s\right)\)</span> is defined, there holds
 </p>
 <div class="math">$$\vec{N}\left(s\right)\cdot\vec{T}\left(s\right)=0.$$</div>
@@ -402,7 +402,7 @@ Recall that <span class="math">\(\kappa\left(s\right)\neq 0\)</span> wherever <s
 <div class="math">$$\vec{N}\left(s\right)\cdot\vec{T}\left(s\right)=0.$$</div>
 <p>
 <span class="math">\(\blacksquare\)</span></p>
-<hr/>
+<hr />
 <h2>Decompose Accerleration</h2>
 <p>For a curve <span class="math">\(\vec{r}\left(t\right)\)</span>, <span class="math">\(\vec{v}\left(t\right)=\vec{r}'\left(t\right)\)</span> and <span class="math">\(\vec{a}\left(t\right)=\vec{r}''\left(t\right)\)</span> are often referred to as the <em>velocity</em> and the <em>accerleration</em> vector, respectively. According to the definition, the unit tangent vector <span class="math">\(\vec{T}\left(t\right)\)</span> is always in the same direction as <span class="math">\(\vec{r}'\left(t\right)\)</span>. The direction of an acceleration vector is less straightforward; however, it is easy to derive that <span class="math">\(\vec{r}''\left(t\right)\)</span> always lives in the plane spanned by <span class="math">\(\vec{T}\)</span> and <span class="math">\(\vec{N}\)</span>.</p>
 <p><strong>Theorem 2.</strong> The accerleration vector can be decomposed as
@@ -466,7 +466,7 @@ Note that at equality <span class="math">\((*)\)</span> we used the fact that <s
 \end{equation}</div>
 </li>
 </ol>
-<hr/>
+<hr />
 <h2>Plane Curves: A Special Case</h2>
 <p>Everything we developed so far applies equally well to plane (2D) curves. The only trick is to "embed" a 2D curve into 3D by trivially attaching a <span class="math">\(0\)</span> at the end of the 2D vector that represents the plane curve, making the curve 3D. If one needs to find <span class="math">\(\vec{T}\)</span> and <span class="math">\(\vec{N}\)</span> for a plane curve using this trick, remember to drop the artificially attached <span class="math">\(z\)</span>-component (thus bringing them back to 2D) at the end of the computation.</p>
 <p><strong>Example.</strong> Compute the curvature of the plane curve
@@ -494,6 +494,7 @@ The curvature can thus be computed from \eqref{eq:curvatureFromAccerleration} as
 <p>
 Note that this is exactly the same formula as in the textbook for plane curves (\$12.6 Equation (12)).</p>
 <!-- One catch is that the curvature of a plane curve can be defined to allow negative values, although the curvature of a space curve has to be non-negative. -->
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

@@ -49,11 +49,11 @@
 <div class="math">$$\mathbb{R}^n:=\left\{\left(x_1, \cdots, x_n\right)\mid x_1\in\mathbb{R},\cdots,x_n\in\mathbb{R}\right\}.$$</div>
 <p>In this course, we focus on <span class="math">\(\mathbb{R}^2\)</span> (<span class="math">\(2\)</span>-vectors) and <span class="math">\(\mathbb{R}^3\)</span> (<span class="math">\(3\)</span>-vectors). Each <span class="math">\(2\)</span>-vector uniquely corresponds to a point on the plane; similarly, each <span class="math">\(3\)</span>-vector uniquely corresponds to a point in the space.</p>
 <div style="text-align:center">
-<p><img alt="Vectors" src="/images/vector.png" style="width: 390px; height: auto;"/></p>
+<p><img alt="Vectors" src="/images/vector.png" /></p>
 <p><em>Figure 1. a vector is determined only by its direction and magnitude, not its starting point</em></p>
 </div>
 <p>We consider a vector as <em>a direction plus a magnitude</em>, often represented as an arrow. We do not care where the arrow starts. If two arrows with equal length are parallel to each other, they are considered as the same vector even if their starting points are different. Equivalenty speaking, we allow vectors to "freely parallel-translate".</p>
-<hr/>
+<hr />
 <h2>Vector Operations</h2>
 <p>Given vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span>, we define their <strong>sum</strong> as
 </p>
@@ -78,7 +78,8 @@ With these two basic operations in mind, it is straightforward to define any lin
 <p>
 All these formulae can be directly verified using \eqref{eq:sum} and \eqref{eq:scalar_mult}.</p>
 <!--</div>-->
-<hr/>
+
+<hr />
 <p>The <strong>dot product</strong> (a.k.a. <strong>scalar product</strong> or <strong>inner product</strong>) of two vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span> is defined as
 </p>
 <div class="math">\begin{equation}\label{eq:dot_prod}
@@ -97,7 +98,7 @@ which represents the squared distance from the origin to the point <span class="
 </p>
 <div class="math">$$\left|\vec{v}\right|=\sqrt{\vec{v}\cdot\vec{v}}.$$</div>
 <div style="float: right">
-<p><img alt="Vector_Angle" src="/images/vectorAngle.png" style="width: 388px; height: auto;"/></p>
+<p><img alt="Vector_Angle" src="/images/vectorAngle.png" /></p>
 </div>
 <p>The dot product has a geometric interpretation. Let <span class="math">\(\vec{v}\)</span>, <span class="math">\(\vec{w}\)</span> be as in the figure on the right, and denote <span class="math">\(\theta\)</span> for the angle between <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>. We have the following</p>
 <p><strong>Theorem 1.</strong> <span class="math">\(\vec{v}\cdot\vec{w} = \left|\vec{v}\right|\left|\vec{w}\right|\cos\theta\)</span>.</p>
@@ -140,7 +141,7 @@ then
 <div class="math">$$\mathrm{comp}_{\vec{k}}\vec{v}=\vec{v}\cdot\vec{k}=v_3,$$</div>
 <p>
 which are often referred to as the <span class="math">\(x\)</span>-component, <span class="math">\(y\)</span>-component, and <span class="math">\(z\)</span>-component of <span class="math">\(v\)</span>, respectively.</p>
-<hr/>
+<hr />
 <p>The <strong>cross product</strong> (a.k.a. <strong>vector product</strong> or <strong>outer product</strong>) of two <span class="math">\(3\)</span>-d vectors <span class="math">\(\vec{v}=\left(v_1,v_2,v_3\right)\)</span>, <span class="math">\(\vec{w}=\left(w_1,w_2,w_3\right)\)</span> is defined as
 </p>
 <div class="math">\begin{equation}\label{eq:cross_prod}
@@ -204,8 +205,8 @@ $$</div>
 The result then follows from taking square roots. <span class="math">\(\blacksquare\)</span></p>
 <p><strong>Corollary 2.</strong> If <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span> are collinear, then <span class="math">\(\vec{v}\times\vec{w}=0\)</span>.</p>
 <p><strong>Remark.</strong> Corollary 1 implies that <span class="math">\(\left|\vec{v}\times\vec{w}\right|\)</span> equals to the area of the parallelogram spanned by <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>.
-<div markdown="1" style="text-align:center">
-<img alt="Vectors" src="/images/parallelogram.png" style="width: 453px; height: auto;"/>
+<div style="text-align:center" markdown=1>
+<img alt="Vectors" src="/images/parallelogram.png" />
 </div></p>
 <p>To facilitate describing the direction of <span class="math">\(\vec{v}\times\vec{w}\)</span>, let us introduce the one last vector operations, the <strong>scalar triple product</strong> (a.k.a. <strong>mixed product</strong> or <strong>box product</strong>). For three <span class="math">\(3\)</span>-d vectors <span class="math">\(\vec{u}\)</span>, <span class="math">\(\vec{v}\)</span>, <span class="math">\(\vec{w}\)</span> (the order matters!), define their scalar triple product as
 </p>
@@ -289,8 +290,9 @@ v_1 &amp; v_2 &amp; v_3 \\
 w_1 &amp; w_2 &amp; w_3 \notag
 \end{vmatrix}&gt;0.$$</div>
 <div style="float: left">
-<img ,="" alt="right-handed triple" src="/images/RHT.png" style="width: 250px; height: autowidth: 385px; height: auto;">
-</img></div>
+<img src="/images/RHT.png", alt="right-handed triple", style="width: 250px; height: auto">
+</div>
+
 <p><strong>Theorem 4.</strong> If <span class="math">\(\vec{v}\times\vec{w}\neq 0\)</span>, the ordered triple <span class="math">\(\vec{v},\vec{w},\vec{v}\times\vec{w}\)</span> forms a right-handed triple.</p>
 <p><strong>Proof.</strong> By Theorem 3, it suffices to show that
 </p>
@@ -311,10 +313,10 @@ where the last strict positivity follows from the assumption that <span class="m
 <div class="math">$$\vec{v}\times\vec{w}=-\vec{w}\times\vec{v}.$$</div>
 <p>
 For this reason, sometimes people interprete <span class="math">\(\vec{v}\times\vec{w}\)</span> as the "signed area" of the parallelogram spanned by <span class="math">\(\vec{v}\)</span> and <span class="math">\(\vec{w}\)</span>.</p>
-<hr/>
+<hr />
 <p>The last important point for vectors is the geometric interpretation of the scalar triple product. In fact, <span class="math">\(\vec{u}\cdot\left(\vec{v}\times\vec{w}\right)\)</span> equals to the "signed volume" of the parallelepiped spanned by the three vectors <span class="math">\(\vec{u},\vec{v},\vec{w}\)</span>, as explained in Figure 2.</p>
 <div style="text-align:center">
-<p><img alt="Scalar Triple Product" src="/images/parallelepiped.png" style="width: 597px; height: auto;"/></p>
+<p><img alt="Scalar Triple Product" src="/images/parallelepiped.png" /></p>
 <p><em>Figure 2. scalar triple product equals to the "signed volume" of the parallelepiped</em></p>
 </div>
 <p>To understand this picture, note that

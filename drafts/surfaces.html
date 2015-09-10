@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Week 1 Lecture Videos (Prof. Ingrid Daubechies)</title>
+    <title>Review Notes: Surfaces</title>
     <link rel="stylesheet" href="/theme/css/main.css" />
 
     <link rel="stylesheet" href="/css/" type="text/css" />
@@ -22,40 +22,73 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/videoWeek1.html" rel="bookmark"
-           title="Permalink to Week 1 Lecture Videos (Prof. Ingrid Daubechies)">Week 1 Lecture Videos (Prof. Ingrid Daubechies)</a></h1>
+        <a href="/drafts/surfaces.html" rel="bookmark"
+           title="Permalink to Review Notes: Surfaces">Review Notes: Surfaces</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2015-09-01T14:53:00-04:00">
-                Published: Tue 01 September 2015
+        <abbr class="published" title="2015-09-06T00:51:00-04:00">
+                Published: Sun 06 September 2015
         </abbr>
 		<br />
-        <abbr class="modified" title="2015-09-01T20:37:00-04:00">
-                Updated: Tue 01 September 2015
+        <abbr class="modified" title="2015-09-09T00:00:00-04:00">
+                Updated: Wed 09 September 2015
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/ingrid-daubechies.html">Ingrid Daubechies</a>
+                By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
         </address>
 <p>In <a href="/category/math-212.html">Math 212</a>.</p>
-<p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/videos.html">Videos</a> </p>
-</footer><!-- /.post-info -->      <p>Professor <a href="http://fds.duke.edu/db/aas/math/faculty/ingrid/">Ingrid Daubechies</a> is a James B. Duke Professor of Mathematics at Duke University. She has taught MATH 212 many times, and served as the course coordinater in Academic Year 2012-2013. During Fall 2014, she recorded a series of course lecture videos for her flipped classroom experiment. These lecture videos are all featured by Prof. Daubechies herself, covering all major topics from vectors to vector calculus in the MATH 212 syllabus. Each of these videos comprises a thorough walk-through of her lecture slides, several 3D data visualization in MATLAB, or a mixture of both. Some of these videos can be found on the joint MATH 212 Sakai page.</p>
+<p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/notes.html">Notes</a> </p>
+</footer><!-- /.post-info -->      <hr />
+<h2>Paraboloid</h2>
+<div class="math">$$x^2+y^2-z=0$$</div>
+<p>
+parametric equaitons: for <span class="math">\(t\in\left[0,\infty\right)\)</span>, <span class="math">\(\theta\in\left[0,2\pi\right]\)</span>,
+</p>
+<div class="math">\begin{equation*}
+\left\{
+\begin{array}{rl}
+x &amp;= t\cos\theta,\\
+y &amp;= t\sin\theta,\\
+z &amp;= t.
+\end{array} \right.
+\end{equation*}</div>
+<iframe width=750 height=750 frameborder="1" seamless="seamless" scrolling="no" src="https://plot.ly/~trgao10/103/"> </iframe>
+
 <hr />
-<h2>Part 1/2: Vectors, Addition/Subtraction, Scalar Multiplication, Lines in <span class="math">\(\mathbb{R}^3\)</span></h2>
-<p><div>
-  <video height="480" width="640" style="border: 2px solid #111111" controls="controls">
-    <source src="https://dl.dropboxusercontent.com/u/25803260/Daubechies/Week1/part-1.mp4" type="video/mp4" />
-  </video>
-</div></p>
+<h2>Hyperboloid (One-Sheet)</h2>
+<div class="math">$$x^2+y^2-z^2=1$$</div>
+<p>
+parametric equaitons: for <span class="math">\(t\in\left(-\infty,\infty\right)\)</span>, <span class="math">\(\theta\in\left[0,2\pi\right]\)</span>,
+</p>
+<div class="math">\begin{equation*}
+\left\{
+\begin{array}{rl}
+x &amp;= \cosh t\cos\theta,\\
+y &amp;= \cosh t\sin\theta,\\
+z &amp;= \sinh t.
+\end{array} \right.
+\end{equation*}</div>
+<p>
+<iframe width=750 height=750 frameborder="1" seamless="seamless" scrolling="no" src="https://plot.ly/~trgao10/108/"> </iframe></p>
 <hr />
-<h2>Part 2/2: Dot Product, Cross Product, Scalar Triple Product, Planes in <span class="math">\(\mathbb{R}^3\)</span></h2>
-<p><div>
-  <video height="480" width="640" style="border: 2px solid #111111" controls="controls">
-    <source src="https://dl.dropboxusercontent.com/u/25803260/Daubechies/Week1/part-2.mp4" type="video/mp4" />
-  </video>
-</div></p>
+<h2>Hyperboloid (Two-Sheets)</h2>
+<div class="math">$$x^2+y^2-z^2=-1$$</div>
+<p>
+parametric equaitons: for <span class="math">\(t\in\left[0,\infty\right)\)</span>, <span class="math">\(\theta\in\left[0,2\pi\right]\)</span>,
+</p>
+<div class="math">\begin{equation*}
+\left\{
+\begin{array}{rl}
+x &amp;= \sinh t\cos\theta,\\
+y &amp;= \sinh t\sin\theta,\\
+z &amp;= \pm\cosh t.
+\end{array} \right.
+\end{equation*}</div>
+<p>
+<iframe width=750 height=750 frameborder="1" seamless="seamless" scrolling="no" src="https://plot.ly/~trgao10/128/vs/"> </iframe></p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
