@@ -21,8 +21,57 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/bglbp.html">Loopy Belief Propagation: A Toy Example</a></h1>
+                    <h1 class="entry-title"><a href="/week-4-homework.html">Week 4 Homework</a></h1>
 <footer class="post-info">
+        <abbr class="published" title="2015-09-17T12:49:00-04:00">
+                Published: Thu 17 September 2015
+        </abbr>
+		<br />
+        <abbr class="modified" title="2015-09-17T13:53:00-04:00">
+                Updated: Thu 17 September 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
+        </address>
+<p>In <a href="/category/math-212.html">Math 212</a>.</p>
+<p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/homework.html">Homework</a> </p>
+</footer><!-- /.post-info --><table>
+<thead>
+<tr>
+<th align="left">Section</th>
+<th align="left">Exercises</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">13.4</td>
+<td align="left">p.875: 3, 7, 13, 19, 22, 35, 41, 43, 53, 55, 57(a,c), 58(a,c), 60, 71, p.896: 43</td>
+</tr>
+<tr>
+<td align="left">13.6</td>
+<td align="left">p.895: 5, 7, 17, 18, 26, 34, 42</td>
+</tr>
+<tr>
+<td align="left">13.7</td>
+<td align="left">p.904: 3, 7, 9, 19, 28, 37, 40, 43, 45, 51</td>
+</tr>
+</tbody>
+</table>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/bglbp.html" rel="bookmark"
+                           title="Permalink to Loopy Belief Propagation: A Toy Example">Loopy Belief Propagation: A Toy Example</a></h1>
+                </header>
+
+                <div class="entry-content">
+                <!-- <footer class="post-info">
         <abbr class="published" title="2015-09-16T01:26:00-04:00">
                 Published: Wed 16 September 2015
         </abbr>
@@ -36,239 +85,10 @@
         </address>
 <p>In <a href="/category/expository.html">Expository</a>.</p>
 <p>tags: <a href="/tag/machine-learning.html">Machine Learning</a> <a href="/tag/probabilistic-graphical-model.html">Probabilistic Graphical Model</a> </p>
-</footer><!-- /.post-info --><h1>Bipartite Graph Loopy Belief Propagation</h1>
-<p>In this document, we demonstrate a bipartite graph inference using loopy belief propagation. This experiment serves as a proof-of-concept for future implementation of large scale graph-based inference.</p>
-<div class="highlight"><pre><span class="c">%matplotlib inline</span>
-
-<span class="n">import</span> <span class="n">opengm</span>
-<span class="n">import</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">pyplot</span> <span class="n">as</span> <span class="n">plt</span>
-<span class="n">import</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">cm</span> <span class="n">as</span> <span class="n">cm</span>
-<span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
-<span class="n">import</span> <span class="n">Image</span>
-<span class="n">import</span> <span class="n">networkx</span> <span class="n">as</span> <span class="n">nx</span>
-<span class="n">from</span> <span class="n">networkx</span><span class="p">.</span><span class="n">algorithms</span> <span class="n">import</span> <span class="n">bipartite</span>
-</pre></div>
-
-
-<h3>Basic Setup</h3>
-<ol>
-<li>A bipartite graph <span class="math">\(G=(V,E)\)</span>, where the vertices are partitioned into two groups: <span class="math">\(V=V_0\cup V_1\)</span>, <span class="math">\(V_0\cap V_1=\emptyset\)</span>; the sets <span class="math">\(V_0\)</span>, <span class="math">\(V_1\)</span> are totally disconnected.</li>
-<li>Each vertex stands for a <em>Bernoulli</em> random variable, and each edge represents a factor. Therefore, the scope of any factor contains exactly two vertices, one from each of <span class="math">\(V_0\)</span> and <span class="math">\(V_1\)</span>.</li>
-<li>Initially, the marginal distribution of some of the random variables in <span class="math">\(V_0\)</span> are known; all the rest of the marginal distributions are set to be uniform. The edge potentials (i.e., joint distributions determined by the factor) are set to be the tensor product of the marginal distributions of the two vertices linked by the edge.</li>
-<li>Marginal distributions of some of the random variables associated with the vertices in <span class="math">\(V_0\)</span> are known; all other marginals are assumed uniform. All <em>messages</em> are initialized as <span class="math">\(1\)</span>.</li>
-</ol>
-<h3>A Toy Example</h3>
-<p>Consider the following bipartite graph</p>
-<p><img alt="Toy Bipartite Graph Example" src="/images/toyBipartiteGraph.png" /></p>
-<p>where nodes <span class="math">\(1\)</span>, <span class="math">\(2\)</span>, <span class="math">\(3\)</span>, <span class="math">\(4\)</span> each represent a domain, while <span class="math">\(5\)</span>, <span class="math">\(6\)</span>, <span class="math">\(7\)</span>, <span class="math">\(8\)</span> each stands for a property of the domain (e.g., certain registrant name, phone number, address, etc.). We assume the counts of <em>infringing</em> (denoted as <span class="math">\(I\)</span>) and <em>non-infringing</em> (denoted as <span class="math">\(N\)</span>) are known for only domains <span class="math">\(1\)</span>, <span class="math">\(2\)</span>; marginal probability distributions for nodes <span class="math">\(3\)</span>, <span class="math">\(4\)</span> to generate infringing websites are to be inferred. Along the way, we shall also obtain the marginal probability distribution for property nodes <span class="math">\(5\)</span>, <span class="math">\(6\)</span>, <span class="math">\(7\)</span>, <span class="math">\(8\)</span> to produce infringing websites.</p>
-<p>The <span class="math">\(I\)</span> vs. <span class="math">\(N\)</span> counts for nodes <span class="math">\(1,2\)</span> are listed in the following table.</p>
-<table>
-<thead>
-<tr>
-<th>Node</th>
-<th><span class="math">\(I\)</span></th>
-<th><span class="math">\(N\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="math">\(1\)</span></td>
-<td>85</td>
-<td>15</td>
-</tr>
-<tr>
-<td><span class="math">\(2\)</span></td>
-<td>52</td>
-<td>48</td>
-</tr>
-</tbody>
-</table>
-<p>In this toy example, node <span class="math">\(1\)</span> is connected to <span class="math">\(5,6,7,8\)</span>, while node <span class="math">\(2\)</span> is only connected to <span class="math">\(5,6,7\)</span>. Note that node <span class="math">\(1\)</span> is much more likely to generate infringing websites compared to node <span class="math">\(2\)</span>; it is reasonable to conjecture that this biase results from the connectivity between node <span class="math">\(1\)</span> and node <span class="math">\(8\)</span>. Among the nodes whose marginal probability distributions are to be inferred, node <span class="math">\(3\)</span> connects to node <span class="math">\(8\)</span> but node <span class="math">\(4\)</span> doesn't. We thus expect a higher probability of generating infringing websites for node <span class="math">\(3\)</span> than node <span class="math">\(4\)</span>. In fact, since <span class="math">\(4\)</span> connects to exactly the same properties as node <span class="math">\(2\)</span>, we expect the marginal prbability distributions of node <span class="math">\(4\)</span> to be close to those of node <span class="math">\(2\)</span>.</p>
-<p>We assume each node <span class="math">\(j\)</span> is assigned a Bernoulli random variable <span class="math">\(X_j\)</span> (<span class="math">\(1\leq j\leq 8\)</span>). The potential functions on each node represents the prior belief for the corresponding random variable, estimated from the data if possible:</p>
-<div class="math">\begin{align*}
-\phi_1\left(I\right)=0.50, &amp;\quad \phi_1\left(N\right)=0.50,\\
-\phi_2\left(I\right)=0.85, &amp;\quad \phi_2\left(N\right)=0.15,\\
-\phi_3\left(I\right)=0.52, &amp;\quad \phi_3\left(N\right)=0.48,\\
-\phi_4\left(I\right)=0.50, &amp;\quad \phi_4\left(N\right)=0.50.
-\end{align*}</div>
-<p>Potential functions at each property node:
-</p>
-<div class="math">\begin{align*}
-\phi_5\left(I\right)=\frac{85+52}{200}=0.685, &amp;\quad \phi_5\left(N\right)=0.315,\\
-\phi_6\left(I\right)=\frac{85+52}{200}=0.685, &amp;\quad \phi_6\left(N\right)=0.315,\\
-\phi_7\left(I\right)=\frac{85+52}{200}=0.685, &amp;\quad \phi_7\left(N\right)=0.315,\\
-\phi_8\left(I\right)=\frac{85}{100}=0.85, &amp;\quad \phi_8\left(N\right)=0.15.
-\end{align*}</div>
-<p>On each edge we need to specify the conditional probability of a domain node producing an infringing website given the state of the propety node. We assume there is a constant probability <span class="math">\(\beta\in\left[0,1\right]\)</span> for the domain node to behave the same way as the property node, e.g.,
-</p>
-<div class="math">$$\mathbb{P}\left(X_1=I\mid X_5=I\right)=\beta,\quad \mathbb{P}\left(X_1=I\mid X_5=N\right)=1-\beta,$$</div>
-<div class="math">$$\mathbb{P}\left(X_1=N\mid X_5=N\right)=\beta,\quad \mathbb{P}\left(X_1=N\mid X_5=I\right)=1-\beta.$$</div>
-<p>Let us construct the graph in <code>OpenGM</code>. Click <a href="http://www.andres.sc/publications/opengm-2.0.2-beta-manual.pdf">here</a> for a user/developer manual.</p>
-<div class="highlight"><pre><span class="n">numVar</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">numLabels</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.75</span>
-<span class="n">numberOfStates</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">numVar</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">opengm</span><span class="p">.</span><span class="n">index_type</span><span class="p">)</span><span class="o">*</span><span class="n">numLabels</span>
-<span class="n">gm</span> <span class="o">=</span> <span class="n">opengm</span><span class="p">.</span><span class="n">graphicalModel</span><span class="p">(</span><span class="n">numberOfStates</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s">&quot;multiplier&quot;</span><span class="p">)</span>
-
-<span class="n">Edges</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">)])</span>
-<span class="n">DomainNodes</span> <span class="o">=</span> <span class="n">set</span><span class="p">(</span><span class="n">Edges</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">PropertyNodes</span> <span class="o">=</span> <span class="n">set</span><span class="p">(</span><span class="n">Edges</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-
-<span class="n">DomainNodeCounts</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">85</span><span class="p">,</span><span class="mi">15</span><span class="p">],[</span><span class="mi">52</span><span class="p">,</span><span class="mi">48</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
-<span class="cp"># DomainNodeCounts = np.array([[99,1],[0,100],[0,0],[0,0]])</span>
-<span class="n">PropertyNodeCounts</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">p</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">len</span><span class="p">(</span><span class="n">PropertyNodes</span><span class="p">))</span><span class="o">:</span>
-    <span class="n">PropertyNodeCounts</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">v</span> <span class="n">in</span> <span class="n">Edges</span><span class="p">[</span><span class="n">Edges</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">len</span><span class="p">(</span><span class="n">DomainNodes</span><span class="p">)),</span><span class="o">:</span><span class="p">][</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">:</span>
-        <span class="n">PropertyNodeCounts</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">+=</span> <span class="n">DomainNodeCounts</span><span class="p">[</span><span class="n">v</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">unaries</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">DomainNodeCounts</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">PropertyNodeCounts</span><span class="p">)])</span>
-
-<span class="k">for</span> <span class="n">x</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">unaries</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">:</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">:</span>
-        <span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">numLabels</span><span class="p">)</span> <span class="o">/</span> <span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">numLabels</span><span class="p">)))</span>
-    <span class="nl">else:</span>
-        <span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">/</span> <span class="n">sum</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-
-<span class="k">for</span> <span class="n">r</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">unaries</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">:</span>
-    <span class="n">fid</span> <span class="o">=</span> <span class="n">gm</span><span class="p">.</span><span class="n">addFunction</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
-    <span class="n">gm</span><span class="p">.</span><span class="n">addFactor</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">c</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">Edges</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">:</span>
-    <span class="n">fid</span> <span class="o">=</span> <span class="n">gm</span><span class="p">.</span><span class="n">addFunction</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="n">beta</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">beta</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">beta</span><span class="p">,</span> <span class="n">beta</span><span class="p">]]))</span>
-    <span class="n">gm</span><span class="p">.</span><span class="n">addFactor</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">Edges</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">opengm</span><span class="p">.</span><span class="n">index_type</span><span class="p">))</span>
-</pre></div>
-
-
-<p>Visualize the factor graph corresponding to the graphical model. Note that in the graphical model the node subindex starts with <span class="math">\(0\)</span>.</p>
-<div class="highlight"><pre><span class="n">opengm</span><span class="p">.</span><span class="n">visualizeGm</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span><span class="n">show</span><span class="o">=</span><span class="n">False</span><span class="p">,</span><span class="n">layout</span><span class="o">=</span><span class="s">&quot;neato&quot;</span><span class="p">,</span><span class="n">plotUnaries</span><span class="o">=</span><span class="n">True</span><span class="p">,</span>
-                    <span class="n">iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">plotFunctions</span><span class="o">=</span><span class="n">False</span><span class="p">,</span>
-                    <span class="n">plotNonShared</span><span class="o">=</span><span class="n">False</span><span class="p">,</span><span class="n">relNodeSize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-
-<span class="n">get</span> <span class="n">node</span> <span class="n">position</span><span class="p">...</span>
-<span class="p">....</span><span class="n">done</span>
-</pre></div>
-
-
-<p><img alt="png" src="/images/output_7_1.png" /></p>
-<div class="highlight"><pre><span class="n">inferBipartite</span> <span class="o">=</span> <span class="n">opengm</span><span class="p">.</span><span class="n">inference</span><span class="p">.</span><span class="n">BeliefPropagation</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span><span class="n">parameter</span><span class="o">=</span><span class="n">opengm</span><span class="p">.</span><span class="n">InfParam</span><span class="p">(</span><span class="n">damping</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
-                                                    <span class="n">accumulator</span><span class="o">=</span><span class="s">&quot;integrator&quot;</span><span class="p">)</span>
-<span class="n">inferBipartite</span><span class="p">.</span><span class="n">infer</span><span class="p">()</span>
-
-<span class="n">print</span> <span class="s">&quot;Marginal Probabilities for Domain Nodes:&quot;</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
-<span class="k">for</span> <span class="n">d</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">print</span> <span class="s">&quot;Node {0} generates infringing websites with probability {1}&quot;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">inferBipartite</span><span class="p">.</span><span class="n">marginals</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
-<span class="n">print</span> <span class="s">&quot;&quot;</span>
-<span class="n">print</span> <span class="s">&quot;Marginal Probabilities for Property Nodes:&quot;</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
-<span class="k">for</span> <span class="n">d</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">print</span> <span class="s">&quot;Node {0} generates infringing websites with probability {1}&quot;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="n">inferBipartite</span><span class="p">.</span><span class="n">marginals</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">4</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
-
-<span class="n">Marginal</span> <span class="n">Probabilities</span> <span class="k">for</span> <span class="n">Domain</span> <span class="n">Nodes</span><span class="o">:</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
-<span class="n">Node</span> <span class="mi">1</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.921084363355</span>
-<span class="n">Node</span> <span class="mi">2</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.612357558773</span>
-<span class="n">Node</span> <span class="mi">3</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.621324912368</span>
-<span class="n">Node</span> <span class="mi">4</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.593463184578</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
-
-<span class="n">Marginal</span> <span class="n">Probabilities</span> <span class="k">for</span> <span class="n">Property</span> <span class="n">Nodes</span><span class="o">:</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
-<span class="n">Node</span> <span class="mi">5</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.742725289156</span>
-<span class="n">Node</span> <span class="mi">6</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.826792875427</span>
-<span class="n">Node</span> <span class="mi">7</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.740086302281</span>
-<span class="n">Node</span> <span class="mi">8</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.878739154843</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
-</pre></div>
-
-
-<p>As we expected, the model predicts higher infringing probability for Node <span class="math">\(3\)</span> than Node <span class="math">\(4\)</span>; Node <span class="math">\(8\)</span> has the highest probability of generating infringing websites among all property nodes.</p>
-<h3>Appendix: Loopy Belief Propagation (LBP)</h3>
-<h4>1. Constructing the Cluster Graph</h4>
-<p>The first step in LBP is to construct a <strong>cluster graph</strong> from the orignal graph. This derived graph is undirected, with each node representing a <strong>cluster</strong> <span class="math">\(C_j\subset V\)</span>. Let us denote the number of random varaibles in <span class="math">\(C_j\)</span> as <span class="math">\(\left|C_j\right|\)</span>. When <span class="math">\(C_j\cap C_k\neq \emptyset\)</span>, define a <strong>sepset</strong> <span class="math">\(S_{jk}\subset C_j\cap C_k\)</span>. Obviously, <span class="math">\(S_{jk}=S_{kj}\)</span>.</p>
-<p>Each factor <span class="math">\(\phi_k\)</span> is assigned to a unique cluster <span class="math">\(C_{\alpha\left(k\right)}\)</span> in the cluster graph. This assignment should at least ensure that <span class="math">\(\mathrm{Scope}\left[\phi_k\right]\subset C_{\alpha\left(k\right)}\)</span>. We then construct <strong>potentials</strong> for each cluster by
-</p>
-<div class="math">$$\psi_i\left(C_i\right)=\prod_{\alpha\left(k\right)=i}\phi_k.$$</div>
-<p>
-Some clusters may have more than one factors assigned to them, while other clusters may have none. In the latter case, initialize the corresponding potential to be <span class="math">\(1\)</span> (one can assign a uniform distribution as well, but for potentials this doesn't matter --- the results will be renormalized to get a probability distribution).</p>
-<p>Cluster graphs are generally non-unique.</p>
-<h4>2. Message Passing</h4>
-<p>The message passed from cluster <span class="math">\(C_i\)</span> to <span class="math">\(C_j\)</span> is
-</p>
-<div class="math">$$m_{i\rightarrow j}\left(S_{ij}\right)=\sum_{C_i\backslash S_{ij}}\psi_i\left(C_i\right)\prod_{k\in N_i\backslash\left\{j\right\}}m_{k\rightarrow i}\left(S_{ki}\right).$$</div>
-<p>
-For each pair of subscripts <span class="math">\((i,j)\)</span>, this formula translates into <span class="math">\(2^{\left|S_{ij}\right|}\)</span> equalities. The summation involves <span class="math">\(2^{\left|C_i\backslash S_{ij}\right|}\)</span> terms while the product combines <span class="math">\(2^{\left|N_i\right|-1}\)</span>.</p>
-<p>This process is repeated until two messages (one for each direction) are computed for each edge.</p>
-<h4>3. Summarize Beliefs</h4>
-<p>Compute
-</p>
-<div class="math">$$\beta_i\left(C_i\right)=\psi_i\left(C_i\right)\prod_{k\in N_i}m_{k\rightarrow i}\left(S_{ki}\right).$$</div>
-<p>
-Note that this is a total number of <span class="math">\(2^{\left|C_i\right|}\)</span> equalities.</p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-    
-    var mathjaxscript = document.createElement('script');
-    var location_protocol = (false) ? 'https' : document.location.protocol;
-    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript'; 
-    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                
+                <a class="readmore" href="/bglbp.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
