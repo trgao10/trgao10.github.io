@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PyOpenGL</title>
+    <link rel="stylesheet" href="/theme/css/main.css" />
+
+    <link rel="stylesheet" href="/css/" type="text/css" />
+    <!--[if IE]>
+    <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body id="index" class="home">
+    <header id="banner" class="body">
+      <h1><a href="/">In principio erat Verbum </a></h1>
+      <nav><ul>
+        <li class="active"><a href="/category/expository.html">Expository</a></li>
+        <li><a href="/category/math-212.html">Math 212</a></li>
+      </ul></nav>
+    </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/drafts/pyopengl.html" rel="bookmark"
+           title="Permalink to PyOpenGL">PyOpenGL</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-09-18T11:14:00-04:00">
+                Published: Fri 18 September 2015
+        </abbr>
+		<br />
+        <abbr class="modified" title="2015-09-18T00:00:00-04:00">
+                Updated: Fri 18 September 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
+        </address>
+<p>In <a href="/category/expository.html">Expository</a>.</p>
+
+</footer><!-- /.post-info -->      <hr />
+<h2><em>Modern</em> OpenGL</h2>
+<p>I learnt old-school <code>OpenGL</code> at Duke back in Spring 2012, which familarized me enough with the (now deprecated) list</p>
+<div class="highlight"><pre><span class="n">glVertex</span><span class="p">,</span> <span class="n">glColor</span><span class="p">,</span> <span class="n">glLight</span><span class="p">,</span> <span class="n">glMaterial</span><span class="p">,</span> <span class="n">glBegin</span><span class="p">,</span> <span class="n">glEnd</span><span class="p">,</span>
+<span class="n">glMatrix</span><span class="p">,</span> <span class="n">glMatrixMode</span><span class="p">,</span> <span class="n">glLoadIdentity</span><span class="p">,</span> <span class="n">glPushMatrix</span><span class="p">,</span> <span class="n">glPopMatrix</span><span class="p">,</span>
+<span class="n">glRect</span><span class="p">,</span> <span class="n">glPolygonMode</span><span class="p">,</span> <span class="n">glBitmap</span><span class="p">,</span> <span class="n">glAphaFunc</span><span class="p">,</span> <span class="n">glNewList</span><span class="p">,</span> <span class="n">glDisplayList</span><span class="p">,</span>
+<span class="n">glPushAttrib</span><span class="p">,</span> <span class="n">glPopAttrib</span><span class="p">,</span> <span class="n">glVertexPointer</span><span class="p">,</span> <span class="n">glColorPointer</span><span class="p">,</span>
+<span class="n">glTexCoordPointer</span><span class="p">,</span> <span class="n">glNormalPointer</span>
+</pre></div>
+
+
+<p>At that time I had no idea what vertex/fragment shaders are, nor had I the slightest idea of what <a href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language">GLSL</a> is short for. The fact is that OpenGL underwent a major change in 2003 that enabled the use of shaders for direct access to the GPU. This made modern OpenGL far more powerful that its before-life, which relied on a fixed pipeline.</p>
+<hr />
+<h2>Shaders</h2>
+<p>The following figure, as well as many other stuff on this document, is taken from <a href="http://www.labri.fr/perso/nrougier/teaching/opengl/">this excellent blog post of Nicolas P. Rougier</a>.
+<div style="float: center">
+<img src="/images/gl-pipeline.png", alt="compute arc length", style="width: 750px; height: auto">
+</div>
+Among the many different types of shaders, <em>vertex shader</em> and <em>fragment shader</em> might be the most imporant. As the name suggestes, a vertex shader acts on vertices, outputting the vertex <strong>position</strong> (<code>gl_Position</code>), while a fragment shader acts on the fragments (pixels) and output the <strong>color</strong> (<code>gl_FragColor</code>). During the rendering pipeline, the vertex shader is called first (once for each vertex), followed by the fragment shader (once for each fragment/pixel).</p>
+<hr />
+<h2>Buffers</h2>
+<p>Modern GL stores the vertices on the GPU in only one pass before rendering, and modifies these stored data only if the data changes. In contrast, fixed pipeline (old GL) upload data at each rendering call. <em>Buffers</em> are regions on CPU that holds these data and send them onto the GPU. The structure of a vertex is very flexible -- the only constraint is that <em>all vertices from a buffer have the same structure</em>. This flexibility comes with a cost: <em>you</em> have to program everything including basic stuff like projection and lighting.</p>
+<p>Example code snippet from the blog of <a href="http://www.labri.fr/perso/nrougier/teaching/opengl/">Nicolas P. Rougier</a></p>
+<div class="highlight"><pre><span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+</pre></div>
+
+
+<p>This CPU buffer contains 4 vertices, each of which with a <code>position</code> (3 floats) and a <code>color</code> (4 floats).</p>
+<hr />
+<h2>Uniforms/Attributes/Varyings</h2>
+<p>Uniforms, attributes, and varyings are specifically designed for communication between vertex and fragment shaders. Consider the following over-simplified vertex and fragment shaders:</p>
+<div class="highlight"><pre><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Suppose now you want to use a <code>vec2</code> for the positions of vertices. The vertex shader has to be told explicitly that it will have to handle vertices whose positions are tuples of 2 floats and fragments whose colors are tuples of 4 floats. <em>Attributes</em> are used to describe such design.</p>
+<div class="highlight"><pre><span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
+<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>This vertex shader now expects to handle one attribute called <code>position</code> and another called <code>color</code> at each vertex. We will have to bind the numpy array field (which defined the buffer) to the right attributed later.</p>
+<p><em>Uniforms</em> are constant values across all vertices. For instance, if one wants to scaled all the vertices by a constant factor <code>scale</code>, it writes as</p>
+<div class="highlight"><pre><span class="n">uniform</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span>
+<span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
+<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="o">*</span><span class="n">scale</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><em>Varyings</em> pass information between the vertex stage and the fragment stage. It feels like a tunnel: all variables prefixed with "varying" is seeable for the fragment shader, as long as it is also declared there. For example, now we want to pass the vertex color to the fragment shader. We now write the vertex shader as</p>
+<div class="highlight"><pre><span class="n">uniform</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span>
+<span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
+<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
+<span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="o">*</span><span class="n">scale</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+    <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>and then in the fragment shader</p>
+<div class="highlight"><pre><span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Note that <code>v_color</code>'s are defined for each vertex, not each fragment. The color of a fragment is interpolated between the vertices that compose the geometric primitive (e.g., polygons, triangles, etc.).</p>
+<hr />
+<h1>Example: Flat Cube (a.k.a. Square)</h1>
+<p>We illustrate the code framework using the following simple example that renders a square. This code is adapted again from <a href="http://www.labri.fr/perso/nrougier/teaching/opengl/">the tutorial of Nicolas P. Rougier</a>.</p>
+<ol>
+<li>
+<p>Load necessary libraries.</p>
+<div class="highlight"><pre><span class="n">import</span> <span class="n">sys</span>
+<span class="n">import</span> <span class="n">ctypes</span>
+<span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+<span class="n">import</span> <span class="n">OpenGL</span><span class="p">.</span><span class="n">GL</span> <span class="n">as</span> <span class="n">gl</span>
+<span class="n">import</span> <span class="n">OpenGL</span><span class="p">.</span><span class="n">GLUT</span> <span class="n">as</span> <span class="n">glut</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Vertex and fragment shaders.</p>
+<div class="highlight"><pre><span class="n">vertex_code</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+    <span class="n">uniform</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span>
+    <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
+    <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
+    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">scale</span><span class="o">*</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+        <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
+    <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+
+<span class="n">fragment_code</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
+    <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+</pre></div>
+
+
+</li>
+<li>
+<p><code>OpenGL</code> functions. At least you should write <code>display()</code>. The <code>ESC</code> is binded to exist.</p>
+<div class="highlight"><pre><span class="n">def</span> <span class="n">display</span><span class="p">()</span><span class="o">:</span>
+    <span class="n">gl</span><span class="p">.</span><span class="n">glClear</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">)</span>
+    <span class="n">gl</span><span class="p">.</span><span class="n">glDrawArrays</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_TRIANGLE_STRIP</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">glut</span><span class="p">.</span><span class="n">glutSwapBuffers</span><span class="p">()</span>
+
+<span class="n">def</span> <span class="n">reshape</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">gl</span><span class="p">.</span><span class="n">glViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+
+<span class="n">def</span> <span class="n">keyboard</span><span class="p">(</span> <span class="n">key</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">)</span><span class="o">:</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="sc">&#39;\033&#39;</span><span class="o">:</span>
+        <span class="n">sys</span><span class="p">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+
+</li>
+<li>
+<p><code>GLUT</code> initialization.</p>
+<div class="highlight"><pre><span class="n">glut</span><span class="p">.</span><span class="n">glutInit</span><span class="p">()</span>
+<span class="n">glut</span><span class="p">.</span><span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">glut</span><span class="p">.</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">glut</span><span class="p">.</span><span class="n">GLUT_RGBA</span><span class="p">)</span>
+<span class="n">glut</span><span class="p">.</span><span class="n">glutCreateWindow</span><span class="p">(</span><span class="s">&quot;Hello world!&quot;</span><span class="p">)</span>
+<span class="n">glut</span><span class="p">.</span><span class="n">glutReshapeWindow</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">glut</span><span class="p">.</span><span class="n">glutReshapeFunc</span><span class="p">(</span><span class="n">reshape</span><span class="p">)</span>
+<span class="n">glut</span><span class="p">.</span><span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">display</span><span class="p">)</span>
+<span class="n">glut</span><span class="p">.</span><span class="n">glutKeyboardFunc</span><span class="p">(</span><span class="n">keyboard</span><span class="p">)</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Data buffer. Colors are specified on each vertex.</p>
+<div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">[(</span><span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">,</span>    <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+<span class="n">data</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span>
+<span class="n">data</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>   <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>   <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>   <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="p">]</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Create shaders and request a program, both from GPU.</p>
+<div class="highlight"><pre><span class="n">program</span>  <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glCreateProgram</span><span class="p">()</span>
+<span class="n">vertex</span>   <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glCreateShader</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_VERTEX_SHADER</span><span class="p">)</span>
+<span class="n">fragment</span> <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glCreateShader</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_FRAGMENT_SHADER</span><span class="p">)</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Bind shaders to the program and detach them when no longer needed. Data buffers are not involved in this part.</p>
+<div class="highlight"><pre><span class="cp"># Set shaders source</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glShaderSource</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">vertex_code</span><span class="p">)</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glShaderSource</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span> <span class="n">fragment_code</span><span class="p">)</span>
+
+<span class="cp"># Compile shaders</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glCompileShader</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glCompileShader</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
+
+<span class="cp"># Attach shader objects to the program</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glAttachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">vertex</span><span class="p">)</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glAttachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span>
+
+<span class="cp"># Build program</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glLinkProgram</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+
+<span class="cp"># Get rid of shaders (no more needed)</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glDetachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">vertex</span><span class="p">)</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glDetachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span>
+
+<span class="cp"># Make program the default program</span>
+<span class="n">gl</span><span class="p">.</span><span class="n">glUseProgram</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+</pre></div>
+
+
+</li>
+</ol>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+    <section id="extras" class="body">
+      <div class="blogroll">
+        <h2>useful links</h2>
+        <!--<h2>blogroll</h2>-->
+        <ul>
+          <li><a href="http://www.math.duke.edu/">Department of Mathematics</a></li>
+          <li><a href="http://www.math.duke.edu/courses/math_everywhere/">Math Everywhere @ Duke</a></li>
+          <li><a href="http://www.wolframalpha.com/">Wolfram Alpha</a></li>
+        </ul>
+      </div><!-- /.blogroll -->
+      <div class="social">
+        <h2>social</h2>
+        <ul>
+
+          <li><a href="https://github.com/trgao10">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/pub/tingran-gao/89/8a8/a8a">LinkedIn</a></li>
+        </ul>
+      </div><!-- /.social -->
+    </section><!-- /#extras -->
+
+    <footer id="contentinfo" class="body">
+      <!--<address id="about" class="vcard body">
+        Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+      </address>--><!-- /#about -->
+      <p>Powered by <a href="http://getpelican.com/">Pelican</a><br>last modified:
+        <script>document.write(document.lastModified);</script>
+      </p>
+      <!--<p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>-->
+    </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-67249529-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+  </body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="/js/"></script>
+</html>

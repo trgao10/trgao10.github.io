@@ -21,8 +21,175 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/week-4-homework.html">Week 4 Homework</a></h1>
+                    <h1 class="entry-title"><a href="/quiz-1-solution.html">Quiz 1 Solution</a></h1>
 <footer class="post-info">
+        <abbr class="published" title="2015-09-18T18:39:00-04:00">
+                Published: Fri 18 September 2015
+        </abbr>
+		<br />
+        <abbr class="modified" title="2015-09-18T00:00:00-04:00">
+                Updated: Fri 18 September 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
+        </address>
+<p>In <a href="/category/math-212.html">Math 212</a>.</p>
+<p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/quiz.html">Quiz</a> </p>
+</footer><!-- /.post-info --><hr />
+<p><strong>Problem 1.</strong> Let <span class="math">\(\vec{a}=\left(6,4,2\right),\quad \vec{b}=\left(-9,6,3\right),\quad \vec{c}=\left(-3,6,3\right)\)</span>.</p>
+<p>(a) Compute <span class="math">\(2\vec{a}-\vec{b}+\vec{c}\)</span> and <span class="math">\(-3\vec{a}+2\vec{b}+4\vec{c}\)</span>.</p>
+<p><strong>Solution.</strong>
+</p>
+<div class="math">\begin{align*}
+2\vec{a}-\vec{b}+\vec{c} &amp;= \left(12+9-3, 8-6+6, 4-3+3\right)=\left(18, 8, 4\right),\\
+-3\vec{a}+2\vec{b}+4\vec{c} &amp;= \left(-18-18-12, -12+12+24, -6+6+12\right)=\left(-48, 24, 12\right).
+\end{align*}</div>
+<p>(b) Do <span class="math">\(\vec{a},\vec{b},\vec{c}\)</span> lie on the same plane? Show your computation.</p>
+<p><strong>Solution.</strong> Yes. Check the volume of the parallelepiped spanned by <span class="math">\(\vec{a},\vec{b},\vec{c}\)</span>:
+</p>
+<div class="math">\begin{align*}
+\vec{a}\times\vec{b}\cdot\vec{c}
+=\begin{vmatrix}
+a_1 &amp; a_2 &amp; a_3 \\ 
+b_1 &amp; b_2 &amp; b_3 \\ 
+c_1 &amp; c_2 &amp; c_3 \notag
+\end{vmatrix}
+=\begin{vmatrix}
+6 &amp; 4 &amp; 2 \\ 
+-9 &amp; 6 &amp; 3 \\ 
+-3 &amp; 6 &amp; 3 \notag
+\end{vmatrix}=0.
+\end{align*}</div>
+<p>
+(If you notice that the second column is a scalar multiple of the third column, you can deduce that the determinant must be <span class="math">\(0\)</span> &mdash; without any computation.)</p>
+<hr />
+<p><strong>Problem 2.</strong> Find the distance from the point <span class="math">\(\left(0,2,1\right)\)</span> to the plane <span class="math">\(2x-3y+5z-1=0\)</span>. <em>(Hint: The only formula you need is the dot product. Keep <span class="math">\(\sqrt{38}\)</span> as it is.)</em></p>
+<p><strong>Solution.</strong> Let <span class="math">\(P\)</span> be an arbitrary point on the plane, say <span class="math">\(P=\left(-1,-1,0\right)\)</span>. The distance from <span class="math">\(A=\left(0,2,1\right)\)</span> equals to the absolute value of the component of the vector <span class="math">\(\overrightarrow{AP}\)</span> along the normal vector of the plane.
+<div style="text-align:center" markdown=1>
+<img alt="pointPlaneDistance" src="/images/pointPlaneDistance.png" />
+</div>
+A normal vector of the plane can be chosen as <span class="math">\(\vec{n}=\left(2,-3,5\right)\)</span>. Moreover, <span class="math">\(\overrightarrow{AP}=\overrightarrow{OP}-\overrightarrow{OA}=\left(-1,-3,-1\right)\)</span>. Thus the desired distance is
+</p>
+<div class="math">$$\left|\mathrm{comp}_{\vec{n}}\,\overrightarrow{AP}\right|=\frac{\left|\overrightarrow{AP}\cdot\vec{n}\right|}{\left|\vec{n}\right|}=\frac{\left|-2+9-5\right|}{\sqrt{38}}=\frac{2}{\sqrt{38}}.$$</div>
+<hr />
+<p><strong>Problem 3.</strong> Consider a point <span class="math">\(M\)</span> in the same plane as the triangle <span class="math">\(ABC\)</span>. Show that there exist real numbers <span class="math">\(\lambda,\mu,\nu\)</span> such that
+</p>
+<div class="math">$$\overrightarrow{OM}=\lambda \overrightarrow{OA}+\mu\overrightarrow{OB}+\nu\overrightarrow{OC}$$</div>
+<p>
+and
+</p>
+<div class="math">$$\lambda + \mu + \nu = 1.$$</div>
+<p>
+<em>(Hint: <span class="math">\(\overrightarrow{AM}\)</span> lies in the plane spanned by <span class="math">\(\overrightarrow{AB}\)</span> and <span class="math">\(\overrightarrow{AC}\)</span>.)</em></p>
+<div style="text-align:center">
+<p><img alt="triangle" src="/images/triangle.png" /></p>
+</div>
+<p><strong>Proof.</strong> Since <span class="math">\(M\)</span> in the same plane as the triangle <span class="math">\(ABC\)</span>, <span class="math">\(\overrightarrow{AM}\)</span> lies in the plane spanned by <span class="math">\(\overrightarrow{AB}\)</span> and <span class="math">\(\overrightarrow{AC}\)</span>. Thus there exists real numbers <span class="math">\(s,t\)</span> such that
+</p>
+<div class="math">\begin{equation}\label{eq:linearDependent}
+\overrightarrow{AM} = s\,\overrightarrow{AB} + t\,\overrightarrow{AC}.
+\end{equation}</div>
+<p>
+Note that
+</p>
+<div class="math">\begin{align*}
+\overrightarrow{AM} &amp;= \overrightarrow{OM}-\overrightarrow{OA},\\
+\overrightarrow{AB} &amp;= \overrightarrow{OB}-\overrightarrow{OA},\\
+\overrightarrow{AC} &amp;= \overrightarrow{OC}-\overrightarrow{OA},
+\end{align*}</div>
+<p>
+thus \eqref{eq:linearDependent} reduces to
+</p>
+<div class="math">$$\left(\overrightarrow{OM}-\overrightarrow{OA}\right) = s\left(\overrightarrow{OB}-\overrightarrow{OA}\right) + t\left(\overrightarrow{OC}-\overrightarrow{OA}\right).$$</div>
+<p>
+Re-grouping terms involving <span class="math">\(\overrightarrow{OA}\)</span>, <span class="math">\(\overrightarrow{OB}\)</span>, <span class="math">\(\overrightarrow{OC}\)</span>, one has
+</p>
+<div class="math">$$\overrightarrow{OM}=\left(1-s-t\right) \overrightarrow{OA}+s\,\overrightarrow{OB}+t\,\overrightarrow{OC}.$$</div>
+<p>
+Set
+</p>
+<div class="math">$$\lambda = 1-s-t,\quad \mu=s,\quad \nu=t,$$</div>
+<p>
+then
+</p>
+<div class="math">$$\overrightarrow{OM}=\lambda \overrightarrow{OA}+\mu\overrightarrow{OB}+\nu\overrightarrow{OC}$$</div>
+<p>
+and
+</p>
+<div class="math">$$\lambda + \mu + \nu = 1.$$</div>
+<p>
+<span class="math">\(\blacksquare\)</span></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript'; 
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/week-4-homework.html" rel="bookmark"
+                           title="Permalink to Week 4 Homework">Week 4 Homework</a></h1>
+                </header>
+
+                <div class="entry-content">
+                <!-- <footer class="post-info">
         <abbr class="published" title="2015-09-17T12:49:00-04:00">
                 Published: Thu 17 September 2015
         </abbr>
@@ -36,33 +203,10 @@
         </address>
 <p>In <a href="/category/math-212.html">Math 212</a>.</p>
 <p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/homework.html">Homework</a> </p>
-</footer><!-- /.post-info --><table>
-<thead>
-<tr>
-<th align="left">Section</th>
-<th align="left">Exercises</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">13.4</td>
-<td align="left">p.875: 3, 7, 13, 19, 22, 35, 41, 43, 53, 55, 57(a,c), 58(a,c), 60, 71, p.896: 43</td>
-</tr>
-<tr>
-<td align="left">13.6</td>
-<td align="left">p.895: 5, 7, 17, 18, 26, 34, 42</td>
-</tr>
-<tr>
-<td align="left">13.7</td>
-<td align="left">p.904: 3, 7, 9, 19, 28, 37, 40, 43, 45, 51</td>
-</tr>
-</tbody>
-</table>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>due next Wednesday (September 23, 2015) in class</p>
+                <a class="readmore" href="/week-4-homework.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -269,32 +413,6 @@
 <p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/homework.html">Homework</a> </p>
 </footer><!-- /.post-info -->                <p>due next Wednesday (September 2, 2015) in class</p>
                 <a class="readmore" href="/week-1-homework.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/vectors.html" rel="bookmark"
-                           title="Permalink to Review Notes: Vectors">Review Notes: Vectors</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <!-- <footer class="post-info">
-        <abbr class="published" title="2015-08-26T21:17:00-04:00">
-                Published: Wed 26 August 2015
-        </abbr>
-		<br />
-        <abbr class="modified" title="2015-09-01T15:06:00-04:00">
-                Updated: Tue 01 September 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
-        </address>
-<p>In <a href="/category/math-212.html">Math 212</a>.</p>
-<p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/notes.html">Notes</a> </p>
-</footer><!-- /.post-info -->                <p>Vector, Sum, Scalar Multiplication, Dot Product, Cross Product, Scalar Triple Product</p>
-                <a class="readmore" href="/vectors.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
