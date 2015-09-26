@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>OOPython</title>
+    <link rel="stylesheet" href="/theme/css/main.css" />
+
+    <link rel="stylesheet" href="/css/" type="text/css" />
+    <!--[if IE]>
+    <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body id="index" class="home">
+    <header id="banner" class="body">
+      <h1><a href="/">In principio erat Verbum </a></h1>
+      <nav><ul>
+        <li class="active"><a href="/category/expository.html">Expository</a></li>
+        <li><a href="/category/math-212.html">Math 212</a></li>
+      </ul></nav>
+    </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/drafts/oopython.html" rel="bookmark"
+           title="Permalink to OOPython">OOPython</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-09-22T20:37:00-04:00">
+                Published: Tue 22 September 2015
+        </abbr>
+		<br />
+        <abbr class="modified" title="2015-09-25T00:00:00-04:00">
+                Updated: Fri 25 September 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
+        </address>
+<p>In <a href="/category/expository.html">Expository</a>.</p>
+<p>tags: <a href="/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->      <hr />
+<h2>How do I make use of "pointers" in Python?</h2>
+<p>In C++, all variables are storage locations and you write a value (for instance, an integer, an object, or a pointer) to that location. For Python, as explained in <a href="http://stackoverflow.com/questions/11222440/python-variable-reference-assignment">this StackOverflow post</a>, a variable (and object fields, and entries in collections, etc.) is a just a name. Values are <em>somewhere</em> else (e.g. sprinkled all over the heap), and a variable <em>refers</em> (not in the sense of C++ references, more like a pointer minus the pointer arithmetic) to a value. Multiple names can refer to the same value (which is generally a good thing). Python (and other languages) calls whatever is needed to refer to a value a reference, despite being pretty unrelated to things like C++ references and pass-by-reference. Assigning to a variable/object field/... simply makes it refer to another value.</p>
+<p>The whole model of storage locations does not apply to Python, the programmer never handles storage locations for values. All he stores and shuffles around are Python references, and those are not values in Python, so they cannot be target of other Python references. All of this is <strong>independent of mutability</strong> of the value &mdash; it's the same for ints and lists. You cannot take a variable that refers to either, and overwrite the object it points to. You can only tell the object to modify parts of itself &mdash; say, change some reference it contains.</p>
+<p>The whole point is that Python is a language in which "everything is an object", and variables are "names" binded to actual (obscure) objects. This <a href="https://www.jeffknupp.com/blog/2012/11/13/is-python-callbyvalue-or-callbyreference-neither/">blog post</a> explains this point extremely clearly.</p>
+<hr />
+<h2>Can Python define "private" classes that is seeable only by the parent class?</h2>
+<p>The answer is "yes by convention". See the folloiwng excerpt in the <a href="https://www.python.org/dev/peps/pep-0008/">Python official documentation</a>:</p>
+<ul>
+<li><code>_single_leading_underscore</code>: weak "internal use" indicator. E.g. <code>from M import *</code> does not import objects whose name starts with an underscore.</li>
+<li><code>single_trailing_underscore_</code>: used by convention to avoid conflicts with Python keyword, e.g. <code>Tkinter.Toplevel(master, class_='ClassName')</code></li>
+<li><code>__double_leading_underscore</code>: when naming a class attribute, invokes name mangling (inside class <code>FooBar</code>, <code>__boo</code> becomes <code>_FooBar__boo</code>)</li>
+<li><code>__double_leading_and_trailing_underscore__</code>: "magic" objects or attributes that live in user-controlled namespaces. E.g. <code>__init__</code>, <code>__import__</code> or <code>__file__</code>. Never invent such names; only use them as documented.</li>
+</ul>
+<hr />
+<h2>You have to be really careful about <code>space</code> vs. <code>tabs</code>!</h2>
+<p>If you mix <code>space</code> with <code>tabs</code> in your indentation, it is going to lead to very difficult interpreter complaints!</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+    <section id="extras" class="body">
+      <div class="blogroll">
+        <h2>useful links</h2>
+        <!--<h2>blogroll</h2>-->
+        <ul>
+          <li><a href="http://www.math.duke.edu/">Department of Mathematics</a></li>
+          <li><a href="http://www.math.duke.edu/courses/math_everywhere/">Math Everywhere @ Duke</a></li>
+          <li><a href="http://www.wolframalpha.com/">Wolfram Alpha</a></li>
+        </ul>
+      </div><!-- /.blogroll -->
+      <div class="social">
+        <h2>social</h2>
+        <ul>
+
+          <li><a href="https://github.com/trgao10">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/pub/tingran-gao/89/8a8/a8a">LinkedIn</a></li>
+        </ul>
+      </div><!-- /.social -->
+    </section><!-- /#extras -->
+
+    <footer id="contentinfo" class="body">
+      <!--<address id="about" class="vcard body">
+        Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+      </address>--><!-- /#about -->
+      <p>Powered by <a href="http://getpelican.com/">Pelican</a><br>last modified:
+        <script>document.write(document.lastModified);</script>
+      </p>
+      <!--<p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>-->
+    </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-67249529-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+  </body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="/js/"></script>
+</html>
