@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scala, Spark, and Graphx</title>
+    <link rel="stylesheet" href="/theme/css/main.css" />
+
+    <link rel="stylesheet" href="/css/" type="text/css" />
+    <!--[if IE]>
+    <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body id="index" class="home">
+    <header id="banner" class="body">
+      <h1><a href="/">In principio erat Verbum </a></h1>
+      <nav><ul>
+        <li class="active"><a href="/category/expository.html">Expository</a></li>
+        <li><a href="/category/math-212.html">Math 212</a></li>
+      </ul></nav>
+    </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/drafts/scala_graphx.html" rel="bookmark"
+           title="Permalink to Scala, Spark, and Graphx">Scala, Spark, and Graphx</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-09-29T17:54:00-04:00">
+                Published: Tue 29 September 2015
+        </abbr>
+		<br />
+        <abbr class="modified" title="2015-10-01T00:00:00-04:00">
+                Updated: Thu 01 October 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/tingran-gao.html">Tingran Gao</a>
+        </address>
+<p>In <a href="/category/expository.html">Expository</a>.</p>
+
+</footer><!-- /.post-info -->      <hr />
+<h2>Set up Emacs+Ensime</h2>
+<p>The basic reference is on the official GitHub page of ensime: <a href="https://github.com/ensime/ensime-emacs">https://github.com/ensime/ensime-emacs</a></p>
+<p>First, <code>M-x package-install</code> in Emacs, choose <code>ensime</code>, mark as <code>I</code> and press <code>X</code>. This installs the package <code>ensime</code> for your current Emacs. Then update the <code>.emacs</code> file with</p>
+<div class="highlight"><pre>    (require &#39;package)
+    (package-initialize)
+    (add-to-list &#39;package-archives
+                 &#39;(&quot;melpa&quot; . &quot;http://melpa.org/packages/&quot;) t)
+    (package-initialize)
+
+    (when (not package-archive-contents)
+      (package-refresh-contents))
+
+    ;; ensime for scala mode hook                                                                                                                                               
+    (require &#39;ensime)
+    (add-hook &#39;scala-mode-hook &#39;ensime-scala-mode-hook)
+
+    ;; OPTIONAL                                                                                                                                                                 
+    ;; there are some great Scala yasnippets, browse through:                                                                                                                   
+    ;; https://github.com/AndreaCrotti/yasnippet-snippets/tree/master/scala-mode                                                                                                
+    (add-hook &#39;scala-mode-hook #&#39;yas-minor-mode)
+    ;; but company-mode / yasnippet conflict. Disable TAB in company-mode with                                                                                                  
+    (define-key company-active-map [tab] nil)
+</pre></div>
+
+
+<p>The next step is to choose a project management tool. You can choose among <a href="https://github.com/ensime/ensime-sbt">sbt</a>, <a href="https://github.com/ensime/ensime-gradle">gradle</a>, and <a href="https://github.com/ensime/ensime-maven">maven</a>. For this simple quick test I'm using sbt. If that's also your preference, you have to create file <code>~/.sbt/0.13/plugins/plugins.sbt</code> and write in the following:</p>
+<div class="highlight"><pre>    addSbtPlugin(&quot;org.ensime&quot; % &quot;ensime-sbt&quot; % &quot;0.2.0&quot;)
+</pre></div>
+
+
+<p>Now it is time to create your project folder, <code>cd</code> into it, then</p>
+<div class="highlight"><pre>    mkdir -p src/{main,test}/scala
+</pre></div>
+
+
+<p>Also in the project folder, create <code>build.sbt</code> with the following content:</p>
+<div class="highlight"><pre>    name := &quot;hello_scala&quot;
+
+    version := &quot;1.0&quot;
+
+    scalaVersion := &quot;2.10.5&quot;
+</pre></div>
+
+
+<p>Note that the blank lines are necessary. Now let us generate .ensime file by typing into the terminal</p>
+<div class="highlight"><pre>    sbt gen-ensime
+</pre></div>
+
+
+<p>A hidden file <code>.ensime</code> will be added to the project folder, together with a folder <code>project</code>. Create a file under <code>src/main/scala/</code>, say with name <code>Main.scala</code>. Write in it</p>
+<div class="highlight"><pre>    package greeter
+
+    object Hello extends App {
+      println(&quot;Hello World&quot;)
+    }
+</pre></div>
+
+
+<p>and save. The mini-buffer in Emacs reads as <code>(Scala [ENSIME: (Disconnected)])</code>. We have to connect it by <code>M-x ensime</code> and press <code>ENTER</code> in Emacs. If everything works well, you should see in the mini-buffer </p>
+<div class="highlight"><pre>    ENSIME ready. May the source be with you.
+</pre></div>
+
+
+<p>If we simply <code>C-c C-b s</code>, it will bring up the sbt console. Run project by typing 'run' in the sbt console. You will see the output message</p>
+<div class="highlight"><pre>    Running sbt
+    [info] Loading global plugins from /home/trgao10/.sbt/0.13/plugins
+    [info] Set current project to hello_scala (in build file:/home/trgao10/Work/Scala/webGraphInfer/)
+    &gt; run
+    [info] Compiling 1 Scala source to /home/trgao10/Work/Scala/webGraphInfer/target/scala-2.10/classes...
+    [info] Running greeter.Hello 
+    Hello World
+    [success] Total time: 3 s, completed Sep 30, 2015 10:54:33 PM
+    &gt;
+</pre></div>
+
+
+<p>This indicates a successful setup.</p>
+<hr />
+<h2>Compiling Spark</h2>
+<hr />
+<h2>Using GraphX</h2>
+<!-- To speed up the development process, we rely first on the spark-shell. -->
+
+<!--     /usr/local/share/spark/bin/spark-shell  -->
+
+<!-- In the loaded spark-shell, do some imports. -->
+
+<!--     import org.apache.spark.sql.Row -->
+
+<!--     import org.apache.spark.sql.types.{StructType,StructField,StringType} -->
+
+<!-- Load in raw data and parse into DataFrames. -->
+
+<!--     val rawData = sc.textFile("/home/trgao10/Work/Scala/SparkScalaGraph/data/websites_clean.csv").map( line=> { -->
+
+<!--         Row.fromSeq(line.split(", ")) -->
+
+<!--       }); -->
+
+<!--     val schemaString = "dtbd_id,domain_name,ip_address,traffic_rank,class_ecomm,date_found,isp_name,admin_email,dns,enforce_status,registrant,registrar".split(","); -->
+
+<!--     val schema = StructType(schemaString.map(fieldName => StructField(fieldName, StringType, false))); -->
+
+<!--     val wsDataFrame = sqlContext.createDataFrame(rawData, schema) -->
+
+<!-- View the registered schema: -->
+
+<!--     wsDataFrame.printSchema -->
+
+<!-- You will see the following schema printed out: -->
+
+<!--     scala> wsDataFrame.printSchema -->
+
+<!--     root -->
+
+<!--      |-- dtbd_id: string (nullable = false) -->
+
+<!--      |-- domain_name: string (nullable = false) -->
+
+<!--      |-- ip_address: string (nullable = false) -->
+
+<!--      |-- traffic_rank: string (nullable = false) -->
+
+<!--      |-- class_ecomm: string (nullable = false) -->
+
+<!--      |-- date_found: string (nullable = false) -->
+
+<!--      |-- isp_name: string (nullable = false) -->
+
+<!--      |-- admin_email: string (nullable = false) -->
+
+<!--      |-- dns: string (nullable = false) -->
+
+<!--      |-- enforce_status: string (nullable = false) -->
+
+<!--      |-- registrant: string (nullable = false) -->
+
+<!--      |-- registrar: string (nullable = false) -->
+
+<!-- If you prefer, you can register the DataFrame as a table: -->
+
+<!--     wsDataFrame.registerTempTable("wsData") -->
+
+<!-- Try query: -->
+
+<!--     scala> val result = sqlContext.sql("SELECT date_found FROM wsData") -->
+
+<!--     result: org.apache.spark.sql.DataFrame = [date_found: string] -->
+
+<!-- It ends up with strange errors. Have to deviate from this approach.... -->
+
+<p>Like many popular graph processing libraries, GraphX represents a graph as a <em>property graph</em>. This is a class taking the form</p>
+<div class="highlight"><pre>class Graph[VD, ED] {
+    val vertices: VertexRDD[VD]
+    val edges: EdgeRDD[ED,VD]
+}
+</pre></div>
+
+
+<p><code>VD</code> and <code>ED</code> here are Scala-type parameters of the classes <code>VertexRDD</code>, <code>EdgeRDD</code>, and <code>Graph</code>. These type parameters can be primitive types such as <code>String</code> or <code>Int</code>, but they can also be user-defined classes. See the following schematic definition of <code>VertexRDD</code> (from the (offial Spark documentation)[http://spark.apache.org/docs/latest/graphx-programming-guide.html]).</p>
+<div class="highlight"><pre>class VertexRDD[VD] extends RDD[(VertexID, VD)] {
+// Filter the vertex set but preserves the internal index
+def filter(pred: Tuple2[VertexId, VD] =&gt; Boolean): VertexRDD[VD]
+// Transform the values without changing the ids (preserves the internal index)
+def mapValues[VD2](map: VD =&gt; VD2): VertexRDD[VD2]
+def mapValues[VD2](map: (VertexId, VD) =&gt; VD2): VertexRDD[VD2]
+// Show only vertices unique to this set based on their VertexId&#39;s
+def minus(other: RDD[(VertexId, VD)])
+// Remove vertices from this set that appear in the other set
+def diff(other: VertexRDD[VD]): VertexRDD[VD]
+// Join operators that take advantage of the internal indexing to accelerate joins (substantially)
+def leftJoin[VD2, VD3](other: RDD[(VertexId, VD2)])(f: (VertexId, VD, Option[VD2]) =&gt; VD3): VertexRDD[VD3]
+def innerJoin[U, VD2](other: RDD[(VertexId, U)])(f: (VertexId, VD, U) =&gt; VD2): VertexRDD[VD2]
+// Use the index on this RDD to accelerate a `reduceByKey` operation on the input RDD.
+def aggregateUsingIndex[VD2](other: RDD[(VertexId, VD2)], reduceFunc: (VD2, VD2) =&gt; VD2): VertexRDD[VD2]
+}
+</pre></div>
+
+
+<p>The <code>EdgeRDD</code> object takes one type parameter <code>ED</code>, and indeed extends <code>RDD[Edge[ED]]</code>.</p>
+<p>For the website data, each entry consists of the following properties:</p>
+<ul>
+<li>dtbd_id</li>
+<li>domain_name</li>
+<li>ip_address</li>
+<li>traffic_rank</li>
+<li>class_ecomm</li>
+<li>date_found</li>
+<li>isp_name</li>
+<li>admin_email</li>
+<li>dns</li>
+<li>enforce_status</li>
+<li>registrant</li>
+<li>registrar</li>
+</ul>
+<p>In our construction there are essentially two types of vertices, <code>Domain</code> and <code>Property</code>. Each <code>Domain</code> vertex will contain the <code>dtbd_id</code> together with non-important properties (<code>dtbd_id</code>, <code>class_ecomm</code>, <code>data_found</code>, <code>isp_name</code>, <code>enforce_status</code>, <code>registrar</code>, <code>traffic_rank</code>), encapsulated in the following case class <code>Domain</code>:</p>
+<div class="highlight"><pre>case class Domain(dtbd_id: Int,
+                  class_ecomm: String,
+                  date_found: String,
+                  isp_name: String,
+                  enforce_status: String,
+                  registrar: String,
+                  traffic_rank: String)
+</pre></div>
+
+
+<p>Each <code>Property</code> vertex stands for one of the five categories of information registered with a website (<code>domain_name</code>, <code>ip_address</code>, <code>admin_email</code>, <code>dn</code>, <code>registrant</code>), encapsulated in the following case class <code>Property</code>:</p>
+<div class="highlight"><pre>case class Property(property_name: String, category: String);
+</pre></div>
+
+
+<p>The <code>kind</code> field is for future purpose of building graphs across different data categories. The correspondence between property and their types is as follows:</p>
+<div class="highlight"><pre>    {&#39;domain_name&#39;: &#39;domain&#39;,
+     &#39;ip_address&#39;: &#39;ip&#39;,
+     &#39;admin_email&#39;: &#39;email&#39;,
+     &#39;dns&#39;: &#39;dns&#39;,
+     &#39;registrant&#39;: &#39;name&#39;}
+</pre></div>
+
+
+<p>The main issue is that GraphX seems to requre all vertices to have the same type, which is different from our assumption. But this technical difficulty is superficial.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+    <section id="extras" class="body">
+      <div class="blogroll">
+        <h2>useful links</h2>
+        <!--<h2>blogroll</h2>-->
+        <ul>
+          <li><a href="http://www.math.duke.edu/">Department of Mathematics</a></li>
+          <li><a href="http://www.math.duke.edu/courses/math_everywhere/">Math Everywhere @ Duke</a></li>
+          <li><a href="http://www.wolframalpha.com/">Wolfram Alpha</a></li>
+        </ul>
+      </div><!-- /.blogroll -->
+      <div class="social">
+        <h2>social</h2>
+        <ul>
+
+          <li><a href="https://github.com/trgao10">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/pub/tingran-gao/89/8a8/a8a">LinkedIn</a></li>
+        </ul>
+      </div><!-- /.social -->
+    </section><!-- /#extras -->
+
+    <footer id="contentinfo" class="body">
+      <!--<address id="about" class="vcard body">
+        Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+      </address>--><!-- /#about -->
+      <p>Powered by <a href="http://getpelican.com/">Pelican</a><br>last modified:
+        <script>document.write(document.lastModified);</script>
+      </p>
+      <!--<p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>-->
+    </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-67249529-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = 'https://ssl.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+  </body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="/js/"></script>
+</html>

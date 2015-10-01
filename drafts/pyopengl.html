@@ -33,8 +33,8 @@
                 Published: Fri 18 September 2015
         </abbr>
 		<br />
-        <abbr class="modified" title="2015-09-25T00:00:00-04:00">
-                Updated: Fri 25 September 2015
+        <abbr class="modified" title="2015-10-01T00:00:00-04:00">
+                Updated: Thu 01 October 2015
         </abbr>
 
         <address class="vcard author">
@@ -45,11 +45,11 @@
 </footer><!-- /.post-info -->      <hr />
 <h2>Modern OpenGL</h2>
 <p>I learnt old-school <code>OpenGL</code> at Duke back in Spring 2012, which familarized me enough with the (now deprecated) list</p>
-<div class="highlight"><pre><span class="n">glVertex</span><span class="p">,</span> <span class="n">glColor</span><span class="p">,</span> <span class="n">glLight</span><span class="p">,</span> <span class="n">glMaterial</span><span class="p">,</span> <span class="n">glBegin</span><span class="p">,</span> <span class="n">glEnd</span><span class="p">,</span>
-<span class="n">glMatrix</span><span class="p">,</span> <span class="n">glMatrixMode</span><span class="p">,</span> <span class="n">glLoadIdentity</span><span class="p">,</span> <span class="n">glPushMatrix</span><span class="p">,</span> <span class="n">glPopMatrix</span><span class="p">,</span>
-<span class="n">glRect</span><span class="p">,</span> <span class="n">glPolygonMode</span><span class="p">,</span> <span class="n">glBitmap</span><span class="p">,</span> <span class="n">glAphaFunc</span><span class="p">,</span> <span class="n">glNewList</span><span class="p">,</span> <span class="n">glDisplayList</span><span class="p">,</span>
-<span class="n">glPushAttrib</span><span class="p">,</span> <span class="n">glPopAttrib</span><span class="p">,</span> <span class="n">glVertexPointer</span><span class="p">,</span> <span class="n">glColorPointer</span><span class="p">,</span>
-<span class="n">glTexCoordPointer</span><span class="p">,</span> <span class="n">glNormalPointer</span>
+<div class="highlight"><pre>glVertex, glColor, glLight, glMaterial, glBegin, glEnd,
+glMatrix, glMatrixMode, glLoadIdentity, glPushMatrix, glPopMatrix,
+glRect, glPolygonMode, glBitmap, glAphaFunc, glNewList, glDisplayList,
+glPushAttrib, glPopAttrib, glVertexPointer, glColorPointer,
+glTexCoordPointer, glNormalPointer
 </pre></div>
 
 
@@ -65,9 +65,9 @@ Among the many different types of shaders, <em>vertex shader</em> and <em>fragme
 <h2>Buffers</h2>
 <p>Modern GL stores the vertices on the GPU in only one pass before rendering, and modifies these stored data only if the data changes. In contrast, fixed pipeline (old GL) upload data at each rendering call. <em>Buffers</em> are regions on CPU that holds these data and send them onto the GPU. The structure of a vertex is very flexible -- the only constraint is that <em>all vertices from a buffer have the same structure</em>. This flexibility comes with a cost: <em>you</em> have to program everything including basic stuff like projection and lighting.</p>
 <p>Example code snippet from the blog of <a href="http://www.labri.fr/perso/nrougier/teaching/opengl/">Nicolas P. Rougier</a></p>
-<div class="highlight"><pre><span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+<div class="highlight"><pre>import numpy as np
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+data = np.zeros(4, dtype=[(&quot;position&quot;, np.float32, 3), (&quot;color&quot;, np.float32, 4)])
 </pre></div>
 
 
@@ -75,61 +75,61 @@ Among the many different types of shaders, <em>vertex shader</em> and <em>fragme
 <hr />
 <h2>Uniforms/Attributes/Varyings</h2>
 <p>Uniforms, attributes, and varyings are specifically designed for communication between vertex and fragment shaders. Consider the following over-simplified vertex and fragment shaders:</p>
-<div class="highlight"><pre><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre>void main()
+{
+    gl_Position = vec4(0.0,0.0,0.0,1.0);
+}
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
-<span class="p">}</span>
+void main()
+{
+    gl_FragColor = vec4(0.0,0.0,0.0,1.0);
+}
 </pre></div>
 
 
 <p>Suppose now you want to use a <code>vec2</code> for the positions of vertices. The vertex shader has to be told explicitly that it will have to handle vertices whose positions are tuples of 2 floats and fragments whose colors are tuples of 4 floats. <em>Attributes</em> are used to describe such design.</p>
-<div class="highlight"><pre><span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre>attribute vec2 position;
+attribute vec4 color;
+void main()
+{
+    gl_Position = vec4(position, 0.0, 1.0);
+}
 </pre></div>
 
 
 <p>This vertex shader now expects to handle one attribute called <code>position</code> and another called <code>color</code> at each vertex. We will have to bind the numpy array field (which defined the buffer) to the right attributed later.</p>
 <p><em>Uniforms</em> are constant values across all vertices. For instance, if one wants to scaled all the vertices by a constant factor <code>scale</code>, it writes as</p>
-<div class="highlight"><pre><span class="n">uniform</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span>
-<span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="o">*</span><span class="n">scale</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre>uniform float scale;
+attribute vec2 position;
+attribute vec4 color;
+void main()
+{
+    gl_Position = vec4(position*scale, 0.0, 1.0);
+}
 </pre></div>
 
 
 <p><em>Varyings</em> pass information between the vertex stage and the fragment stage. It feels like a tunnel: all variables prefixed with "varying" is seeable for the fragment shader, as long as it is also declared there. For example, now we want to pass the vertex color to the fragment shader. We now write the vertex shader as</p>
-<div class="highlight"><pre><span class="n">uniform</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span>
-<span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-<span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
+<div class="highlight"><pre>uniform float scale;
+attribute vec2 position;
+attribute vec4 color;
+varying vec4 v_color;
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="o">*</span><span class="n">scale</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-    <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-<span class="p">}</span>
+void main()
+{
+    gl_Position = vec4(position*scale, 0.0, 1.0);
+    v_color = color;
+}
 </pre></div>
 
 
 <p>and then in the fragment shader</p>
-<div class="highlight"><pre><span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
+<div class="highlight"><pre>varying vec4 v_color;
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-<span class="p">}</span>
+void main()
+{
+    gl_FragColor = v_color;
+}
 </pre></div>
 
 
@@ -140,155 +140,155 @@ Among the many different types of shaders, <em>vertex shader</em> and <em>fragme
 <ol>
 <li>
 <p>Load necessary libraries.</p>
-<div class="highlight"><pre><span class="n">import</span> <span class="n">sys</span>
-<span class="n">import</span> <span class="n">ctypes</span>
-<span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
-<span class="n">import</span> <span class="n">OpenGL</span><span class="p">.</span><span class="n">GL</span> <span class="n">as</span> <span class="n">gl</span>
-<span class="n">import</span> <span class="n">OpenGL</span><span class="p">.</span><span class="n">GLUT</span> <span class="n">as</span> <span class="n">glut</span>
+<div class="highlight"><pre>import sys
+import ctypes
+import numpy as np
+import OpenGL.GL as gl
+import OpenGL.GLUT as glut
 </pre></div>
 
 
 </li>
 <li>
 <p>Vertex and fragment shaders.</p>
-<div class="highlight"><pre><span class="n">vertex_code</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-    <span class="n">uniform</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">scale</span><span class="o">*</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-        <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-    <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+<div class="highlight"><pre>vertex_code = &quot;&quot;&quot;
+    uniform float scale;
+    attribute vec4 color;
+    attribute vec2 position;
+    varying vec4 v_color;
+    void main()
+    {
+        gl_Position = vec4(scale*position, 0.0, 1.0);
+        v_color = color;
+    } &quot;&quot;&quot;
 
-<span class="n">fragment_code</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+fragment_code = &quot;&quot;&quot;
+    varying vec4 v_color;
+    void main()
+    {
+        gl_FragColor = v_color;
+    } &quot;&quot;&quot;
 </pre></div>
 
 
 </li>
 <li>
 <p><code>OpenGL</code> functions. At least you should write <code>display()</code>. The <code>ESC</code> is binded to exist.</p>
-<div class="highlight"><pre><span class="n">def</span> <span class="n">display</span><span class="p">()</span><span class="o">:</span>
-    <span class="n">gl</span><span class="p">.</span><span class="n">glClear</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">)</span>
-    <span class="n">gl</span><span class="p">.</span><span class="n">glDrawArrays</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_TRIANGLE_STRIP</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">glut</span><span class="p">.</span><span class="n">glutSwapBuffers</span><span class="p">()</span>
+<div class="highlight"><pre>def display():
+    gl.glClear(gl.GL_COLOR_BUFFER_BIT)
+    gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 0, 4)
+    glut.glutSwapBuffers()
 
-<span class="n">def</span> <span class="n">reshape</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">gl</span><span class="p">.</span><span class="n">glViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+def reshape(width,height):
+    gl.glViewport(0, 0, width, height)
 
-<span class="n">def</span> <span class="n">keyboard</span><span class="p">(</span> <span class="n">key</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">)</span><span class="o">:</span>
-    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="sc">&#39;\033&#39;</span><span class="o">:</span>
-        <span class="n">sys</span><span class="p">.</span><span class="n">exit</span><span class="p">()</span>
+def keyboard( key, x, y ):
+    if key == &#39;\033&#39;:
+        sys.exit()
 </pre></div>
 
 
 </li>
 <li>
 <p><code>GLUT</code> initialization.</p>
-<div class="highlight"><pre><span class="n">glut</span><span class="p">.</span><span class="n">glutInit</span><span class="p">()</span>
-<span class="n">glut</span><span class="p">.</span><span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">glut</span><span class="p">.</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">glut</span><span class="p">.</span><span class="n">GLUT_RGBA</span><span class="p">)</span>
-<span class="n">glut</span><span class="p">.</span><span class="n">glutCreateWindow</span><span class="p">(</span><span class="s">&quot;Hello world!&quot;</span><span class="p">)</span>
-<span class="n">glut</span><span class="p">.</span><span class="n">glutReshapeWindow</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
-<span class="n">glut</span><span class="p">.</span><span class="n">glutReshapeFunc</span><span class="p">(</span><span class="n">reshape</span><span class="p">)</span>
-<span class="n">glut</span><span class="p">.</span><span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">display</span><span class="p">)</span>
-<span class="n">glut</span><span class="p">.</span><span class="n">glutKeyboardFunc</span><span class="p">(</span><span class="n">keyboard</span><span class="p">)</span>
+<div class="highlight"><pre>glut.glutInit()
+glut.glutInitDisplayMode(glut.GLUT_DOUBLE | glut.GLUT_RGBA)
+glut.glutCreateWindow(&quot;Hello world!&quot;)
+glut.glutReshapeWindow(512, 512)
+glut.glutReshapeFunc(reshape)
+glut.glutDisplayFunc(display)
+glut.glutKeyboardFunc(keyboard)
 </pre></div>
 
 
 </li>
 <li>
 <p>Data buffer. Colors are specified on each vertex.</p>
-<div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">[(</span><span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">,</span>    <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
-<span class="n">data</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span>
-<span class="n">data</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>   <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>   <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>   <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="p">]</span>
+<div class="highlight"><pre>data = np.zeros(4, [(&quot;position&quot;, np.float32, 2),
+                    (&quot;color&quot;,    np.float32, 4)])
+data[&quot;color&quot;]    = [ (1,0,0,1), (0,1,0,1), (0,0,1,1), (1,1,0,1) ]
+data[&quot;position&quot;] = [ (-1,-1),   (-1,+1),   (+1,-1),   (+1,+1)   ]
 </pre></div>
 
 
 </li>
 <li>
 <p>Create shaders and bind them to the program and detach them when no longer needed. Data buffers are not involved in this part.</p>
-<div class="highlight"><pre><span class="cp"># Request a program and shader slots from GPU</span>
-<span class="n">program</span>  <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glCreateProgram</span><span class="p">()</span>
-<span class="n">vertex</span>   <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glCreateShader</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_VERTEX_SHADER</span><span class="p">)</span>
-<span class="n">fragment</span> <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glCreateShader</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_FRAGMENT_SHADER</span><span class="p">)</span>
+<div class="highlight"><pre># Request a program and shader slots from GPU
+program  = gl.glCreateProgram()
+vertex   = gl.glCreateShader(gl.GL_VERTEX_SHADER)
+fragment = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
 
-<span class="cp"># Set shaders source</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glShaderSource</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">vertex_code</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glShaderSource</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span> <span class="n">fragment_code</span><span class="p">)</span>
+# Set shaders source
+gl.glShaderSource(vertex, vertex_code)
+gl.glShaderSource(fragment, fragment_code)
 
-<span class="cp"># Compile shaders</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glCompileShader</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glCompileShader</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
+# Compile shaders
+gl.glCompileShader(vertex)
+gl.glCompileShader(fragment)
 
-<span class="cp"># Attach shader objects to the program</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glAttachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">vertex</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glAttachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span>
+# Attach shader objects to the program
+gl.glAttachShader(program, vertex)
+gl.glAttachShader(program, fragment)
 
-<span class="cp"># Build program</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glLinkProgram</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+# Build program
+gl.glLinkProgram(program)
 
-<span class="cp"># Get rid of shaders (no more needed)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glDetachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">vertex</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glDetachShader</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span>
+# Get rid of shaders (no more needed)
+gl.glDetachShader(program, vertex)
+gl.glDetachShader(program, fragment)
 
-<span class="cp"># Make program the default program</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glUseProgram</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+# Make program the default program
+gl.glUseProgram(program)
 </pre></div>
 
 
 </li>
 <li>
 <p>Build the buffer. Once the buffer is established we can upload data.</p>
-<div class="highlight"><pre><span class="cp"># Request a buffer slot from GPU</span>
-<span class="n">buffer</span> <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre># Request a buffer slot from GPU
+buffer = gl.glGenBuffers(1)
 
-<span class="cp"># Make this buffer the default one</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glBindBuffer</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+# Make this buffer the default one
+gl.glBindBuffer(gl.GL_ARRAY_BUFFER, buffer)
 
-<span class="cp"># Upload data</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glBufferData</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">nbytes</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">gl</span><span class="p">.</span><span class="n">GL_DYNAMIC_DRAW</span><span class="p">)</span>
+# Upload data
+gl.glBufferData(gl.GL_ARRAY_BUFFER, data.nbytes, data, gl.GL_DYNAMIC_DRAW)
 </pre></div>
 
 
 </li>
 <li>
 <p>Bind attributes to the data; in other words, this step binds the buffer to the program (which contains the vertex and fragment shaders). This step requires some work and computation &mdash; specifically, GPU needs to know what is the stride between 2 consecutive elements and what is the offset to read in one attribute. To view the use of <code>ctpyes</code>, check its <a href="https://docs.python.org/2/library/ctypes.html">official Python documentation</a>. Here <code>c_void_p</code> stands for Python type int/long or None (converted from the data size in <code>data</code>), which is the size of the offset; <a href="https://www.opengl.org/sdk/docs/man3/xhtml/glGetAttribLocation.xml"><code>glGetAttribLocation</code></a> returns the location of an attribute variable;  <a href="https://www.khronos.org/opengles/sdk/docs/man/xhtml/glEnableVertexAttribArray.xml"><code>glEnableVertexAttribArray</code></a> enable or disable a generic vertex attribute array; <a href="https://www.opengl.org/sdk/docs/man/html/glBindBuffer.xhtml"><code>glBindBuffer</code></a> binds a buffer object to the target (though I don't understand why one has to do that twice); <a href="https://www.opengl.org/sdk/docs/man/html/glVertexAttribPointer.xhtml">'gl.glVertexAttribPointer'</a> defines an array of generic vertex attribute data, see also <a href="http://stackoverflow.com/questions/17149728/when-should-glvertexattribpointer-be-called">this StackOverflow post</a>.</p>
-<div class="highlight"><pre><span class="cp"># Bind attributes</span>
-<span class="cp"># --------------------------------------</span>
-<span class="n">stride</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">strides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">offset</span> <span class="o">=</span> <span class="n">ctypes</span><span class="p">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">loc</span> <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glGetAttribLocation</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;position&quot;</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glBindBuffer</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">gl</span><span class="p">.</span><span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">False</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+<div class="highlight"><pre># Bind attributes
+# --------------------------------------
+stride = data.strides[0]
+offset = ctypes.c_void_p(0)
+loc = gl.glGetAttribLocation(program, &quot;position&quot;)
+gl.glEnableVertexAttribArray(loc)
+gl.glBindBuffer(gl.GL_ARRAY_BUFFER, buffer)
+gl.glVertexAttribPointer(loc, 3, gl.GL_FLOAT, False, stride, offset)
 
-<span class="n">offset</span> <span class="o">=</span> <span class="n">ctypes</span><span class="p">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">dtype</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">].</span><span class="n">itemsize</span><span class="p">)</span>
-<span class="n">loc</span> <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glGetAttribLocation</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;color&quot;</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glBindBuffer</span><span class="p">(</span><span class="n">gl</span><span class="p">.</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">gl</span><span class="p">.</span><span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">False</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+offset = ctypes.c_void_p(data.dtype[&quot;position&quot;].itemsize)
+loc = gl.glGetAttribLocation(program, &quot;color&quot;)
+gl.glEnableVertexAttribArray(loc)
+gl.glBindBuffer(gl.GL_ARRAY_BUFFER, buffer)
+gl.glVertexAttribPointer(loc, 4, gl.GL_FLOAT, False, stride, offset)
 </pre></div>
 
 
 </li>
 <li>
 <p>Bind uniforms.</p>
-<div class="highlight"><pre><span class="n">loc</span> <span class="o">=</span> <span class="n">gl</span><span class="p">.</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;scale&quot;</span><span class="p">)</span>
-<span class="n">gl</span><span class="p">.</span><span class="n">glUniform1f</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<div class="highlight"><pre>loc = gl.glGetUniformLocation(program, &quot;scale&quot;)
+gl.glUniform1f(loc, 1.0)
 </pre></div>
 
 
 </li>
 <li>
 <p>Enter GLUT mainloop.</p>
-<div class="highlight"><pre><span class="n">glut</span><span class="p">.</span><span class="n">glutMainLoop</span><span class="p">()</span>
+<div class="highlight"><pre>glut.glutMainLoop()
 </pre></div>
 
 
@@ -301,52 +301,52 @@ Among the many different types of shaders, <em>vertex shader</em> and <em>fragme
 <hr />
 <h2>A Simplification with <code>gloo</code>?</h2>
 <p>Unfortunately, the original example from the blog post no longer work. The most recent <code>vispy</code> package comes with a separate colored square example, as follows.</p>
-<div class="highlight"><pre>    <span class="n">from</span> <span class="n">vispy</span> <span class="n">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">gloo</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">gloo</span> <span class="n">import</span> <span class="n">Program</span>
+<div class="highlight"><pre>    from vispy import app, gloo
+    from vispy.gloo import Program
 
-    <span class="n">vertex</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-            <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    vertex = &quot;&quot;&quot;
+        attribute vec4 color;
+        attribute vec2 position;
+        varying vec4 v_color;
+        void main()
+        {
+            gl_Position = vec4(position, 0.0, 1.0);
+            v_color = color;
+        } &quot;&quot;&quot;
 
-    <span class="n">fragment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    fragment = &quot;&quot;&quot;
+        varying vec4 v_color;
+        void main()
+        {
+            gl_FragColor = v_color;
+        } &quot;&quot;&quot;
 
 
-    <span class="n">class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Colored quad&quot;</span><span class="p">,</span>
-                                <span class="n">keys</span><span class="o">=</span><span class="s">&quot;interactive&quot;</span><span class="p">)</span>
+    class Canvas(app.Canvas):
+        def __init__(self):
+            app.Canvas.__init__(self, size=(512, 512), title=&quot;Colored quad&quot;,
+                                keys=&quot;interactive&quot;)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">fragment</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span>
-                                        <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+            self.program = Program(vertex, fragment, count=4)
+            self.program[&quot;color&quot;] = [(1, 0, 0, 1), (0, 1, 0, 1),
+                                     (0, 0, 1, 1), (1, 1, 0, 1)]
+            self.program[&quot;position&quot;] = [(-1, -1), (-1, +1),
+                                        (+1, -1), (+1, +1)]
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+            gloo.set_viewport(0, 0, *self.physical_size)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+            self.show()
 
-        <span class="n">def</span> <span class="n">on_draw</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;triangle_strip&quot;</span><span class="p">)</span>
+        def on_draw(self, event):
+            gloo.clear(color=&quot;white&quot;)
+            self.program.draw(&quot;triangle_strip&quot;)
 
-        <span class="n">def</span> <span class="n">on_resize</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">event</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+        def on_resize(self, event):
+            gloo.set_viewport(0, 0, *event.physical_size)
 
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">()</span>
-        <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+    if __name__ == &quot;__main__&quot;:
+        c = Canvas()
+        app.run()
 </pre></div>
 
 
@@ -354,281 +354,281 @@ Among the many different types of shaders, <em>vertex shader</em> and <em>fragme
 <hr />
 <h2>Tweaking the Colored Square</h2>
 <p>Animation can be set through "timer" member of the Canvas.</p>
-<div class="highlight"><pre>    <span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
-    <span class="n">from</span> <span class="n">vispy</span> <span class="n">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">gloo</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">gloo</span> <span class="n">import</span> <span class="n">Program</span>
+<div class="highlight"><pre>    import numpy as np
+    from vispy import app, gloo
+    from vispy.gloo import Program
 
-    <span class="n">vertex</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">uniform</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">scale</span><span class="o">*</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-            <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    vertex = &quot;&quot;&quot;
+        uniform float scale;
+        attribute vec4 color;
+        attribute vec2 position;
+        varying vec4 v_color;
+        void main()
+        {
+            gl_Position = vec4(scale*position, 0.0, 1.0);
+            v_color = color;
+        } &quot;&quot;&quot;
 
-    <span class="n">fragment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    fragment = &quot;&quot;&quot;
+        varying vec4 v_color;
+        void main()
+        {
+            gl_FragColor = v_color;
+        } &quot;&quot;&quot;
 
 
-    <span class="n">class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">)</span><span class="o">:</span>
+    class Canvas(app.Canvas):
 
-        <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Colored quad&quot;</span><span class="p">,</span>
-                                <span class="n">keys</span><span class="o">=</span><span class="s">&quot;interactive&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="n">Timer</span><span class="p">(</span><span class="s">&quot;auto&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">on_timer</span><span class="p">)</span>
+        def __init__(self):
+            app.Canvas.__init__(self, size=(512, 512), title=&quot;Colored quad&quot;,
+                                keys=&quot;interactive&quot;)
+            self.timer = app.Timer(&quot;auto&quot;, self.on_timer)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">fragment</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span>
-                                        <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            self.program = Program(vertex, fragment, count=4)
+            self.program[&quot;color&quot;] = [(1, 0, 0, 1), (0, 1, 0, 1),
+                                     (0, 0, 1, 1), (1, 1, 0, 1)]
+            self.program[&quot;position&quot;] = [(-1, -1), (-1, +1),
+                                        (+1, -1), (+1, +1)]
+            self.program[&quot;scale&quot;] = 1.0
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+            gloo.set_viewport(0, 0, *self.physical_size)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+            self.clock = 0
+            self.timer.start()
 
-            <span class="n">self</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+            self.show()
 
-        <span class="n">def</span> <span class="n">on_draw</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;triangle_strip&quot;</span><span class="p">)</span>
+        def on_draw(self, event):
+            gloo.clear(color=&quot;white&quot;)
+            self.program.draw(&quot;triangle_strip&quot;)
 
-        <span class="n">def</span> <span class="n">on_resize</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">event</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+        def on_resize(self, event):
+            gloo.set_viewport(0, 0, *event.physical_size)
 
-        <span class="n">def</span> <span class="n">on_timer</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">+=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="o">/</span> <span class="mf">60.</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">clock</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+        def on_timer(self, event):
+            self.clock += 0.001 * 1000.0 / 60.
+            self.program[&quot;scale&quot;] = (1 + np.cos(self.clock)) / 2.0
+            self.update()
 
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">()</span>
-        <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+    if __name__ == &quot;__main__&quot;:
+        c = Canvas()
+        app.run()
 </pre></div>
 
 
 <p>In the vertex/fragment shader one has access to math functions such as <code>sin</code> and <code>cos</code>. Using these functions (instead of <code>numpy</code>). This rotating square example illustrates this.</p>
-<div class="highlight"><pre>    <span class="n">from</span> <span class="n">vispy</span> <span class="n">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">gloo</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">gloo</span> <span class="n">import</span> <span class="n">Program</span>
+<div class="highlight"><pre>    from vispy import app, gloo
+    from vispy.gloo import Program
 
-    <span class="n">vertex</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">uniform</span> <span class="kt">float</span> <span class="n">theta</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="kt">float</span> <span class="n">ct</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">st</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">ct</span> <span class="o">-</span> <span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">st</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">st</span> <span class="o">+</span> <span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">ct</span><span class="p">);</span>
-            <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-            <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    vertex = &quot;&quot;&quot;
+        uniform float theta;
+        attribute vec4 color;
+        attribute vec2 position;
+        varying vec4 v_color;
+        void main()
+        {
+            float ct = cos(theta);
+            float st = sin(theta);
+            float x = 0.75 * (position.x*ct - position.y*st);
+            float y = 0.75 * (position.x*st + position.y*ct);
+            gl_Position = vec4(x, y, 0.0, 1.0);
+            v_color = color;
+        } &quot;&quot;&quot;
 
-    <span class="n">fragment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    fragment = &quot;&quot;&quot;
+        varying vec4 v_color;
+        void main()
+        {
+            gl_FragColor = v_color;
+        } &quot;&quot;&quot;
 
 
-    <span class="n">class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">)</span><span class="o">:</span>
+    class Canvas(app.Canvas):
 
-        <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Colored quad&quot;</span><span class="p">,</span>
-                                <span class="n">keys</span><span class="o">=</span><span class="s">&quot;interactive&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="n">Timer</span><span class="p">(</span><span class="s">&quot;auto&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">on_timer</span><span class="p">)</span>
+        def __init__(self):
+            app.Canvas.__init__(self, size=(512, 512), title=&quot;Colored quad&quot;,
+                                keys=&quot;interactive&quot;)
+            self.timer = app.Timer(&quot;auto&quot;, self.on_timer)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">fragment</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span>
-                                        <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;theta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            self.program = Program(vertex, fragment, count=4)
+            self.program[&quot;color&quot;] = [(1, 0, 0, 1), (0, 1, 0, 1),
+                                     (0, 0, 1, 1), (1, 1, 0, 1)]
+            self.program[&quot;position&quot;] = [(-1, -1), (-1, +1),
+                                        (+1, -1), (+1, +1)]
+            self.program[&quot;theta&quot;] = 0.0
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+            gloo.set_viewport(0, 0, *self.physical_size)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+            self.clock = 0
+            self.timer.start()
 
-            <span class="n">self</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+            self.show()
 
-        <span class="n">def</span> <span class="n">on_draw</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;triangle_strip&quot;</span><span class="p">)</span>
+        def on_draw(self, event):
+            gloo.clear(color=&quot;white&quot;)
+            self.program.draw(&quot;triangle_strip&quot;)
 
-        <span class="n">def</span> <span class="n">on_resize</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">event</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+        def on_resize(self, event):
+            gloo.set_viewport(0, 0, *event.physical_size)
 
-        <span class="n">def</span> <span class="n">on_timer</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">+=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="o">/</span> <span class="mf">60.</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;theta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">clock</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+        def on_timer(self, event):
+            self.clock += 0.001 * 1000.0 / 60.
+            self.program[&quot;theta&quot;] = self.clock
+            self.update()
 
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">()</span>
-        <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+    if __name__ == &quot;__main__&quot;:
+        c = Canvas()
+        app.run()
 </pre></div>
 
 
 <p>One exercise in the orignal blog post: set viewport aspect to constant 1.</p>
-<div class="highlight"><pre>    <span class="n">from</span> <span class="n">vispy</span> <span class="n">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">gloo</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">gloo</span> <span class="n">import</span> <span class="n">Program</span>
+<div class="highlight"><pre>    from vispy import app, gloo
+    from vispy.gloo import Program
 
-    <span class="n">vertex</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">uniform</span> <span class="kt">float</span> <span class="n">theta</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="kt">float</span> <span class="n">ct</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">st</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">ct</span> <span class="o">-</span> <span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">st</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">st</span> <span class="o">+</span> <span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">ct</span><span class="p">);</span>
-            <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-            <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    vertex = &quot;&quot;&quot;
+        uniform float theta;
+        attribute vec4 color;
+        attribute vec2 position;
+        varying vec4 v_color;
+        void main()
+        {
+            float ct = cos(theta);
+            float st = sin(theta);
+            float x = 0.75 * (position.x*ct - position.y*st);
+            float y = 0.75 * (position.x*st + position.y*ct);
+            gl_Position = vec4(x, y, 0.0, 1.0);
+            v_color = color;
+        } &quot;&quot;&quot;
 
-    <span class="n">fragment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    fragment = &quot;&quot;&quot;
+        varying vec4 v_color;
+        void main()
+        {
+            gl_FragColor = v_color;
+        } &quot;&quot;&quot;
 
 
-    <span class="n">class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">)</span><span class="o">:</span>
+    class Canvas(app.Canvas):
 
-        <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Colored quad&quot;</span><span class="p">,</span>
-                                <span class="n">keys</span><span class="o">=</span><span class="s">&quot;interactive&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="n">Timer</span><span class="p">(</span><span class="s">&quot;auto&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">on_timer</span><span class="p">)</span>
+        def __init__(self):
+            app.Canvas.__init__(self, size=(512, 512), title=&quot;Colored quad&quot;,
+                                keys=&quot;interactive&quot;)
+            self.timer = app.Timer(&quot;auto&quot;, self.on_timer)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">fragment</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span>
-                                        <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;theta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            self.program = Program(vertex, fragment, count=4)
+            self.program[&quot;color&quot;] = [(1, 0, 0, 1), (0, 1, 0, 1),
+                                     (0, 0, 1, 1), (1, 1, 0, 1)]
+            self.program[&quot;position&quot;] = [(-1, -1), (-1, +1),
+                                        (+1, -1), (+1, +1)]
+            self.program[&quot;theta&quot;] = 0.0
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+            gloo.set_viewport(0, 0, *self.physical_size)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+            self.clock = 0
+            self.timer.start()
 
-            <span class="n">self</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+            self.show()
 
-        <span class="n">def</span> <span class="n">on_draw</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;triangle_strip&quot;</span><span class="p">)</span>
+        def on_draw(self, event):
+            gloo.clear(color=&quot;white&quot;)
+            self.program.draw(&quot;triangle_strip&quot;)
 
-        <span class="n">def</span> <span class="n">on_resize</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">physical_size</span>
-            <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">height</span><span class="o">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">w</span> <span class="o">=</span> <span class="n">h</span> <span class="o">=</span> <span class="n">height</span>
-            <span class="nl">else:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-                <span class="n">w</span> <span class="o">=</span> <span class="n">h</span> <span class="o">=</span> <span class="n">width</span>
+        def on_resize(self, event):
+            width, height = event.physical_size
+            if width &gt; height:
+                x = (width - height) / 2
+                y = 0
+                w = h = height
+            else:
+                x = 0
+                y = (width - height) / 2
+                w = h = width
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+            gloo.set_viewport(x, y, w, h)
 
-        <span class="n">def</span> <span class="n">on_timer</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">+=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="o">/</span> <span class="mf">60.</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;theta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">clock</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+        def on_timer(self, event):
+            self.clock += 0.001 * 1000.0 / 60.
+            self.program[&quot;theta&quot;] = self.clock
+            self.update()
 
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">()</span>
-        <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+    if __name__ == &quot;__main__&quot;:
+        c = Canvas()
+        app.run()
 </pre></div>
 
 
 <p>Another exercise in the orignal post: achieving the same aspect ratio with only vertex shader manipulation.</p>
-<div class="highlight"><pre>    <span class="n">from</span> <span class="n">vispy</span> <span class="n">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">gloo</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">gloo</span> <span class="n">import</span> <span class="n">Program</span>
+<div class="highlight"><pre>    from vispy import app, gloo
+    from vispy.gloo import Program
 
-    <span class="n">vertex</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">uniform</span> <span class="kt">float</span> <span class="n">theta</span><span class="p">;</span>
-        <span class="n">uniform</span> <span class="n">vec2</span> <span class="n">scale</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
-        <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="kt">float</span> <span class="n">ct</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">st</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">ct</span> <span class="o">-</span> <span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">st</span><span class="p">);</span>
-            <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">st</span> <span class="o">+</span> <span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">ct</span><span class="p">);</span>
-            <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-            <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    vertex = &quot;&quot;&quot;
+        uniform float theta;
+        uniform vec2 scale;
+        attribute vec4 color;
+        attribute vec2 position;
+        varying vec4 v_color;
+        void main()
+        {
+            float ct = cos(theta);
+            float st = sin(theta);
+            float x = 0.75 * (position.x*ct - position.y*st);
+            float y = 0.75 * (position.x*st + position.y*ct);
+            gl_Position = vec4(scale[0]*x, scale[1]*y, 0.0, 1.0);
+            v_color = color;
+        } &quot;&quot;&quot;
 
-    <span class="n">fragment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-        <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-        <span class="p">{</span>
-            <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-        <span class="p">}</span> <span class="s">&quot;&quot;&quot;</span>
+    fragment = &quot;&quot;&quot;
+        varying vec4 v_color;
+        void main()
+        {
+            gl_FragColor = v_color;
+        } &quot;&quot;&quot;
 
 
-    <span class="n">class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">)</span><span class="o">:</span>
+    class Canvas(app.Canvas):
 
-        <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Colored quad&quot;</span><span class="p">,</span>
-                                <span class="n">keys</span><span class="o">=</span><span class="s">&quot;interactive&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="n">Timer</span><span class="p">(</span><span class="s">&quot;auto&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">on_timer</span><span class="p">)</span>
+        def __init__(self):
+            app.Canvas.__init__(self, size=(512, 512), title=&quot;Colored quad&quot;,
+                                keys=&quot;interactive&quot;)
+            self.timer = app.Timer(&quot;auto&quot;, self.on_timer)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">fragment</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span>
-                                        <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;theta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+            self.program = Program(vertex, fragment, count=4)
+            self.program[&quot;color&quot;] = [(1, 0, 0, 1), (0, 1, 0, 1),
+                                     (0, 0, 1, 1), (1, 1, 0, 1)]
+            self.program[&quot;position&quot;] = [(-1, -1), (-1, +1),
+                                        (+1, -1), (+1, +1)]
+            self.program[&quot;theta&quot;] = 0.0
+            self.scale = 1.0, 1.0
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
+            gloo.set_viewport(0, 0, *self.physical_size)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+            self.clock = 0
+            self.timer.start()
 
-            <span class="n">self</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+            self.show()
 
-        <span class="n">def</span> <span class="n">on_draw</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;triangle_strip&quot;</span><span class="p">)</span>
+        def on_draw(self, event):
+            gloo.clear(color=&quot;white&quot;)
+            self.program.draw(&quot;triangle_strip&quot;)
 
-        <span class="n">def</span> <span class="n">on_resize</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">physical_size</span>
-            <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">height</span><span class="o">:</span>
-                <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="kt">float</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="mi">1</span>
-            <span class="nl">else:</span>
-                <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="kt">float</span><span class="p">(</span><span class="n">height</span><span class="p">)</span>
+        def on_resize(self, event):
+            width, height = event.physical_size
+            if width &gt; height:
+                self.program[&quot;scale&quot;] = height / float(width), 1
+            else:
+                self.program[&quot;scale&quot;] = 1, width / float(height)
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+            gloo.set_viewport(0, 0, width, height)
 
-        <span class="n">def</span> <span class="n">on_timer</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">clock</span> <span class="o">+=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="o">/</span> <span class="mf">60.</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;theta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">clock</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+        def on_timer(self, event):
+            self.clock += 0.001 * 1000.0 / 60.
+            self.program[&quot;theta&quot;] = self.clock
+            self.update()
 
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">()</span>
-        <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+    if __name__ == &quot;__main__&quot;:
+        c = Canvas()
+        app.run()
 </pre></div>
 
 
@@ -647,108 +647,108 @@ Among the many different types of shaders, <em>vertex shader</em> and <em>fragme
 </li>
 </ul>
 <p>In the following example, the key is to use vertex and index buffers.</p>
-<div class="highlight"><pre>    <span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+<div class="highlight"><pre>    import numpy as np
 
-    <span class="n">from</span> <span class="n">vispy</span> <span class="n">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">gloo</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">gloo</span> <span class="n">import</span> <span class="n">Program</span><span class="p">,</span> <span class="n">VertexBuffer</span><span class="p">,</span> <span class="n">IndexBuffer</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">transforms</span> <span class="n">import</span> <span class="n">perspective</span><span class="p">,</span> <span class="n">translate</span><span class="p">,</span> <span class="n">rotate</span>
+    from vispy import app, gloo
+    from vispy.gloo import Program, VertexBuffer, IndexBuffer
+    from vispy.util.transforms import perspective, translate, rotate
 
-    <span class="n">vertex</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-    <span class="n">uniform</span> <span class="n">mat4</span> <span class="n">model</span><span class="p">;</span>
-    <span class="n">uniform</span> <span class="n">mat4</span> <span class="n">view</span><span class="p">;</span>
-    <span class="n">uniform</span> <span class="n">mat4</span> <span class="n">projection</span><span class="p">;</span>
+    vertex = &quot;&quot;&quot;
+    uniform mat4 model;
+    uniform mat4 view;
+    uniform mat4 projection;
 
-    <span class="n">attribute</span> <span class="n">vec3</span> <span class="n">position</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">texcoord</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec3</span> <span class="n">normal</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
+    attribute vec3 position;
+    attribute vec2 texcoord;
+    attribute vec3 normal;
+    attribute vec4 color;
 
-    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">v_color</span> <span class="o">=</span> <span class="n">color</span><span class="p">;</span>
-        <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projection</span> <span class="o">*</span> <span class="n">view</span> <span class="o">*</span> <span class="n">model</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="s">&quot;&quot;&quot;</span>
+    varying vec4 v_color;
+    void main()
+    {
+        v_color = color;
+        gl_Position = projection * view * model * vec4(position,1.0);
+    }
+    &quot;&quot;&quot;
 
-    <span class="n">fragment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="s">&quot;&quot;&quot;</span>
+    fragment = &quot;&quot;&quot;
+    varying vec4 v_color;
+    void main()
+    {
+        gl_FragColor = v_color;
+    }
+    &quot;&quot;&quot;
 
 
-    <span class="n">class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">)</span><span class="o">:</span>
+    class Canvas(app.Canvas):
 
-        <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Red Cube&quot;</span><span class="p">,</span>
-                                <span class="n">keys</span><span class="o">=</span><span class="s">&quot;interactive&quot;</span><span class="p">)</span>
+        def __init__(self):
+            app.Canvas.__init__(self, size=(512, 512), title=&quot;Red Cube&quot;,
+                                keys=&quot;interactive&quot;)
 
-            <span class="err">#</span> <span class="n">Build</span> <span class="n">cube</span> <span class="n">data</span>
-            <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="p">[(</span><span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                             <span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
-            <span class="n">V</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                             <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
-            <span class="n">V</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">tile</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-            <span class="n">vertices</span> <span class="o">=</span> <span class="n">VertexBuffer</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">IndexBuffer</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+            # Build cube data
+            V = np.zeros(8, [(&quot;position&quot;, np.float32, 3),
+                             (&quot;color&quot;, np.float32, 4)])
+            V[&quot;position&quot;] = [[1, 1, 1], [-1, 1, 1], [-1, -1, 1], [1, -1, 1],
+                             [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, -1]]
+            V[&quot;color&quot;] = np.tile([1, 0, 0, 1], (8, 1))
+            I = [0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1,
+                 1, 6, 7, 1, 7, 2, 7, 4, 3, 7, 3, 2, 4, 7, 6, 4, 6, 5]
+            vertices = VertexBuffer(V)
+            self.indices = IndexBuffer(I)
 
-            <span class="err">#</span> <span class="n">Build</span> <span class="n">program</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+            # Build program
+            self.program = Program(vertex, fragment)
+            self.program.bind(vertices)
 
-            <span class="err">#</span> <span class="n">Build</span> <span class="n">view</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">projection</span> <span class="o">&amp;</span> <span class="n">normal</span>
-            <span class="n">view</span> <span class="o">=</span> <span class="n">translate</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">))</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;view&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">view</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">phi</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">clear_color</span><span class="o">=</span><span class="p">(</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">),</span> <span class="n">depth_test</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+            # Build view, model, projection &amp; normal
+            view = translate((0, 0, -5))
+            model = np.eye(4, dtype=np.float32)
+            self.program[&quot;model&quot;] = model
+            self.program[&quot;view&quot;] = view
+            self.phi, self.theta = 0, 0
+            gloo.set_state(clear_color=(0.30, 0.30, 0.35, 1.00), depth_test=True)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">activate_zoom</span><span class="p">()</span>
+            self.activate_zoom()
 
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="n">Timer</span><span class="p">(</span><span class="s">&quot;auto&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">on_timer</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+            self.timer = app.Timer(&quot;auto&quot;, self.on_timer, start=True)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+            self.show()
 
-        <span class="n">def</span> <span class="n">on_draw</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;triangles&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span>
+        def on_draw(self, event):
+            gloo.clear(color=True, depth=True)
+            self.program.draw(&quot;triangles&quot;, self.indices)
 
-        <span class="n">def</span> <span class="n">on_resize</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">activate_zoom</span><span class="p">()</span>
+        def on_resize(self, event):
+            self.activate_zoom()
 
-        <span class="n">def</span> <span class="n">activate_zoom</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
-            <span class="n">projection</span> <span class="o">=</span> <span class="n">perspective</span><span class="p">(</span><span class="mf">45.0</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="kt">float</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-                                     <span class="mf">2.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;projection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projection</span>
+        def activate_zoom(self):
+            gloo.set_viewport(0, 0, *self.physical_size)
+            projection = perspective(45.0, self.size[0] / float(self.size[1]),
+                                     2.0, 10.0)
+            self.program[&quot;projection&quot;] = projection
 
-        <span class="n">def</span> <span class="n">on_timer</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">theta</span> <span class="o">+=</span> <span class="mf">.5</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">phi</span> <span class="o">+=</span> <span class="mf">.5</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">theta</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
-                                           <span class="n">rotate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">phi</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+        def on_timer(self, event):
+            self.theta += .5
+            self.phi += .5
+            self.program[&quot;model&quot;] = np.dot(rotate(self.theta, (0, 0, 1)),
+                                           rotate(self.phi, (0, 1, 0)))
+            self.update()
 
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">()</span>
-        <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+    if __name__ == &quot;__main__&quot;:
+        c = Canvas()
+        app.run()
 </pre></div>
 
 
 <p>If one replaces the line</p>
-<div class="highlight"><pre>    <span class="n">V</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">tile</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<div class="highlight"><pre>    V[&quot;color&quot;] = np.tile([1, 0, 0, 1], (8, 1))
 </pre></div>
 
 
 <p>with</p>
-<div class="highlight"><pre>    <span class="n">V</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<div class="highlight"><pre>    V[&quot;color&quot;] = [[0, 1, 1, 1], [0, 0, 1, 1], [0, 0, 0, 1], [0, 1, 0, 1],
+                  [1, 1, 0, 1], [1, 1, 1, 1], [1, 0, 1, 1], [1, 0, 0, 1]]
 </pre></div>
 
 
@@ -757,116 +757,116 @@ Among the many different types of shaders, <em>vertex shader</em> and <em>fragme
 <p><img alt="colored rotating cube" src="/images/colored_rotating_cube.png" /></p>
 </div>
 <p>To get an outlined cube, we have to draw the cube twice. Some OpenGL black magic has to be applied.</p>
-<div class="highlight"><pre>    <span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+<div class="highlight"><pre>    import numpy as np
 
-    <span class="n">from</span> <span class="n">vispy</span> <span class="n">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">gloo</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">gloo</span> <span class="n">import</span> <span class="n">Program</span><span class="p">,</span> <span class="n">VertexBuffer</span><span class="p">,</span> <span class="n">IndexBuffer</span>
-    <span class="n">from</span> <span class="n">vispy</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">transforms</span> <span class="n">import</span> <span class="n">perspective</span><span class="p">,</span> <span class="n">translate</span><span class="p">,</span> <span class="n">rotate</span>
+    from vispy import app, gloo
+    from vispy.gloo import Program, VertexBuffer, IndexBuffer
+    from vispy.util.transforms import perspective, translate, rotate
 
-    <span class="n">vertex</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-    <span class="n">uniform</span> <span class="n">mat4</span> <span class="n">model</span><span class="p">;</span>
-    <span class="n">uniform</span> <span class="n">mat4</span> <span class="n">view</span><span class="p">;</span>
-    <span class="n">uniform</span> <span class="n">mat4</span> <span class="n">projection</span><span class="p">;</span>
-    <span class="n">uniform</span> <span class="n">vec4</span> <span class="n">u_color</span><span class="p">;</span>
+    vertex = &quot;&quot;&quot;
+    uniform mat4 model;
+    uniform mat4 view;
+    uniform mat4 projection;
+    uniform vec4 u_color;
 
-    <span class="n">attribute</span> <span class="n">vec3</span> <span class="n">position</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">texcoord</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec3</span> <span class="n">normal</span><span class="p">;</span>
-    <span class="n">attribute</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
+    attribute vec3 position;
+    attribute vec2 texcoord;
+    attribute vec3 normal;
+    attribute vec4 color;
 
-    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">v_color</span> <span class="o">=</span> <span class="n">u_color</span> <span class="o">*</span> <span class="n">color</span><span class="p">;</span>
-        <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projection</span> <span class="o">*</span> <span class="n">view</span> <span class="o">*</span> <span class="n">model</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="s">&quot;&quot;&quot;</span>
+    varying vec4 v_color;
+    void main()
+    {
+        v_color = u_color * color;
+        gl_Position = projection * view * model * vec4(position,1.0);
+    }
+    &quot;&quot;&quot;
 
-    <span class="n">fragment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">v_color</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="s">&quot;&quot;&quot;</span>
+    fragment = &quot;&quot;&quot;
+    varying vec4 v_color;
+    void main()
+    {
+        gl_FragColor = v_color;
+    }
+    &quot;&quot;&quot;
 
 
-    <span class="n">class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">)</span><span class="o">:</span>
+    class Canvas(app.Canvas):
 
-        <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">app</span><span class="p">.</span><span class="n">Canvas</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;Outlined Cube&quot;</span><span class="p">,</span>
-                                <span class="n">keys</span><span class="o">=</span><span class="s">&quot;interactive&quot;</span><span class="p">)</span>
+        def __init__(self):
+            app.Canvas.__init__(self, size=(512, 512), title=&quot;Outlined Cube&quot;,
+                                keys=&quot;interactive&quot;)
 
-            <span class="err">#</span> <span class="n">Build</span> <span class="n">cube</span> <span class="n">data</span>
-            <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="p">[(</span><span class="s">&quot;position&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                             <span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
-            <span class="n">V</span><span class="p">[</span><span class="s">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                             <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
-            <span class="n">V</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                          <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
-            <span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-            <span class="n">O</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-                  <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>
-                  <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
-            <span class="n">vertices</span> <span class="o">=</span> <span class="n">VertexBuffer</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">IndexBuffer</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">outline</span> <span class="o">=</span> <span class="n">IndexBuffer</span><span class="p">(</span><span class="n">O</span><span class="p">)</span>
+            # Build cube data
+            V = np.zeros(8, [(&quot;position&quot;, np.float32, 3),
+                             (&quot;color&quot;, np.float32, 4)])
+            V[&quot;position&quot;] = [[1, 1, 1], [-1, 1, 1], [-1, -1, 1], [1, -1, 1],
+                             [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, -1]]
+            V[&quot;color&quot;] = [[0, 1, 1, 1], [0, 0, 1, 1], [0, 0, 0, 1], [0, 1, 0, 1],
+                          [1, 1, 0, 1], [1, 1, 1, 1], [1, 0, 1, 1], [1, 0, 0, 1]]
+            I = [0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1,
+                 1, 6, 7, 1, 7, 2, 7, 4, 3, 7, 3, 2, 4, 7, 6, 4, 6, 5]
+            O = [[0, 1, 1, 2, 2, 3, 3, 0,
+                  4, 7, 7, 6, 6, 5, 5, 4,
+                  0, 5, 1, 6, 2, 7, 3, 4]]
+            vertices = VertexBuffer(V)
+            self.indices = IndexBuffer(I)
+            self.outline = IndexBuffer(O)
 
-            <span class="err">#</span> <span class="n">Build</span> <span class="n">program</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+            # Build program
+            self.program = Program(vertex, fragment)
+            self.program.bind(vertices)
 
-            <span class="err">#</span> <span class="n">Build</span> <span class="n">view</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">projection</span> <span class="o">&amp;</span> <span class="n">normal</span>
-            <span class="n">view</span> <span class="o">=</span> <span class="n">translate</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">))</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;view&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">view</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">phi</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">clear_color</span><span class="o">=</span><span class="p">(</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">),</span> <span class="n">depth_test</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+            # Build view, model, projection &amp; normal
+            view = translate((0, 0, -5))
+            model = np.eye(4, dtype=np.float32)
+            self.program[&quot;model&quot;] = model
+            self.program[&quot;view&quot;] = view
+            self.phi, self.theta = 0, 0
+            gloo.set_state(clear_color=(0.30, 0.30, 0.35, 1.00), depth_test=True)
 
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">clear_color</span><span class="o">=</span><span class="p">(</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">),</span> <span class="n">depth_test</span><span class="o">=</span><span class="n">True</span><span class="p">,</span>
-                           <span class="n">polygon_offset</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                           <span class="n">blend_func</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;src_alpha&quot;</span><span class="p">,</span> <span class="s">&quot;one_minus_src_alpha&quot;</span><span class="p">))</span>
+            gloo.set_state(clear_color=(0.30, 0.30, 0.35, 1.00), depth_test=True,
+                           polygon_offset=(1, 1), line_width=2,
+                           blend_func=(&quot;src_alpha&quot;, &quot;one_minus_src_alpha&quot;))
 
-            <span class="n">self</span><span class="p">.</span><span class="n">activate_zoom</span><span class="p">()</span>
+            self.activate_zoom()
 
-            <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="n">Timer</span><span class="p">(</span><span class="s">&quot;auto&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">on_timer</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+            self.timer = app.Timer(&quot;auto&quot;, self.on_timer, start=True)
 
-            <span class="n">self</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+            self.show()
 
-        <span class="n">def</span> <span class="n">on_draw</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-            <span class="err">#</span> <span class="n">Filled</span> <span class="n">cube</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">blend</span><span class="o">=</span><span class="n">False</span><span class="p">,</span> <span class="n">depth_test</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">polygon_offset_fill</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;u_color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;triangles&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span>
+        def on_draw(self, event):
+            gloo.clear(color=True, depth=True)
+            # Filled cube
+            gloo.set_state(blend=False, depth_test=True, polygon_offset_fill=True)
+            self.program[&quot;u_color&quot;] = 1, 1, 1, 1
+            self.program.draw(&quot;triangles&quot;, self.indices)
 
-            <span class="err">#</span> <span class="n">Outlined</span> <span class="n">cube</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">blend</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">depth_mask</span><span class="o">=</span><span class="n">False</span><span class="p">,</span> <span class="n">polygon_offset_fill</span><span class="o">=</span><span class="n">False</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;u_color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="s">&quot;lines&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">outline</span><span class="p">)</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">depth_mask</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+            # Outlined cube
+            gloo.set_state(blend=True, depth_mask=False, polygon_offset_fill=False)
+            self.program[&quot;u_color&quot;] = 0, 0, 0, 1
+            self.program.draw(&quot;lines&quot;, self.outline)
+            gloo.set_state(depth_mask=True)
 
-        <span class="n">def</span> <span class="n">on_resize</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">activate_zoom</span><span class="p">()</span>
+        def on_resize(self, event):
+            self.activate_zoom()
 
-        <span class="n">def</span> <span class="n">activate_zoom</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">gloo</span><span class="p">.</span><span class="n">set_viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">physical_size</span><span class="p">)</span>
-            <span class="n">projection</span> <span class="o">=</span> <span class="n">perspective</span><span class="p">(</span><span class="mf">45.0</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="kt">float</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-                                     <span class="mf">2.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;projection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projection</span>
+        def activate_zoom(self):
+            gloo.set_viewport(0, 0, *self.physical_size)
+            projection = perspective(45.0, self.size[0] / float(self.size[1]),
+                                     2.0, 10.0)
+            self.program[&quot;projection&quot;] = projection
 
-        <span class="n">def</span> <span class="n">on_timer</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span><span class="o">:</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">theta</span> <span class="o">+=</span> <span class="mf">.5</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">phi</span> <span class="o">+=</span> <span class="mf">.5</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">program</span><span class="p">[</span><span class="s">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">theta</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
-                                           <span class="n">rotate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">phi</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
-            <span class="n">self</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+        def on_timer(self, event):
+            self.theta += .5
+            self.phi += .5
+            self.program[&quot;model&quot;] = np.dot(rotate(self.theta, (0, 0, 1)),
+                                           rotate(self.phi, (0, 1, 0)))
+            self.update()
 
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">()</span>
-        <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+    if __name__ == &quot;__main__&quot;:
+        c = Canvas()
+        app.run()
 </pre></div>
 
 

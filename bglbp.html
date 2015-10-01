@@ -44,15 +44,15 @@
 <p>tags: <a href="/tag/machine-learning.html">Machine Learning</a> <a href="/tag/probabilistic-graphical-model.html">Probabilistic Graphical Model</a> </p>
 </footer><!-- /.post-info -->      <h1>Bipartite Graph Loopy Belief Propagation</h1>
 <p>In this document, we demonstrate a bipartite graph inference using loopy belief propagation. This experiment serves as a proof-of-concept for future implementation of large scale graph-based inference.</p>
-<div class="highlight"><pre><span class="c">%matplotlib inline</span>
+<div class="highlight"><pre>%matplotlib inline
 
-<span class="n">import</span> <span class="n">opengm</span>
-<span class="n">import</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">pyplot</span> <span class="n">as</span> <span class="n">plt</span>
-<span class="n">import</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">cm</span> <span class="n">as</span> <span class="n">cm</span>
-<span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
-<span class="n">import</span> <span class="n">Image</span>
-<span class="n">import</span> <span class="n">networkx</span> <span class="n">as</span> <span class="n">nx</span>
-<span class="n">from</span> <span class="n">networkx</span><span class="p">.</span><span class="n">algorithms</span> <span class="n">import</span> <span class="n">bipartite</span>
+import opengm
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import numpy as np
+import Image
+import networkx as nx
+from networkx.algorithms import bipartite
 </pre></div>
 
 
@@ -110,84 +110,84 @@
 <div class="math">$$\mathbb{P}\left(X_1=I\mid X_5=I\right)=\beta,\quad \mathbb{P}\left(X_1=I\mid X_5=N\right)=1-\beta,$$</div>
 <div class="math">$$\mathbb{P}\left(X_1=N\mid X_5=N\right)=\beta,\quad \mathbb{P}\left(X_1=N\mid X_5=I\right)=1-\beta.$$</div>
 <p>Let us construct the graph in <code>OpenGM</code>. Click <a href="http://www.andres.sc/publications/opengm-2.0.2-beta-manual.pdf">here</a> for a user/developer manual.</p>
-<div class="highlight"><pre><span class="n">numVar</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">numLabels</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.75</span>
-<span class="n">numberOfStates</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">numVar</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">opengm</span><span class="p">.</span><span class="n">index_type</span><span class="p">)</span><span class="o">*</span><span class="n">numLabels</span>
-<span class="n">gm</span> <span class="o">=</span> <span class="n">opengm</span><span class="p">.</span><span class="n">graphicalModel</span><span class="p">(</span><span class="n">numberOfStates</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s">&quot;multiplier&quot;</span><span class="p">)</span>
+<div class="highlight"><pre>numVar = 8
+numLabels = 2
+beta = 0.75
+numberOfStates = np.ones(numVar, dtype=opengm.index_type)*numLabels
+gm = opengm.graphicalModel(numberOfStates, operator=&quot;multiplier&quot;)
 
-<span class="n">Edges</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">)])</span>
-<span class="n">DomainNodes</span> <span class="o">=</span> <span class="n">set</span><span class="p">(</span><span class="n">Edges</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">PropertyNodes</span> <span class="o">=</span> <span class="n">set</span><span class="p">(</span><span class="n">Edges</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+Edges = np.array([(1,5), (1,6), (1,7), (1,8), (1,6), (2,5), (2,6), (2,7), (3,8), (3,5), (3,6), (4,5), (4,6), (4,7)])
+DomainNodes = set(Edges[:,0])
+PropertyNodes = set(Edges[:,1])
 
-<span class="n">DomainNodeCounts</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">85</span><span class="p">,</span><span class="mi">15</span><span class="p">],[</span><span class="mi">52</span><span class="p">,</span><span class="mi">48</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
-<span class="cp"># DomainNodeCounts = np.array([[99,1],[0,100],[0,0],[0,0]])</span>
-<span class="n">PropertyNodeCounts</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">p</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">len</span><span class="p">(</span><span class="n">PropertyNodes</span><span class="p">))</span><span class="o">:</span>
-    <span class="n">PropertyNodeCounts</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">v</span> <span class="n">in</span> <span class="n">Edges</span><span class="p">[</span><span class="n">Edges</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">len</span><span class="p">(</span><span class="n">DomainNodes</span><span class="p">)),</span><span class="o">:</span><span class="p">][</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">:</span>
-        <span class="n">PropertyNodeCounts</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">+=</span> <span class="n">DomainNodeCounts</span><span class="p">[</span><span class="n">v</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+DomainNodeCounts = np.array([[85,15],[52,48],[0,0],[0,0]])
+# DomainNodeCounts = np.array([[99,1],[0,100],[0,0],[0,0]])
+PropertyNodeCounts = []
+for p in xrange(len(PropertyNodes)):
+    PropertyNodeCounts.append([0.0, 0.0])
+    for v in Edges[Edges[:,1] == (p+1+len(DomainNodes)),:][:,0]:
+        PropertyNodeCounts[p] += DomainNodeCounts[v-1]
 
-<span class="n">unaries</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">DomainNodeCounts</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">PropertyNodeCounts</span><span class="p">)])</span>
+unaries = np.vstack([DomainNodeCounts, np.array(PropertyNodeCounts)])
 
-<span class="k">for</span> <span class="n">x</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">unaries</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">:</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">:</span>
-        <span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">numLabels</span><span class="p">)</span> <span class="o">/</span> <span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">numLabels</span><span class="p">)))</span>
-    <span class="nl">else:</span>
-        <span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">/</span> <span class="n">sum</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+for x in xrange(unaries.shape[0]):
+    if (sum(unaries[x]) == 0.0) :
+        unaries[x] = np.array(np.ones(numLabels) / sum(np.ones(numLabels)))
+    else:
+        unaries[x] = np.array(unaries[x] / sum(unaries[x]))
 
-<span class="k">for</span> <span class="n">r</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">unaries</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">:</span>
-    <span class="n">fid</span> <span class="o">=</span> <span class="n">gm</span><span class="p">.</span><span class="n">addFunction</span><span class="p">(</span><span class="n">unaries</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
-    <span class="n">gm</span><span class="p">.</span><span class="n">addFactor</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+for r in xrange(unaries.shape[0]):
+    fid = gm.addFunction(unaries[r])
+    gm.addFactor(fid, r)
 
-<span class="k">for</span> <span class="n">c</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">Edges</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">:</span>
-    <span class="n">fid</span> <span class="o">=</span> <span class="n">gm</span><span class="p">.</span><span class="n">addFunction</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="n">beta</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">beta</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">beta</span><span class="p">,</span> <span class="n">beta</span><span class="p">]]))</span>
-    <span class="n">gm</span><span class="p">.</span><span class="n">addFactor</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">Edges</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">opengm</span><span class="p">.</span><span class="n">index_type</span><span class="p">))</span>
+for c in xrange(Edges.shape[0]):
+    fid = gm.addFunction(np.array([[beta, 1-beta], [1-beta, beta]]))
+    gm.addFactor(fid, np.array(Edges[c]-1, dtype=opengm.index_type))
 </pre></div>
 
 
 <p>Visualize the factor graph corresponding to the graphical model. Note that in the graphical model the node subindex starts with <span class="math">\(0\)</span>.</p>
-<div class="highlight"><pre><span class="n">opengm</span><span class="p">.</span><span class="n">visualizeGm</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span><span class="n">show</span><span class="o">=</span><span class="n">False</span><span class="p">,</span><span class="n">layout</span><span class="o">=</span><span class="s">&quot;neato&quot;</span><span class="p">,</span><span class="n">plotUnaries</span><span class="o">=</span><span class="n">True</span><span class="p">,</span>
-                    <span class="n">iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">plotFunctions</span><span class="o">=</span><span class="n">False</span><span class="p">,</span>
-                    <span class="n">plotNonShared</span><span class="o">=</span><span class="n">False</span><span class="p">,</span><span class="n">relNodeSize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<div class="highlight"><pre>opengm.visualizeGm(gm,show=False,layout=&quot;neato&quot;,plotUnaries=True,
+                    iterations=1000,plotFunctions=False,
+                    plotNonShared=False,relNodeSize=1.0)
 
-<span class="n">get</span> <span class="n">node</span> <span class="n">position</span><span class="p">...</span>
-<span class="p">....</span><span class="n">done</span>
+get node position...
+....done
 </pre></div>
 
 
 <p><img alt="png" src="/images/output_7_1.png" /></p>
-<div class="highlight"><pre><span class="n">inferBipartite</span> <span class="o">=</span> <span class="n">opengm</span><span class="p">.</span><span class="n">inference</span><span class="p">.</span><span class="n">BeliefPropagation</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span><span class="n">parameter</span><span class="o">=</span><span class="n">opengm</span><span class="p">.</span><span class="n">InfParam</span><span class="p">(</span><span class="n">damping</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
-                                                    <span class="n">accumulator</span><span class="o">=</span><span class="s">&quot;integrator&quot;</span><span class="p">)</span>
-<span class="n">inferBipartite</span><span class="p">.</span><span class="n">infer</span><span class="p">()</span>
+<div class="highlight"><pre>inferBipartite = opengm.inference.BeliefPropagation(gm,parameter=opengm.InfParam(damping=0.01,steps=100),
+                                                    accumulator=&quot;integrator&quot;)
+inferBipartite.infer()
 
-<span class="n">print</span> <span class="s">&quot;Marginal Probabilities for Domain Nodes:&quot;</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
-<span class="k">for</span> <span class="n">d</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">print</span> <span class="s">&quot;Node {0} generates infringing websites with probability {1}&quot;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">inferBipartite</span><span class="p">.</span><span class="n">marginals</span><span class="p">(</span><span class="n">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
-<span class="n">print</span> <span class="s">&quot;&quot;</span>
-<span class="n">print</span> <span class="s">&quot;Marginal Probabilities for Property Nodes:&quot;</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
-<span class="k">for</span> <span class="n">d</span> <span class="n">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">print</span> <span class="s">&quot;Node {0} generates infringing websites with probability {1}&quot;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="n">inferBipartite</span><span class="p">.</span><span class="n">marginals</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">4</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">print</span> <span class="s">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span>
+print &quot;Marginal Probabilities for Domain Nodes:&quot;
+print &quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;
+for d in xrange(4):
+    print &quot;Node {0} generates infringing websites with probability {1}&quot;.format(d+1, inferBipartite.marginals(d)[0][0])
+print &quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;
+print &quot;&quot;
+print &quot;Marginal Probabilities for Property Nodes:&quot;
+print &quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;
+for d in xrange(4):
+    print &quot;Node {0} generates infringing websites with probability {1}&quot;.format(d+5, inferBipartite.marginals(d+4)[0][0])
+print &quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;
 
-<span class="n">Marginal</span> <span class="n">Probabilities</span> <span class="k">for</span> <span class="n">Domain</span> <span class="n">Nodes</span><span class="o">:</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
-<span class="n">Node</span> <span class="mi">1</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.921084363355</span>
-<span class="n">Node</span> <span class="mi">2</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.612357558773</span>
-<span class="n">Node</span> <span class="mi">3</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.621324912368</span>
-<span class="n">Node</span> <span class="mi">4</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.593463184578</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+Marginal Probabilities for Domain Nodes:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Node 1 generates infringing websites with probability 0.921084363355
+Node 2 generates infringing websites with probability 0.612357558773
+Node 3 generates infringing websites with probability 0.621324912368
+Node 4 generates infringing websites with probability 0.593463184578
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-<span class="n">Marginal</span> <span class="n">Probabilities</span> <span class="k">for</span> <span class="n">Property</span> <span class="n">Nodes</span><span class="o">:</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
-<span class="n">Node</span> <span class="mi">5</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.742725289156</span>
-<span class="n">Node</span> <span class="mi">6</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.826792875427</span>
-<span class="n">Node</span> <span class="mi">7</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.740086302281</span>
-<span class="n">Node</span> <span class="mi">8</span> <span class="n">generates</span> <span class="n">infringing</span> <span class="n">websites</span> <span class="n">with</span> <span class="n">probability</span> <span class="mf">0.878739154843</span>
-<span class="o">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+Marginal Probabilities for Property Nodes:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Node 5 generates infringing websites with probability 0.742725289156
+Node 6 generates infringing websites with probability 0.826792875427
+Node 7 generates infringing websites with probability 0.740086302281
+Node 8 generates infringing websites with probability 0.878739154843
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 </pre></div>
 
 
