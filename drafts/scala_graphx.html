@@ -33,8 +33,8 @@
                 Published: Tue 29 September 2015
         </abbr>
 		<br />
-        <abbr class="modified" title="2015-10-01T00:00:00-04:00">
-                Updated: Thu 01 October 2015
+        <abbr class="modified" title="2015-10-02T00:00:00-04:00">
+                Updated: Fri 02 October 2015
         </abbr>
 
         <address class="vcard author">
@@ -195,30 +195,30 @@
 <!-- It ends up with strange errors. Have to deviate from this approach.... -->
 
 <p>Like many popular graph processing libraries, GraphX represents a graph as a <em>property graph</em>. This is a class taking the form</p>
-<div class="highlight"><pre>class Graph[VD, ED] {
-    val vertices: VertexRDD[VD]
-    val edges: EdgeRDD[ED,VD]
-}
+<div class="highlight"><pre>    class Graph[VD, ED] {
+        val vertices: VertexRDD[VD]
+        val edges: EdgeRDD[ED,VD]
+    }
 </pre></div>
 
 
 <p><code>VD</code> and <code>ED</code> here are Scala-type parameters of the classes <code>VertexRDD</code>, <code>EdgeRDD</code>, and <code>Graph</code>. These type parameters can be primitive types such as <code>String</code> or <code>Int</code>, but they can also be user-defined classes. See the following schematic definition of <code>VertexRDD</code> (from the (offial Spark documentation)[http://spark.apache.org/docs/latest/graphx-programming-guide.html]).</p>
-<div class="highlight"><pre>class VertexRDD[VD] extends RDD[(VertexID, VD)] {
-// Filter the vertex set but preserves the internal index
-def filter(pred: Tuple2[VertexId, VD] =&gt; Boolean): VertexRDD[VD]
-// Transform the values without changing the ids (preserves the internal index)
-def mapValues[VD2](map: VD =&gt; VD2): VertexRDD[VD2]
-def mapValues[VD2](map: (VertexId, VD) =&gt; VD2): VertexRDD[VD2]
-// Show only vertices unique to this set based on their VertexId&#39;s
-def minus(other: RDD[(VertexId, VD)])
-// Remove vertices from this set that appear in the other set
-def diff(other: VertexRDD[VD]): VertexRDD[VD]
-// Join operators that take advantage of the internal indexing to accelerate joins (substantially)
-def leftJoin[VD2, VD3](other: RDD[(VertexId, VD2)])(f: (VertexId, VD, Option[VD2]) =&gt; VD3): VertexRDD[VD3]
-def innerJoin[U, VD2](other: RDD[(VertexId, U)])(f: (VertexId, VD, U) =&gt; VD2): VertexRDD[VD2]
-// Use the index on this RDD to accelerate a `reduceByKey` operation on the input RDD.
-def aggregateUsingIndex[VD2](other: RDD[(VertexId, VD2)], reduceFunc: (VD2, VD2) =&gt; VD2): VertexRDD[VD2]
-}
+<div class="highlight"><pre>    class VertexRDD[VD] extends RDD[(VertexID, VD)] {
+    // Filter the vertex set but preserves the internal index
+    def filter(pred: Tuple2[VertexId, VD] =&gt; Boolean): VertexRDD[VD]
+    // Transform the values without changing the ids (preserves the internal index)
+    def mapValues[VD2](map: VD =&gt; VD2): VertexRDD[VD2]
+    def mapValues[VD2](map: (VertexId, VD) =&gt; VD2): VertexRDD[VD2]
+    // Show only vertices unique to this set based on their VertexId&#39;s
+    def minus(other: RDD[(VertexId, VD)])
+    // Remove vertices from this set that appear in the other set
+    def diff(other: VertexRDD[VD]): VertexRDD[VD]
+    // Join operators that take advantage of the internal indexing to accelerate joins (substantially)
+    def leftJoin[VD2, VD3](other: RDD[(VertexId, VD2)])(f: (VertexId, VD, Option[VD2]) =&gt; VD3): VertexRDD[VD3]
+    def innerJoin[U, VD2](other: RDD[(VertexId, U)])(f: (VertexId, VD, U) =&gt; VD2): VertexRDD[VD2]
+    // Use the index on this RDD to accelerate a `reduceByKey` operation on the input RDD.
+    def aggregateUsingIndex[VD2](other: RDD[(VertexId, VD2)], reduceFunc: (VD2, VD2) =&gt; VD2): VertexRDD[VD2]
+    }
 </pre></div>
 
 
@@ -239,27 +239,27 @@ def aggregateUsingIndex[VD2](other: RDD[(VertexId, VD2)], reduceFunc: (VD2, VD2)
 <li>registrar</li>
 </ul>
 <p>In our construction there are essentially two types of vertices, <code>Domain</code> and <code>Property</code>. Each <code>Domain</code> vertex will contain the <code>dtbd_id</code> together with non-important properties (<code>dtbd_id</code>, <code>class_ecomm</code>, <code>data_found</code>, <code>isp_name</code>, <code>enforce_status</code>, <code>registrar</code>, <code>traffic_rank</code>), encapsulated in the following case class <code>Domain</code>:</p>
-<div class="highlight"><pre>case class Domain(dtbd_id: Int,
-                  class_ecomm: String,
-                  date_found: String,
-                  isp_name: String,
-                  enforce_status: String,
-                  registrar: String,
-                  traffic_rank: String)
+<div class="highlight"><pre>    case class Domain(dtbd_id: Int,
+                      class_ecomm: String,
+                      date_found: String,
+                      isp_name: String,
+                      enforce_status: String,
+                      registrar: String,
+                      traffic_rank: String)
 </pre></div>
 
 
 <p>Each <code>Property</code> vertex stands for one of the five categories of information registered with a website (<code>domain_name</code>, <code>ip_address</code>, <code>admin_email</code>, <code>dn</code>, <code>registrant</code>), encapsulated in the following case class <code>Property</code>:</p>
-<div class="highlight"><pre>case class Property(property_name: String, category: String);
+<div class="highlight"><pre>    case class Property(property_name: String, category: String);
 </pre></div>
 
 
-<p>The <code>kind</code> field is for future purpose of building graphs across different data categories. The correspondence between property and their types is as follows:</p>
+<p>The <code>category</code> field is for future purpose of building graphs across different data categories. The correspondence table between property and their corresponding category is as follows:</p>
 <div class="highlight"><pre>    {&#39;domain_name&#39;: &#39;domain&#39;,
-     &#39;ip_address&#39;: &#39;ip&#39;,
+     &#39;ip_address&#39;:  &#39;ip&#39;,
      &#39;admin_email&#39;: &#39;email&#39;,
-     &#39;dns&#39;: &#39;dns&#39;,
-     &#39;registrant&#39;: &#39;name&#39;}
+     &#39;dns&#39;:         &#39;dns&#39;,
+     &#39;registrant&#39;:  &#39;name&#39;}
 </pre></div>
 
 
