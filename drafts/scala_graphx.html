@@ -33,8 +33,8 @@
                 Published: Tue 29 September 2015
         </abbr>
 		<br />
-        <abbr class="modified" title="2015-10-02T00:00:00-04:00">
-                Updated: Fri 02 October 2015
+        <abbr class="modified" title="2015-10-07T00:00:00-04:00">
+                Updated: Wed 07 October 2015
         </abbr>
 
         <address class="vcard author">
@@ -239,7 +239,7 @@
 <li>registrar</li>
 </ul>
 <p>In our construction there are essentially two types of vertices, <code>Domain</code> and <code>Property</code>. Each <code>Domain</code> vertex will contain the <code>dtbd_id</code> together with non-important properties (<code>dtbd_id</code>, <code>class_ecomm</code>, <code>data_found</code>, <code>isp_name</code>, <code>enforce_status</code>, <code>registrar</code>, <code>traffic_rank</code>), encapsulated in the following case class <code>Domain</code>:</p>
-<div class="highlight"><pre>    case class Domain(dtbd_id: Int,
+<div class="highlight"><pre>    case class Domain(dtbd_id: String,
                       class_ecomm: String,
                       date_found: String,
                       isp_name: String,
