@@ -36,7 +36,7 @@
         </address>
 <p>In <a href="/category/math-212.html">Math 212</a>.</p>
 <p>tags: <a href="/tag/math-212.html">Math 212</a> <a href="/tag/notes.html">Notes</a> </p>
-</footer><!-- /.post-info --><h2>Lines in <span class="math">\(\mathbb{R}^3\)</span></h2>
+</footer><!-- /.post-info --><h2 id="lines-in-mathbbr3">Lines in <span class="math">\(\mathbb{R}^3\)</span></h2>
 <p>A line in <span class="math">\(\mathbb{R}^3\)</span> can be uniquely determined by a point <span class="math">\(P_0=\left(x_0, y_0, z_0\right)\)</span> and a direction <span class="math">\(\vec{v} = \left(v_x, v_y, v_z\right)\)</span>, as
 </p>
 <div class="math">$$\ell:\left\{\overrightarrow{OP_0}+t\,\vec{v}\mid t\in\mathbb{R}\right\}.$$</div>
@@ -75,7 +75,7 @@ z &amp;= z_0+t\left(z_1-z_0\right).
 \end{array} \right.
 \end{equation}</div>
 <hr />
-<h2>Parametric Curves in <span class="math">\(\mathbb{R}^3\)</span></h2>
+<h2 id="parametric-curves-in-mathbbr3">Parametric Curves in <span class="math">\(\mathbb{R}^3\)</span></h2>
 <p>In the parametric equation \eqref{eq:parametricLine}, coordiantes <span class="math">\(x,y,z\)</span> are functions of <span class="math">\(t\)</span>. We can denote the tuple <span class="math">\(\left(x,y,z\right)\)</span> as a <strong>vector-valued function</strong> of <span class="math">\(t\)</span>:
 </p>
 <div class="math">$$\vec{r}\left(t\right)=\left(x_0+t\,v_x,y_0+t\,v_y,z_0+t\,v_z\right)=:\left(x\left(t\right),y\left(t\right),z\left(t\right)\right).$$</div>
@@ -198,7 +198,7 @@ Thus
 </p>
 <div class="math">$$\vec{v}\left(t\right)=\left(4+t-\cos t, 4+3t-\sin t\right).$$</div>
 <hr />
-<h2>Arc-Length Parametrization</h2>
+<h2 id="arc-length-parametrization">Arc-Length Parametrization</h2>
 <p>We saw from last section that the parametrization of a curve is not unique. In fact, every curve can be parametrized in inifinitely many ways: given a vector-valued function <span class="math">\(\vec{r}\left(t\right)\)</span>, we can pick any smooth monotonic function <span class="math">\(u\left(\tau\right)\)</span> and compose <span class="math">\(\vec{r}\left(t\right)\)</span> with it, obtaining
 </p>
 <div class="math">$$\vec{r}\left(\tau\right):=\vec{r}\left(u\left(\tau\right)\right),$$</div>
@@ -300,7 +300,7 @@ It then follows from the <a href="https://en.wikipedia.org/wiki/Chain_rule"><em>
 <p>
 <span class="math">\(\blacksquare\)</span></p>
 <hr />
-<h2>Curvature and Principal Normal Vectors</h2>
+<h2 id="curvature-and-principal-normal-vectors">Curvature and Principal Normal Vectors</h2>
 <p>As one might infer from the name, <strong>curvature</strong> measures the "curviness" of a curve (how much it deviates from a straight line). Since the direction of tangent vectors along a line stay constant, it is natural to quantify "curviness" using the change in the direction of tangent vectors. The direction of tangent vectors is fully captured in their "unit" counterpart.</p>
 <p><strong>Definition.</strong> The <strong>unit tangent vector</strong> along a curve <span class="math">\(\vec{r}\left(t\right)\)</span> is
 </p>
@@ -398,7 +398,7 @@ Recall that <span class="math">\(\kappa\left(s\right)\neq 0\)</span> wherever <s
 <p>
 <span class="math">\(\blacksquare\)</span></p>
 <hr />
-<h2>Decompose Accerleration</h2>
+<h2 id="decompose-accerleration">Decompose Accerleration</h2>
 <p>For a curve <span class="math">\(\vec{r}\left(t\right)\)</span>, <span class="math">\(\vec{v}\left(t\right)=\vec{r}'\left(t\right)\)</span> and <span class="math">\(\vec{a}\left(t\right)=\vec{r}''\left(t\right)\)</span> are often referred to as the <em>velocity</em> and the <em>accerleration</em> vector, respectively. According to the definition, the unit tangent vector <span class="math">\(\vec{T}\left(t\right)\)</span> is always in the same direction as <span class="math">\(\vec{r}'\left(t\right)\)</span>. The direction of an acceleration vector is less straightforward; however, it is easy to derive that <span class="math">\(\vec{r}''\left(t\right)\)</span> always lives in the plane spanned by <span class="math">\(\vec{T}\)</span> and <span class="math">\(\vec{N}\)</span>.</p>
 <p><strong>Theorem 2.</strong> The accerleration vector can be decomposed as
 </p>
@@ -462,7 +462,7 @@ Note that at equality <span class="math">\((*)\)</span> we used the fact that <s
 </li>
 </ol>
 <hr />
-<h2>Plane Curves: A Special Case</h2>
+<h2 id="plane-curves-a-special-case">Plane Curves: A Special Case</h2>
 <p>Everything we developed so far applies equally well to plane (2D) curves. The only trick is to "embed" a 2D curve into 3D by trivially attaching a <span class="math">\(0\)</span> at the end of the 2D vector that represents the plane curve, making the curve 3D. If one needs to find <span class="math">\(\vec{T}\)</span> and <span class="math">\(\vec{N}\)</span> for a plane curve using this trick, remember to drop the artificially attached <span class="math">\(z\)</span>-component (thus bringing them back to 2D) at the end of the computation.</p>
 <p><strong>Example.</strong> Compute the curvature of the plane curve
 </p>

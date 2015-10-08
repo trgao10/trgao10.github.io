@@ -42,7 +42,7 @@
         </address>
 <p>In <a href="/category/expository.html">Expository</a>.</p>
 <p>tags: <a href="/tag/machine-learning.html">Machine Learning</a> <a href="/tag/probabilistic-graphical-model.html">Probabilistic Graphical Model</a> </p>
-</footer><!-- /.post-info -->      <h1>Bipartite Graph Loopy Belief Propagation</h1>
+</footer><!-- /.post-info -->      <h1 id="bipartite-graph-loopy-belief-propagation">Bipartite Graph Loopy Belief Propagation</h1>
 <p>In this document, we demonstrate a bipartite graph inference using loopy belief propagation. This experiment serves as a proof-of-concept for future implementation of large scale graph-based inference.</p>
 <div class="highlight"><pre>%matplotlib inline
 
@@ -56,14 +56,14 @@ from networkx.algorithms import bipartite
 </pre></div>
 
 
-<h3>Basic Setup</h3>
+<h3 id="basic-setup">Basic Setup</h3>
 <ol>
 <li>A bipartite graph <span class="math">\(G=(V,E)\)</span>, where the vertices are partitioned into two groups: <span class="math">\(V=V_0\cup V_1\)</span>, <span class="math">\(V_0\cap V_1=\emptyset\)</span>; the sets <span class="math">\(V_0\)</span>, <span class="math">\(V_1\)</span> are totally disconnected.</li>
 <li>Each vertex stands for a <em>Bernoulli</em> random variable, and each edge represents a factor. Therefore, the scope of any factor contains exactly two vertices, one from each of <span class="math">\(V_0\)</span> and <span class="math">\(V_1\)</span>.</li>
 <li>Initially, the marginal distribution of some of the random variables in <span class="math">\(V_0\)</span> are known; all the rest of the marginal distributions are set to be uniform. The edge potentials (i.e., joint distributions determined by the factor) are set to be the tensor product of the marginal distributions of the two vertices linked by the edge.</li>
 <li>Marginal distributions of some of the random variables associated with the vertices in <span class="math">\(V_0\)</span> are known; all other marginals are assumed uniform. All <em>messages</em> are initialized as <span class="math">\(1\)</span>.</li>
 </ol>
-<h3>A Toy Example</h3>
+<h3 id="a-toy-example">A Toy Example</h3>
 <p>Consider the following bipartite graph</p>
 <p><img alt="Toy Bipartite Graph Example" src="/images/toyBipartiteGraph.png" /></p>
 <p>where nodes <span class="math">\(1\)</span>, <span class="math">\(2\)</span>, <span class="math">\(3\)</span>, <span class="math">\(4\)</span> each represents a domain, while <span class="math">\(5\)</span>, <span class="math">\(6\)</span>, <span class="math">\(7\)</span>, <span class="math">\(8\)</span> each stands for a property of the domain (e.g., certain registrant name, phone number, address, etc.). We assume the counts of <em>infringing</em> (denoted as <span class="math">\(I\)</span>) and <em>non-infringing</em> (denoted as <span class="math">\(N\)</span>) are known for only domains <span class="math">\(1\)</span>, <span class="math">\(2\)</span>; marginal probability distributions for nodes <span class="math">\(3\)</span>, <span class="math">\(4\)</span> to generate infringing websites are to be inferred. Along the way, we shall also obtain the marginal probability distribution for property nodes <span class="math">\(5\)</span>, <span class="math">\(6\)</span>, <span class="math">\(7\)</span>, <span class="math">\(8\)</span> to produce infringing websites.</p>
@@ -192,8 +192,8 @@ Node 8 generates infringing websites with probability 0.878739154843
 
 
 <p>As we expected, the model predicts higher infringing probability for Node <span class="math">\(3\)</span> than Node <span class="math">\(4\)</span>; Node <span class="math">\(8\)</span> has the highest probability of generating infringing websites among all property nodes.</p>
-<h3>Appendix: Loopy Belief Propagation (LBP)</h3>
-<h4>1. Constructing the Cluster Graph</h4>
+<h3 id="appendix-loopy-belief-propagation-lbp">Appendix: Loopy Belief Propagation (LBP)</h3>
+<h4 id="1-constructing-the-cluster-graph">1. Constructing the Cluster Graph</h4>
 <p>The first step in LBP is to construct a <strong>cluster graph</strong> from the orignal graph. This derived graph is undirected, with each node representing a <strong>cluster</strong> <span class="math">\(C_j\subset V\)</span>. Let us denote the number of random varaibles in <span class="math">\(C_j\)</span> as <span class="math">\(\left|C_j\right|\)</span>. When <span class="math">\(C_j\cap C_k\neq \emptyset\)</span>, define a <strong>sepset</strong> <span class="math">\(S_{jk}\subset C_j\cap C_k\)</span>. Obviously, <span class="math">\(S_{jk}=S_{kj}\)</span>.</p>
 <p>Each factor <span class="math">\(\phi_k\)</span> is assigned to a unique cluster <span class="math">\(C_{\alpha\left(k\right)}\)</span> in the cluster graph. This assignment should at least ensure that <span class="math">\(\mathrm{Scope}\left[\phi_k\right]\subset C_{\alpha\left(k\right)}\)</span>. We then construct <strong>potentials</strong> for each cluster by
 </p>
@@ -201,14 +201,14 @@ Node 8 generates infringing websites with probability 0.878739154843
 <p>
 Some clusters may have more than one factors assigned to them, while other clusters may have none. In the latter case, initialize the corresponding potential to be <span class="math">\(1\)</span> (one can assign a uniform distribution as well, but for potentials this doesn't matter --- the results will be renormalized to get a probability distribution).</p>
 <p>Cluster graphs are generally non-unique.</p>
-<h4>2. Message Passing</h4>
+<h4 id="2-message-passing">2. Message Passing</h4>
 <p>The message passed from cluster <span class="math">\(C_i\)</span> to <span class="math">\(C_j\)</span> is
 </p>
 <div class="math">$$m_{i\rightarrow j}\left(S_{ij}\right)=\sum_{C_i\backslash S_{ij}}\psi_i\left(C_i\right)\prod_{k\in N_i\backslash\left\{j\right\}}m_{k\rightarrow i}\left(S_{ki}\right).$$</div>
 <p>
 For each pair of subscripts <span class="math">\((i,j)\)</span>, this formula translates into <span class="math">\(2^{\left|S_{ij}\right|}\)</span> equalities. The summation involves <span class="math">\(2^{\left|C_i\backslash S_{ij}\right|}\)</span> terms while the product combines <span class="math">\(2^{\left|N_i\right|-1}\)</span>.</p>
 <p>This process is repeated until two messages (one for each direction) are computed for each edge.</p>
-<h4>3. Summarize Beliefs</h4>
+<h4 id="3-summarize-beliefs">3. Summarize Beliefs</h4>
 <p>Compute
 </p>
 <div class="math">$$\beta_i\left(C_i\right)=\psi_i\left(C_i\right)\prod_{k\in N_i}m_{k\rightarrow i}\left(S_{ki}\right).$$</div>

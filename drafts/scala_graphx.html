@@ -42,8 +42,15 @@
         </address>
 <p>In <a href="/category/expository.html">Expository</a>.</p>
 
-</footer><!-- /.post-info -->      <hr />
-<h2>Set up Emacs+Ensime</h2>
+</footer><!-- /.post-info -->      <div class="toc">
+<ul>
+<li><a href="#set-up-emacsensime">Set up Emacs+Ensime</a></li>
+<li><a href="#compiling-spark">Compiling Spark</a></li>
+<li><a href="#using-graphx-to-build-a-bipartite-graph">Using GraphX to Build a Bipartite Graph</a></li>
+</ul>
+</div>
+<hr />
+<h2 id="set-up-emacsensime">Set up Emacs+Ensime</h2>
 <p>The basic reference is on the official GitHub page of ensime: <a href="https://github.com/ensime/ensime-emacs">https://github.com/ensime/ensime-emacs</a></p>
 <p>First, <code>M-x package-install</code> in Emacs, choose <code>ensime</code>, mark as <code>I</code> and press <code>X</code>. This installs the package <code>ensime</code> for your current Emacs. Then update the <code>.emacs</code> file with</p>
 <div class="highlight"><pre>    (require &#39;package)
@@ -121,9 +128,83 @@
 
 <p>This indicates a successful setup.</p>
 <hr />
-<h2>Compiling Spark</h2>
+<h2 id="compiling-spark">Compiling Spark</h2>
+<p>Compiling software libraries is often a huge pain &mdash; it often requires domain knowledge before you step into a domain. Compiling <code>Spark</code> is however an important part of developing applications with <code>Spark</code> since it evolves aggressively with new version poping up every a couple of months or so. Here we demonstrate how to compile the most recent version <code>1.5.1</code> (released on Oct 02, 2015) on a Ubuntu Linux laptop with amd64 architecture.</p>
+<p>First of all, download the source code, untar, and <code>cd</code> into the decompressed folder. Make sure you have installed <code>maven</code>:</p>
+<div class="highlight"><pre>sudo apt-get install maven
+</pre></div>
+
+
+<p>Temporarily increase the memory budget for <code>maven</code> (if you are using <code>fish</code> terminal instead of <code>bash</code>, you have to switch to <code>bash</code> before invoking <code>export</code>):</p>
+<div class="highlight"><pre>export MAVEN_OPTS=&quot;-Xmx2g -XX:MaxPermSize=512M -XX:ReservedCodeCacheSize=512m&quot;
+</pre></div>
+
+
+<p>Start compiling. Catcha: don't prepend your commands with <code>sudo</code>!</p>
+<div class="highlight"><pre>mvn -DskipTests clean package
+</pre></div>
+
+
+<p>If you would like to build against certain version of hadoop (e.g., 2.4.0), try the following:</p>
+<div class="highlight"><pre>mvn -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -DskipTests clean package
+</pre></div>
+
+
+<p>The particular issue with <code>Spark 1.5.1</code> is that it requires <code>maven 3.3.3</code>, while only <code>3.0.5</code> is available in the official Ubuntu repository. Let's <code>purge</code> the old version and replace it with the more up-to-date one. First, remove the old stuff:</p>
+<div class="highlight"><pre>sudo apt-get purge -y maven
+</pre></div>
+
+
+<p>Then we follow the steps in <a href="http://basicgroundwork.blogspot.com/2015/05/installing-maven-333-on-ubuntu-1504.html">this link</a>:</p>
+<ol>
+<li>
+<p>Download Apache Maven 3.3.3 binary from repository using the following command</p>
+<div class="highlight"><pre>wget http://mirrors.sonic.net/apache/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
+</pre></div>
+
+
+</li>
+<li>
+<p>Unzip the binary with tar</p>
+<div class="highlight"><pre>tar -zxf apache-maven-3.3.3-bin.tar.gz
+</pre></div>
+
+
+</li>
+<li>
+<p>Move the application directory to <code>/usr/local</code></p>
+<div class="highlight"><pre>sudo cp -R apache-maven-3.3.3 /usr/local
+</pre></div>
+
+
+</li>
+<li>
+<p>Make a soft link in /usr/bin for universal access of mvn</p>
+<div class="highlight"><pre>sudo ln -s /usr/local/apache-maven-3.3.3/bin/mvn /usr/bin/mvn
+</pre></div>
+
+
+</li>
+<li>
+<p>Verifify mvn installation</p>
+<div class="highlight"><pre>mvn --version
+</pre></div>
+
+
+</li>
+</ol>
+<p>You should see the following printout:</p>
+<div class="highlight"><pre>Apache Maven 3.3.3 (7994120775791599e205a5524ec3e0dfe41d4a06; 2015-04-22T07:57:37-04:00)
+Maven home: /usr/local/apache-maven-3.3.3
+Java version: 1.8.0_60, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-8-oracle/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: &quot;linux&quot;, version: &quot;3.13.0-65-generic&quot;, arch: &quot;amd64&quot;, family: &quot;unix&quot;
+</pre></div>
+
+
 <hr />
-<h2>Using GraphX</h2>
+<h2 id="using-graphx-to-build-a-bipartite-graph">Using GraphX to Build a Bipartite Graph</h2>
 <!-- To speed up the development process, we rely first on the spark-shell. -->
 
 <!--     /usr/local/share/spark/bin/spark-shell  -->
@@ -194,7 +275,7 @@
 
 <!-- It ends up with strange errors. Have to deviate from this approach.... -->
 
-<p>Like many popular graph processing libraries, GraphX represents a graph as a <em>property graph</em>. This is a class taking the form</p>
+<p>Like many popular graph processing libraries, GraphX represents a graph as a <em>property graph</em>. This is a class defined as</p>
 <div class="highlight"><pre>    class Graph[VD, ED] {
         val vertices: VertexRDD[VD]
         val edges: EdgeRDD[ED,VD]
@@ -202,7 +283,7 @@
 </pre></div>
 
 
-<p><code>VD</code> and <code>ED</code> here are Scala-type parameters of the classes <code>VertexRDD</code>, <code>EdgeRDD</code>, and <code>Graph</code>. These type parameters can be primitive types such as <code>String</code> or <code>Int</code>, but they can also be user-defined classes. See the following schematic definition of <code>VertexRDD</code> (from the (offial Spark documentation)[http://spark.apache.org/docs/latest/graphx-programming-guide.html]).</p>
+<p><code>VD</code> and <code>ED</code> here are Scala-type parameters of the classes <code>VertexRDD</code>, <code>EdgeRDD</code>, and <code>Graph</code>. These type parameters can be primitive types such as <code>String</code> or <code>Int</code>, but they can also be user-defined classes. See the following schematic definition of <code>VertexRDD</code> (from the <a href="http://spark.apache.org/docs/latest/graphx-programming-guide.html">offial Spark documentation</a>).</p>
 <div class="highlight"><pre>    class VertexRDD[VD] extends RDD[(VertexID, VD)] {
     // Filter the vertex set but preserves the internal index
     def filter(pred: Tuple2[VertexId, VD] =&gt; Boolean): VertexRDD[VD]
@@ -222,7 +303,7 @@
 </pre></div>
 
 
-<p>The <code>EdgeRDD</code> object takes one type parameter <code>ED</code>, and indeed extends <code>RDD[Edge[ED]]</code>.</p>
+<p>The <code>EdgeRDD</code> object takes one type parameter <code>ED</code>, and is actually a subclass that extends <code>RDD[Edge[ED]]</code>.</p>
 <p>For the website data, each entry consists of the following properties:</p>
 <ul>
 <li>dtbd_id</li>
@@ -238,32 +319,365 @@
 <li>registrant</li>
 <li>registrar</li>
 </ul>
-<p>In our construction there are essentially two types of vertices, <code>Domain</code> and <code>Property</code>. Each <code>Domain</code> vertex will contain the <code>dtbd_id</code> together with non-important properties (<code>dtbd_id</code>, <code>class_ecomm</code>, <code>data_found</code>, <code>isp_name</code>, <code>enforce_status</code>, <code>registrar</code>, <code>traffic_rank</code>), encapsulated in the following case class <code>Domain</code>:</p>
-<div class="highlight"><pre>    case class Domain(dtbd_id: String,
-                      class_ecomm: String,
-                      date_found: String,
-                      isp_name: String,
-                      enforce_status: String,
-                      registrar: String,
-                      traffic_rank: String)
+<p>We intend to model the website data as a <em>bipartite graph</em>. There will be two different types of vertices in this graph: "Domain" and "Info". Since <code>GraphX</code> only allows for a unified vertex type in a graph, we have to build an abstract vertex type and derive from it the "Domian Vertex" and "Info Vertex" subclasses. Defining a class in <code>scala</code> is easy:</p>
+<div class="highlight"><pre>class VertexProperty extends Serializable {}
 </pre></div>
 
 
-<p>Each <code>Property</code> vertex stands for one of the five categories of information registered with a website (<code>domain_name</code>, <code>ip_address</code>, <code>admin_email</code>, <code>dn</code>, <code>registrant</code>), encapsulated in the following case class <code>Property</code>:</p>
-<div class="highlight"><pre>    case class Property(property_name: String, category: String);
+<p>It is crucial that this class has to extend the "Serializable" object, for otherwise <code>Spark</code> will complain about missing class constructors when it comes to serializing the derived subclasses.</p>
+<p>Subclass <code>Domain</code>:</p>
+<div class="highlight"><pre>case class Domain(val dtbd_id: String, val class_ecomm: String, val date_found: String, val isp_name: String, val enforce_status: String, val registrar: String, val traffic_rank: String) extends VertexProperty;
 </pre></div>
 
 
-<p>The <code>category</code> field is for future purpose of building graphs across different data categories. The correspondence table between property and their corresponding category is as follows:</p>
-<div class="highlight"><pre>    {&#39;domain_name&#39;: &#39;domain&#39;,
-     &#39;ip_address&#39;:  &#39;ip&#39;,
-     &#39;admin_email&#39;: &#39;email&#39;,
-     &#39;dns&#39;:         &#39;dns&#39;,
-     &#39;registrant&#39;:  &#39;name&#39;}
+<p>Subclass <code>Info</code>:</p>
+<div class="highlight"><pre>case class Info(val info: String, val category: String) extends VertexProperty;
 </pre></div>
 
 
-<p>The main issue is that GraphX seems to requre all vertices to have the same type, which is different from our assumption. But this technical difficulty is superficial.</p>
+<p>Let's start building the graph. First we extract all domain vertices, one for each line in the raw data:</p>
+<div class="highlight"><pre>val domainRDD: RDD[(VertexId, VertexProperty)] = rawDataWithIndex.map { line =&gt;
+  val ID = line._2
+  val DomainInfo = line._1
+  (ID, Domain(DomainInfo(schemaIndexMap(&quot;dtbd_id&quot;)), DomainInfo(schemaIndexMap(&quot;class_ecomm&quot;)), DomainInfo(schemaIndexMap(&quot;date_found&quot;)), DomainInfo(schemaIndexMap(&quot;isp_name&quot;)), DomainInfo(schemaIndexMap(&quot;enforce_status&quot;)), DomainInfo(schemaIndexMap(&quot;registrar&quot;)), DomainInfo(schemaIndexMap(&quot;traffic_rank&quot;))))
+};
+</pre></div>
+
+
+<p><code>schemaIndexMap</code> is a <code>Map</code> in <code>scala</code> that hashes each schema field to its position in the raw data record. The only reason it appears here is because I did not find a <code>Pandas</code>-like library in <code>scala</code> ....</p>
+<div class="highlight"><pre>val schemaArray = &quot;dtbd_id,domain_name,ip_address,traffic_rank,class_ecomm,date_found,isp_name,admin_email,dns,enforce_status,registrant,registrar&quot;.split(&quot;,&quot;);
+val schemaIndexMap = Map(schemaArray.zip((0 to schemaArray.length-1)).toArray: _*);
+</pre></div>
+
+
+<p>Constructing all <code>Info</code> vertices requires going through the raw data again. In order to save spatial complexity, we create <code>Info</code> vertices only for non-zero info fields.</p>
+<div class="highlight"><pre>case class Info(val info: String, val category: String) extends VertexProperty;
+val infoCatMap = Map(&quot;domain&quot;-&gt;&quot;domain_name&quot;, &quot;ip&quot;-&gt;&quot;ip_address&quot;, &quot;email&quot;-&gt;&quot;admin_email&quot;, &quot;dns&quot;-&gt;&quot;dns&quot;, &quot;name&quot;-&gt;&quot;registrant&quot;);
+def peekInfo (data: Array[String], infoType: String) : String = {
+  data(schemaIndexMap(infoCatMap(infoType)))
+}
+def makeInfo (data: Array[String], infoType: String) : Info = {
+  val info = peekInfo(data, infoType)
+  if (info == &quot;&quot;)
+    return null
+  else
+    return Info(info, infoType)
+}
+
+val infoRDD: RDD[(VertexId, VertexProperty)] = rawDataWithIndex.flatMap { line =&gt;
+  val data = line._1
+  var infoArray = Array[Info]()
+  if (peekInfo(data, &quot;domain&quot;) != &quot;&quot;)
+    infoArray = infoArray :+ makeInfo(data, &quot;domain&quot;)
+  if (peekInfo(data, &quot;ip&quot;) != &quot;&quot;)
+    infoArray = infoArray :+ makeInfo(data, &quot;ip&quot;)
+  if (peekInfo(data, &quot;email&quot;) != &quot;&quot;)
+    infoArray = infoArray :+ makeInfo(data, &quot;email&quot;)
+  if (peekInfo(data, &quot;dns&quot;) != &quot;&quot;)
+    infoArray = infoArray :+ makeInfo(data, &quot;dns&quot;)
+  if (peekInfo(data, &quot;name&quot;) != &quot;&quot;)
+    infoArray = infoArray :+ makeInfo(data, &quot;name&quot;)
+  infoArray
+}.distinct().zipWithIndex.map(line =&gt; (line._2+dataSize, line._1));
+</pre></div>
+
+
+<p>Now we have to build edges. They are initiated with the syntax</p>
+<div class="highlight"><pre>Edge(sourceIdx, targetIdx, edgeProperty)
+</pre></div>
+
+
+<p>So we need the source and target indices. The source indices are easy to find: they are simply the indices of the records in <code>domainRDD</code> (that's why we started with <code>rawDataWithIndex</code>). The <code>Map</code> object <code>infoIndexMap</code> is used for quickly referencing the index of the <code>Info</code> vertices; note that <code>Info</code> vertices should be indexed after <code>Domain</code> vertices &mdash; this is why we applied <code>zipWithIndex</code> to the raw data, instead of <code>zipWithUniqueId</code> which is much faster.</p>
+<div class="highlight"><pre>val infoIndexMap = sc.broadcast(infoRDD.map { line =&gt;
+  ((line._2).asInstanceOf[Info].info, line._1)
+}.collectAsMap());
+</pre></div>
+
+
+<p>A key subtlty in building <code>infoIndexMap</code> is that we have to cast a <code>VertexProperty</code> class into an instance of <code>Info</code> subclass. For a discussion on casting types in <code>scala</code>, see <a href="http://stackoverflow.com/questions/931463/how-do-i-cast-a-variable-in-scala">this post</a>. Also note that we wrapped <code>infoIndexMap</code> into a <code>broadcast</code> variable in <code>scala</code>.</p>
+<p>The links can now be easily built:</p>
+<div class="highlight"><pre>val linkRDD: RDD[Edge[String]] = rawDataWithIndex.flatMap { line =&gt;
+  val data = line._1
+  var edgeArray = Array[Edge[String]]()
+  if (peekInfo(data, &quot;domain&quot;) != &quot;&quot;)
+    edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;domain&quot;)), &quot;&quot;)
+  if (peekInfo(data, &quot;ip&quot;) != &quot;&quot;)
+    edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;ip&quot;)), &quot;&quot;)
+  if (peekInfo(data, &quot;email&quot;) != &quot;&quot;)
+    edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;email&quot;)), &quot;&quot;)
+  if (peekInfo(data, &quot;dns&quot;) != &quot;&quot;)
+    edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;dns&quot;)), &quot;&quot;)
+  if (peekInfo(data, &quot;name&quot;) != &quot;&quot;)
+    edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;name&quot;)), &quot;&quot;)
+  edgeArray
+}
+</pre></div>
+
+
+<p>With all these preparations, building a graph and extracting its connected components in <code>GraphX</code> is a piece of cake.</p>
+<div class="highlight"><pre>val mmBG: Graph[VertexProperty, String] = Graph(domainRDD.union(infoRDD), linkRDD);
+val ccMMBG = mmBG.connectedComponents();
+</pre></div>
+
+
+<p>The <code>ccMMBG</code> object is a new graph whose indices are all of the type <code>(VertexId, VertexId)</code>, in which the second <code>VertexId</code> is the smallest vertex id of all vertices in the same connected component as the vertex with the first <code>VertexId</code>. In the end of the code we print out some simple statistics for the connected components of the constructed bipartite graph.</p>
+<div class="highlight"><pre>println(&quot;Total number of edges in the graph: &quot; + mmBG.edges.count);
+println(&quot;Total number of vertices in the graph: &quot; + mmBG.vertices.count);
+val ccNumVertices = 
+  (ccMMBG.vertices.map(pair =&gt; (pair._2,1))
+  .reduceByKey(_+_)  // count the number of vertices contained in each connected component (indexed by the smallest vertex index in the connecte dcomponent)
+  .map(pair =&gt; pair._2)) // only maintain the number of vertices counted
+println(&quot;Number of Connected Components: &quot; + ccNumVertices.count);
+ListMap(ccNumVertices.countByValue().toSeq.sortBy(_._1):_*).foreach(line =&gt; println(line._2 + &quot; connected component(s) with &quot; + line._1 + &quot; vertices&quot;));
+</pre></div>
+
+
+<p>The last line in this print section involves sorting a <code>Map</code> object in <code>scala</code>. For more discussions about this topic, check <a href="https://www.safaribooksonline.com/library/view/scala-cookbook/9781449340292/ch11s23.html">this link</a> to an online verison of "Scala Cookbook", which might be of great help in itself.</p>
+<p>Here is the complete <code>Main.scala</code>:</p>
+<div class="highlight"><pre>    package sparkGraph
+
+    import org.apache.spark._
+    import org.apache.spark.graphx._
+    import org.apache.spark.rdd.RDD
+    import scala.collection.immutable.ListMap
+    import org.apache.spark.SparkContext
+    import org.apache.spark.SparkContext._
+    import org.apache.spark.SparkConf
+    import org.apache.log4j.Level
+    import org.apache.log4j.Logger
+
+    object sparkGraph {
+      def main (args: Array[String]) {
+
+        Logger.getLogger(&quot;org&quot;).setLevel(Level.OFF);
+        Logger.getLogger(&quot;akka&quot;).setLevel(Level.OFF);
+
+        val conf = new SparkConf().setAppName(&quot;SparkGraph&quot;).setMaster(&quot;local[*]&quot;);
+        val sc = new SparkContext(conf);
+
+        val schemaArray = &quot;dtbd_id,domain_name,ip_address,traffic_rank,class_ecomm,date_found,isp_name,admin_email,dns,enforce_status,registrant,registrar&quot;.split(&quot;,&quot;);
+        val schemaIndexMap = Map(schemaArray.zip((0 to schemaArray.length-1)).toArray: _*);
+
+        val numFields = schemaArray.length;
+
+        val rawDataWithIndex = (sc.textFile(&quot;/home/trgao10/Work/Scala/SparkScalaGraph/data/websites_clean_small.csv&quot;)
+          .map(_.split(&quot;,\t&quot;))
+          .filter(_.length == numFields) // TODO: FIX THIS AD-HOC DATA PROCESSING
+          .zipWithIndex);
+
+        val dataSize = rawDataWithIndex.count();
+
+        class VertexProperty extends Serializable {}
+
+        case class Domain(val dtbd_id: String, val class_ecomm: String, val date_found: String, val isp_name: String, val enforce_status: String, val registrar: String, val traffic_rank: String) extends VertexProperty;
+
+        val domainRDD: RDD[(VertexId, VertexProperty)] = rawDataWithIndex.map { line =&gt;
+          val ID = line._2
+          val DomainInfo = line._1
+          (ID, Domain(DomainInfo(schemaIndexMap(&quot;dtbd_id&quot;)), DomainInfo(schemaIndexMap(&quot;class_ecomm&quot;)), DomainInfo(schemaIndexMap(&quot;date_found&quot;)), DomainInfo(schemaIndexMap(&quot;isp_name&quot;)), DomainInfo(schemaIndexMap(&quot;enforce_status&quot;)), DomainInfo(schemaIndexMap(&quot;registrar&quot;)), DomainInfo(schemaIndexMap(&quot;traffic_rank&quot;))))
+        };
+
+        case class Info(val info: String, val category: String) extends VertexProperty;
+        val infoCatMap = Map(&quot;domain&quot;-&gt;&quot;domain_name&quot;, &quot;ip&quot;-&gt;&quot;ip_address&quot;, &quot;email&quot;-&gt;&quot;admin_email&quot;, &quot;dns&quot;-&gt;&quot;dns&quot;, &quot;name&quot;-&gt;&quot;registrant&quot;);
+        def peekInfo (data: Array[String], infoType: String) : String = {
+          data(schemaIndexMap(infoCatMap(infoType)))
+        }
+        def makeInfo (data: Array[String], infoType: String) : Info = {
+          val info = peekInfo(data, infoType)
+          if (info == &quot;&quot;)
+            return null
+          else
+            return Info(info, infoType)
+        }
+
+        val infoRDD: RDD[(VertexId, VertexProperty)] = rawDataWithIndex.flatMap { line =&gt;
+          val data = line._1
+          var infoArray = Array[Info]()
+          if (peekInfo(data, &quot;domain&quot;) != &quot;&quot;)
+            infoArray = infoArray :+ makeInfo(data, &quot;domain&quot;)
+          if (peekInfo(data, &quot;ip&quot;) != &quot;&quot;)
+            infoArray = infoArray :+ makeInfo(data, &quot;ip&quot;)
+          if (peekInfo(data, &quot;email&quot;) != &quot;&quot;)
+            infoArray = infoArray :+ makeInfo(data, &quot;email&quot;)
+          if (peekInfo(data, &quot;dns&quot;) != &quot;&quot;)
+            infoArray = infoArray :+ makeInfo(data, &quot;dns&quot;)
+          if (peekInfo(data, &quot;name&quot;) != &quot;&quot;)
+            infoArray = infoArray :+ makeInfo(data, &quot;name&quot;)
+          infoArray
+        }.distinct().zipWithIndex.map(line =&gt; (line._2+dataSize, line._1));
+
+        val infoIndexMap = sc.broadcast(infoRDD.map { line =&gt;
+          ((line._2).asInstanceOf[Info].info, line._1)
+        }.collectAsMap());
+
+        val linkRDD: RDD[Edge[String]] = rawDataWithIndex.flatMap { line =&gt;
+          val data = line._1
+          var edgeArray = Array[Edge[String]]()
+          if (peekInfo(data, &quot;domain&quot;) != &quot;&quot;)
+            edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;domain&quot;)), &quot;&quot;)
+          if (peekInfo(data, &quot;ip&quot;) != &quot;&quot;)
+            edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;ip&quot;)), &quot;&quot;)
+          if (peekInfo(data, &quot;email&quot;) != &quot;&quot;)
+            edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;email&quot;)), &quot;&quot;)
+          if (peekInfo(data, &quot;dns&quot;) != &quot;&quot;)
+            edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;dns&quot;)), &quot;&quot;)
+          if (peekInfo(data, &quot;name&quot;) != &quot;&quot;)
+            edgeArray = edgeArray :+ Edge(line._2, infoIndexMap.value(peekInfo(data, &quot;name&quot;)), &quot;&quot;)
+          edgeArray
+        }
+
+        val mmBG: Graph[VertexProperty, String] = Graph(domainRDD.union(infoRDD), linkRDD);
+        val ccMMBG = mmBG.connectedComponents();
+
+        println(&quot;Total number of edges in the graph: &quot; + mmBG.edges.count);
+        println(&quot;Total number of vertices in the graph: &quot; + mmBG.vertices.count);
+        val ccNumVertices = 
+          (ccMMBG.vertices.map(pair =&gt; (pair._2,1))
+          .reduceByKey(_+_)  // count the number of vertices contained in each connected component (indexed by the smallest vertex index in the connecte dcomponent)
+          .map(pair =&gt; pair._2)) // only maintain the number of vertices counted
+        println(&quot;Number of Connected Components: &quot; + ccNumVertices.count);
+
+        // ccMMBG.vertices consists of (VertexId, VertexId) pairs, in which the second VertexId represents the smallest ID of the vertex in the same connected component
+        ListMap(ccNumVertices.countByValue().toSeq.sortBy(_._1):_*).foreach(line =&gt; println(line._2 + &quot; connected component(s) with &quot; + line._1 + &quot; vertices&quot;));
+      }
+    }
+</pre></div>
+
+
+<p>Finally, we are ready to compile and run the code. With a project folder and <code>build.sbt</code> structured as in the section "Set up Emacs+Ensime", we can use <code>sbt</code> in the following manner:</p>
+<div class="highlight"><pre>trgao10@Terranius ~/W/S/webGraphInfer&gt; sbt
+[info] Loading global plugins from /home/trgao10/.sbt/0.13/plugins
+[info] Set current project to scala_graphx (in build file:/home/trgao10/Work/Scala/webGraphInfer/)
+&gt; compile
+[info] Compiling 1 Scala source to /home/trgao10/Work/Scala/webGraphInfer/target/scala-2.10/classes...
+[success] Total time: 15 s, completed Oct 7, 2015 11:12:23 PM
+&gt; run
+</pre></div>
+
+
+<p>We are able to process a bipartite graph with 800,000 vertices in just 49 seconds. See terminal outputs below. The largest connected component contains 266,475 vertices.</p>
+<div class="highlight"><pre>[info] Running sparkGraph.sparkGraph 
+Using Spark&#39;s default log4j profile: org/apache/spark/log4j-defaults.properties
+15/10/07 23:13:15 INFO Remoting: Starting remoting
+15/10/07 23:13:16 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriver@192.168.2.14:50443]
+Total number of edges in the graph: 801189                                      
+Total number of vertices in the graph: 289326
+Number of Connected Components: 1426
+125 connected component(s) with 1 vertices
+31 connected component(s) with 2 vertices
+134 connected component(s) with 3 vertices
+47 connected component(s) with 4 vertices
+36 connected component(s) with 5 vertices
+139 connected component(s) with 6 vertices
+117 connected component(s) with 7 vertices
+66 connected component(s) with 8 vertices
+83 connected component(s) with 9 vertices
+72 connected component(s) with 10 vertices
+65 connected component(s) with 11 vertices
+39 connected component(s) with 12 vertices
+25 connected component(s) with 13 vertices
+38 connected component(s) with 14 vertices
+34 connected component(s) with 15 vertices
+22 connected component(s) with 16 vertices
+23 connected component(s) with 17 vertices
+25 connected component(s) with 18 vertices
+18 connected component(s) with 19 vertices
+12 connected component(s) with 20 vertices
+14 connected component(s) with 21 vertices
+12 connected component(s) with 22 vertices
+21 connected component(s) with 23 vertices
+8 connected component(s) with 24 vertices
+11 connected component(s) with 25 vertices
+13 connected component(s) with 26 vertices
+13 connected component(s) with 27 vertices
+7 connected component(s) with 28 vertices
+6 connected component(s) with 29 vertices
+11 connected component(s) with 30 vertices
+7 connected component(s) with 31 vertices
+6 connected component(s) with 32 vertices
+2 connected component(s) with 33 vertices
+5 connected component(s) with 34 vertices
+6 connected component(s) with 35 vertices
+5 connected component(s) with 36 vertices
+4 connected component(s) with 37 vertices
+4 connected component(s) with 38 vertices
+5 connected component(s) with 39 vertices
+4 connected component(s) with 40 vertices
+2 connected component(s) with 41 vertices
+2 connected component(s) with 42 vertices
+4 connected component(s) with 43 vertices
+4 connected component(s) with 44 vertices
+6 connected component(s) with 45 vertices
+1 connected component(s) with 46 vertices
+5 connected component(s) with 47 vertices
+3 connected component(s) with 48 vertices
+3 connected component(s) with 49 vertices
+2 connected component(s) with 50 vertices
+2 connected component(s) with 51 vertices
+1 connected component(s) with 52 vertices
+3 connected component(s) with 53 vertices
+2 connected component(s) with 54 vertices
+3 connected component(s) with 55 vertices
+2 connected component(s) with 56 vertices
+2 connected component(s) with 57 vertices
+1 connected component(s) with 59 vertices
+1 connected component(s) with 60 vertices
+1 connected component(s) with 61 vertices
+1 connected component(s) with 62 vertices
+2 connected component(s) with 63 vertices
+1 connected component(s) with 64 vertices
+2 connected component(s) with 66 vertices
+1 connected component(s) with 67 vertices
+3 connected component(s) with 68 vertices
+3 connected component(s) with 69 vertices
+2 connected component(s) with 70 vertices
+1 connected component(s) with 71 vertices
+2 connected component(s) with 72 vertices
+1 connected component(s) with 73 vertices
+1 connected component(s) with 74 vertices
+1 connected component(s) with 77 vertices
+1 connected component(s) with 78 vertices
+2 connected component(s) with 81 vertices
+1 connected component(s) with 84 vertices
+1 connected component(s) with 86 vertices
+2 connected component(s) with 88 vertices
+1 connected component(s) with 92 vertices
+1 connected component(s) with 94 vertices
+1 connected component(s) with 97 vertices
+1 connected component(s) with 98 vertices
+1 connected component(s) with 99 vertices
+2 connected component(s) with 104 vertices
+1 connected component(s) with 107 vertices
+1 connected component(s) with 110 vertices
+1 connected component(s) with 113 vertices
+1 connected component(s) with 115 vertices
+1 connected component(s) with 118 vertices
+1 connected component(s) with 121 vertices
+1 connected component(s) with 124 vertices
+1 connected component(s) with 125 vertices
+1 connected component(s) with 129 vertices
+1 connected component(s) with 130 vertices
+1 connected component(s) with 135 vertices
+1 connected component(s) with 136 vertices
+1 connected component(s) with 149 vertices
+1 connected component(s) with 150 vertices
+1 connected component(s) with 153 vertices
+1 connected component(s) with 158 vertices
+1 connected component(s) with 159 vertices
+1 connected component(s) with 161 vertices
+1 connected component(s) with 181 vertices
+1 connected component(s) with 213 vertices
+1 connected component(s) with 230 vertices
+1 connected component(s) with 256 vertices
+1 connected component(s) with 284 vertices
+1 connected component(s) with 301 vertices
+1 connected component(s) with 313 vertices
+1 connected component(s) with 266475 vertices
+[success] Total time: 49 s, completed Oct 7, 2015 11:14:00 PM
+</pre></div>
+
+
+<p>To learn more about <code>sbt</code>, check its <a href="http://www.scala-sbt.org/0.13/tutorial/">official online tutorial</a>.</p>
     </div><!-- /.entry-content -->
 
   </article>

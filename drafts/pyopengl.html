@@ -43,7 +43,7 @@
 <p>In <a href="/category/expository.html">Expository</a>.</p>
 
 </footer><!-- /.post-info -->      <hr />
-<h2>Modern OpenGL</h2>
+<h2 id="modern-opengl">Modern OpenGL</h2>
 <p>I learnt old-school <code>OpenGL</code> at Duke back in Spring 2012, which familarized me enough with the (now deprecated) list</p>
 <div class="highlight"><pre>glVertex, glColor, glLight, glMaterial, glBegin, glEnd,
 glMatrix, glMatrixMode, glLoadIdentity, glPushMatrix, glPopMatrix,
@@ -55,14 +55,14 @@ glTexCoordPointer, glNormalPointer
 
 <p>At that time I had no idea what vertex/fragment shaders are, nor had I the slightest idea of what <a href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language">GLSL</a> is short for. The fact is that OpenGL underwent a major change in 2003 that enabled the use of shaders for direct access to the GPU. This made modern OpenGL far more powerful that its before-life, which relied on a fixed pipeline.</p>
 <hr />
-<h2>Shaders</h2>
+<h2 id="shaders">Shaders</h2>
 <p>The following figure, as well as many other stuff on this document, is taken from <a href="http://www.labri.fr/perso/nrougier/teaching/opengl/">this excellent blog post of Nicolas P. Rougier</a>.
 <div style="float: center">
 <img src="/images/gl-pipeline.png", alt="compute arc length", style="width: 750px; height: auto">
 </div>
 Among the many different types of shaders, <em>vertex shader</em> and <em>fragment shader</em> might be the most imporant. As the name suggestes, a vertex shader acts on vertices, outputting the vertex <strong>position</strong> (<code>gl_Position</code>), while a fragment shader acts on the fragments (pixels) and output the <strong>color</strong> (<code>gl_FragColor</code>). During the rendering pipeline, the vertex shader is called first (once for each vertex), followed by the fragment shader (once for each fragment/pixel).</p>
 <hr />
-<h2>Buffers</h2>
+<h2 id="buffers">Buffers</h2>
 <p>Modern GL stores the vertices on the GPU in only one pass before rendering, and modifies these stored data only if the data changes. In contrast, fixed pipeline (old GL) upload data at each rendering call. <em>Buffers</em> are regions on CPU that holds these data and send them onto the GPU. The structure of a vertex is very flexible -- the only constraint is that <em>all vertices from a buffer have the same structure</em>. This flexibility comes with a cost: <em>you</em> have to program everything including basic stuff like projection and lighting.</p>
 <p>Example code snippet from the blog of <a href="http://www.labri.fr/perso/nrougier/teaching/opengl/">Nicolas P. Rougier</a></p>
 <div class="highlight"><pre>import numpy as np
@@ -73,7 +73,7 @@ data = np.zeros(4, dtype=[(&quot;position&quot;, np.float32, 3), (&quot;color&qu
 
 <p>This CPU buffer contains 4 vertices, each of which with a <code>position</code> (3 floats) and a <code>color</code> (4 floats).</p>
 <hr />
-<h2>Uniforms/Attributes/Varyings</h2>
+<h2 id="uniformsattributesvaryings">Uniforms/Attributes/Varyings</h2>
 <p>Uniforms, attributes, and varyings are specifically designed for communication between vertex and fragment shaders. Consider the following over-simplified vertex and fragment shaders:</p>
 <div class="highlight"><pre>void main()
 {
@@ -135,7 +135,7 @@ void main()
 
 <p>Note that <code>v_color</code>'s are defined for each vertex, not each fragment. The color of a fragment is interpolated between the vertices that compose the geometric primitive (e.g., polygons, triangles, etc.).</p>
 <hr />
-<h1>Example: Flat Cube (a.k.a. Square)</h1>
+<h1 id="example-flat-cube-aka-square">Example: Flat Cube (a.k.a. Square)</h1>
 <p>We illustrate the code framework using the following simple example that renders a square. This code is adapted again from <a href="http://www.labri.fr/perso/nrougier/teaching/opengl/">the tutorial of Nicolas P. Rougier</a>.</p>
 <ol>
 <li>
@@ -299,7 +299,7 @@ gl.glUniform1f(loc, 1.0)
 <p><img alt="rendered square" src="/images/hello-world_square.png" /></p>
 </div>
 <hr />
-<h2>A Simplification with <code>gloo</code>?</h2>
+<h2 id="a-simplification-with-gloo">A Simplification with <code>gloo</code>?</h2>
 <p>Unfortunately, the original example from the blog post no longer work. The most recent <code>vispy</code> package comes with a separate colored square example, as follows.</p>
 <div class="highlight"><pre>    from vispy import app, gloo
     from vispy.gloo import Program
@@ -352,7 +352,7 @@ gl.glUniform1f(loc, 1.0)
 
 <p>The main difference is that we have to inherit a <code>Canvas</code> object from <code>app.Canvas</code>, and set the member <code>program</code> of this inherited class. You still have to write the vertex and fragment shaders (which is good), but now you can bind them to the program through a much easier interface.</p>
 <hr />
-<h2>Tweaking the Colored Square</h2>
+<h2 id="tweaking-the-colored-square">Tweaking the Colored Square</h2>
 <p>Animation can be set through "timer" member of the Canvas.</p>
 <div class="highlight"><pre>    import numpy as np
     from vispy import app, gloo
@@ -633,7 +633,7 @@ gl.glUniform1f(loc, 1.0)
 
 
 <hr />
-<h2>Finally 3D Cubes, Where Computer Graphics Begins</h2>
+<h2 id="finally-3d-cubes-where-computer-graphics-begins">Finally 3D Cubes, Where Computer Graphics Begins</h2>
 <p>Recall from computer graphics that we need the following matrices:</p>
 <ul>
 <li>
